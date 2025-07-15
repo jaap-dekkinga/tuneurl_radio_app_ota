@@ -134,10 +134,7 @@ open class FRadioPlayer: NSObject {
     
     /// Last player item
     private var lastPlayerItem: AVPlayerItem?
-    
-    /// ResourceLoaderDelegate for handling custom resource loading
-    private var resourceLoaderDelegate: ResourceLoaderDelegate?
-    
+
     /// Check for headphones, used to handle audio route change
     private var headphonesConnected: Bool = false
     
@@ -181,7 +178,7 @@ open class FRadioPlayer: NSObject {
 
         // Enable bluetooth playback
         #if os(iOS)
-        options = [.defaultToSpeaker, .allowBluetooth, .allowAirPlay]
+        options = [.allowBluetooth, .allowAirPlay]
         #else
         options = []
         #endif
@@ -292,19 +289,11 @@ open class FRadioPlayer: NSObject {
             options["AVURLAssetHTTPHeaderFieldsKey"] = httpHeaderFields
         }
         
-//        let redirectURL = url.addRedirectToResourceLoader()
         let newAsset = AVURLAsset(url: url, options: options)
-        setupPlayer(with: url, asset: newAsset)
+        setupPlayer(with: newAsset)
     }
     
-    private func setupPlayer(with originURL: URL, asset: AVURLAsset) {
-//        let newResourceLoaderDelegate = ResourceLoaderDelegate(streamURL: originURL)
-        
-//        asset.resourceLoader.setDelegate(
-//            newResourceLoaderDelegate,
-//            queue: DispatchQueue.main
-//        )
-        
+    private func setupPlayer(with asset: AVURLAsset) {
         if player == nil {
             player = AVPlayer()
             // Removes black screen when connecting to appleTV
@@ -312,9 +301,6 @@ open class FRadioPlayer: NSObject {
         }
         
         playerItem = AVPlayerItem(asset: asset, automaticallyLoadedAssetKeys: requiredAssetKeys)
-//        newResourceLoaderDelegate.item = playerItem
-        
-//        resourceLoaderDelegate = newResourceLoaderDelegate
     }
         
     /** Reset all player item observers and create new ones
@@ -381,9 +367,6 @@ open class FRadioPlayer: NSObject {
         }
         
         stop()
-        
-        resourceLoaderDelegate?.invalidate()
-        resourceLoaderDelegate = nil
         
         playerItem = nil
         lastPlayerItem = nil

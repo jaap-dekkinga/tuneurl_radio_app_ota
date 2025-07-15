@@ -7,10 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		814FF9F32E1D69D00008097F /* FRadioPlayer in Frameworks */ = {isa = PBXBuildFile; productRef = 814FF9F22E1D69D00008097F /* FRadioPlayer */; };
+		8159C20B2E267CFC00F87383 /* TuneURL.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8159C2092E267CEB00F87383 /* TuneURL.xcframework */; };
+		8159C20C2E267CFC00F87383 /* TuneURL.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8159C2092E267CEB00F87383 /* TuneURL.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		819D32F02E1C3E9C00F11D7B /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 819D32EF2E1C3E9C00F11D7B /* Kingfisher */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		814FF9E92E1D672D0008097F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				8159C20C2E267CFC00F87383 /* TuneURL.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		8159C2092E267CEB00F87383 /* TuneURL.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = TuneURL.xcframework; sourceTree = "<group>"; };
 		81BADE922E19618300032246 /* TuneURLRadio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TuneURLRadio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -41,16 +59,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				819D32F02E1C3E9C00F11D7B /* Kingfisher in Frameworks */,
+				814FF9F32E1D69D00008097F /* FRadioPlayer in Frameworks */,
+				8159C20B2E267CFC00F87383 /* TuneURL.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8159C2042E267BCC00F87383 /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				8159C2092E267CEB00F87383 /* TuneURL.xcframework */,
+			);
+			path = Dependencies;
+			sourceTree = "<group>";
+		};
 		81BADE892E19618200032246 = {
 			isa = PBXGroup;
 			children = (
 				81BADE942E19618300032246 /* TuneURLRadio */,
+				8159C2042E267BCC00F87383 /* Dependencies */,
 				81BADE932E19618300032246 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -73,6 +102,7 @@
 				81BADE8E2E19618300032246 /* Sources */,
 				81BADE8F2E19618300032246 /* Frameworks */,
 				81BADE902E19618300032246 /* Resources */,
+				814FF9E92E1D672D0008097F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -84,6 +114,7 @@
 			name = TuneURLRadio;
 			packageProductDependencies = (
 				819D32EF2E1C3E9C00F11D7B /* Kingfisher */,
+				814FF9F22E1D69D00008097F /* FRadioPlayer */,
 			);
 			productName = TuneURLRadio;
 			productReference = 81BADE922E19618300032246 /* TuneURLRadio.app */;
@@ -277,22 +308,24 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 24F7LAMPJN;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TuneURLRadio/Info.plist;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "The microphone to used to listen for Tune URLs.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.TuneURLRadio.alex;
+				PRODUCT_BUNDLE_IDENTIFIER = com.TuneURLRadio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -310,22 +343,24 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 24F7LAMPJN;
+				DEVELOPMENT_TEAM = 3878ZD8245;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TuneURLRadio/Info.plist;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "The microphone to used to listen for Tune URLs.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.TuneURLRadio.alex;
+				PRODUCT_BUNDLE_IDENTIFIER = com.TuneURLRadio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -369,6 +404,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		814FF9F22E1D69D00008097F /* FRadioPlayer */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FRadioPlayer;
+		};
 		819D32EF2E1C3E9C00F11D7B /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 819D32EE2E1C3E9C00F11D7B /* XCRemoteSwiftPackageReference "Kingfisher" */;

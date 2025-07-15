@@ -1,7 +1,61 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "" : {
+    "1 hour" : {
+
+    },
+    "1 min" : {
+
+    },
+    "2 hour" : {
+
+    },
+    "15 mins" : {
+
+    },
+    "30 mins" : {
+
+    },
+    "Call to: %@" : {
+
+    },
+    "Complete Survey" : {
+
+    },
+    "Coupon" : {
+
+    },
+    "Delete" : {
+
+    },
+    "Engagement" : {
+
+    },
+    "Explore Our Socials" : {
+
+    },
+    "LIVE" : {
+
+    },
+    "LOADING..." : {
+
+    },
+    "Message" : {
+
+    },
+    "No Saved URLs" : {
+
+    },
+    "None" : {
+
+    },
+    "OFFLINE" : {
+
+    },
+    "Phone Call" : {
+
+    },
+    "Privacy Policy" : {
 
     },
     "Saved URLs" : {
@@ -10,19 +64,41 @@
     "Select station to play" : {
 
     },
+    "Send a message to: %@" : {
+
+    },
     "Settings" : {
 
     },
-    "Settings Screen" : {
+    "Share" : {
 
     },
-    "Some Apple Music Title" : {
+    "Sleep" : {
 
     },
-    "Some Artist Name" : {
+    "Sleep in: " : {
 
     },
     "Stations" : {
+
+    },
+    "Version %@(%@)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Version %1$@(%2$@)"
+          }
+        }
+      }
+    },
+    "Web Page" : {
+
+    },
+    "Website" : {
+
+    },
+    "You haven't saved any URLs yet." : {
 
     }
   },

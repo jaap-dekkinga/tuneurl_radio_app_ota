@@ -1,5 +1,6 @@
 import Foundation
 
 enum Constants {
-    static let appGroup = "group.com.TuneURLRadio.alex"
+    static let websiteURL = URL(string: "https://tuneurl.com")!
+    static let privacyPolicyURL = URL(string: "https://www.tuneurl.com/privacy-policy")!
 }
