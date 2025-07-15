@@ -1,0 +1,114 @@
+[
+    {
+        "name": "TuneURL Radio",
+        "streamURL": "http://libretime.tuneurl-demo.com:8000/main",
+        "imageURL": null,
+        "shortDescription": "Passive listening becomes interactive, measurable engagement",
+        "socialURL": "https://www.linkedin.com/company/tuneurl/"
+    },
+    {
+        "name": "RadioJar Station",
+        "streamURL": "https://n10.radiojar.com/vzv0nkgsw7uvv",
+        "imageURL": null,
+        "shortDescription": "Radio Jar Station",
+        "socialURL": null
+    },
+    {
+        "name": "Absolute Country Hits",
+        "streamURL": "https://strm112.1.fm/acountry_mobile_mp3",
+        "imageURL": "https://media.bauerradio.com/image/upload/c_crop,g_custom/v1678801682/brand_manager/stations/ocovyhodkjfzg3c0zciy.png",
+        "shortDescription": "The Country Music Starts Here",
+        "socialURL": "https://x.com/arcountry"
+    },
+    {
+        "name": "Classic Vinyl HD",
+        "streamURL": "https://icecast.walmradio.com:8443/classic",
+        "imageURL": "https://icecast.walmradio.com:8443/classic.jpg",
+        "shortDescription": "A smooth blend of classic hits, jazz, ans swing sounds perfect for relaxation, easy listening, and unwinding.",
+        "socialURL": "https://walmradio.com/classic"
+    },
+    {
+        "name": "Deep House Lounge",
+        "streamURL": "http://198.15.94.34:8006/stream",
+        "imageURL": "https://www.deephouselounge.com/wp-content/uploads/2016/10/customheader2.png",
+        "shortDescription": "Groovy blend of house, disco, funk, and jazzy electronica.",
+        "socialURL": "http://www.deephouselounge.com/"
+    },
+    {
+        "name": "Fox News Radio",
+        "streamURL": "https://live.amperwave.net/direct/foxnewsradio-foxnewsradioaac-imc?source=fnr.web",
+        "imageURL": "https://static.foxnews.com/radio.foxnews.com/content/uploads/2017/10/default_logo-150x150.png",
+        "shortDescription": "Fox News Radio is the audio division of Fox News Channel.",
+        "socialURL": "https://radio.foxnews.com/"
+    },
+    {
+        "name": "CNN",
+        "streamURL": "https://tunein.cdnstream1.com/2868_96.mp3",
+        "imageURL": "https://www.cnn.com/media/sites/cnn/favicon.ico",
+        "shortDescription": "CNN is a news radio station.",
+        "socialURL": "https://www.cnn.com/"
+    },
+    {
+        "name": "MSNBC",
+        "streamURL": "https://tunein.cdnstream1.com/3511_96.mp3",
+        "imageURL": "https://nodeassets.nbcnews.com/cdnassets/projects/ramen/favicon/msnbc/all-other-sizes-PNG.ico/favicon-96x96.png",
+        "shortDescription": "MSNBC News",
+        "socialURL": "https://www.msnbc.com/"
+    },
+    {
+        "name": "181.FM - The Beat (HipHop/R&B)",
+        "streamURL": "http://listen.181fm.com/",
+        "imageURL": "https://www.181.fm/images/181_logo_300.webp",
+        "shortDescription": "HipHop and R&B music station.",
+        "socialURL": "http://www.181.fm/"
+    },
+    {
+        "name": "Radio Paradise Main Mix (EU) 320k AAC",
+        "streamURL": "http://stream-uk1.radioparadise.com/aac-320",
+        "imageURL": "https://radioparadise.com/apple-touch-icon.png",
+        "shortDescription": "Electronic music.",
+        "socialURL": "https://radioparadise.com/"
+    },
+    {
+        "name": "BBC World Service",
+        "streamURL": "http://stream.live.vc.bbcmedia.co.uk/bbc_world_service",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/BBC_World_Service_2022_%28Boxed%29.svg/1200px-BBC_World_Service_2022_%28Boxed%29.svg.png",
+        "shortDescription": "BBC World Service is the world's leading international radio broadcaster.",
+        "socialURL": "https://www.bbc.co.uk/programmes/w172xzjgf6lxp7y"
+    },
+    {
+        "name": "Kiss FM",
+        "streamURL": "https://live.kissfm.ro/kissfm.aacp",
+        "imageURL": "https://www.kissfm.ro/apple-touch-icon.png",
+        "shortDescription": "Popular Pop radio station.",
+        "socialURL": "https://www.kissfm.ro/"
+    },
+    {
+        "name": "Gold Radio",
+        "streamURL": "https://media-ssl.musicradio.com/Gold",
+        "imageURL": "https://cdn.onlineradiobox.com/img/l/2/1072.v14.png",
+        "shortDescription": "Old hits.",
+        "socialURL": "https://www.goldradio.com/"
+    },
+    {
+        "name": ".977 Today's Hits",
+        "streamURL": "https://15113.live.streamtheworld.com/977_HITSAAC_SC",
+        "imageURL": "https://cdn.onlineradiobox.com/img/l/2/6222.v20.png",
+        "shortDescription": "Pop Hits",
+        "socialURL": "https://hitsradio.com/"
+    },
+    {
+        "name": "Like Pop",
+        "streamURL": "https://likeradiostream.com/likepop",
+        "imageURL": "https://cdn.onlineradiobox.com/img/l/1/121361.v4.png",
+        "shortDescription": "Pop Hits",
+        "socialURL": "https://hitsradio.com/"
+    },
+    {
+        "name": "Classic FM",
+        "streamURL": "https://media-ssl.musicradio.com/ClassicFM",
+        "imageURL": "https://cdn.onlineradiobox.com/img/l/4/1074.v11.png",
+        "shortDescription": "Classic music",
+        "socialURL": "https://www.classicfm.com/"
+    },
+]
