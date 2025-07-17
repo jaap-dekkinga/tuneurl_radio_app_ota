@@ -36,6 +36,8 @@ class StreamParser: NSObject {
     private var mediaDataChunks = [Data]()
     
     private var parsingWorkItem: DispatchWorkItem?
+    private var lastMatch: Match?
+    private var lastMatchDate: Date?
     
     // MARK: - Public funcs
     func start(streamURL: URL) {
@@ -99,7 +101,18 @@ class StreamParser: NSObject {
                     let bestMatch = uniqueMatches
                         .filter { $0.matchPercentage >= self.matchThreshold }
                         .max(by: { $0.matchPercentage < $1.matchPercentage })
-                    if let bestMatch {
+                    let elapsedTimeFromLastMatch = abs(self.lastMatchDate?.timeIntervalSinceNow ?? 0)
+                    var similarToLastMatch = false
+                    if let lastMatch, let bestMatch {
+                        similarToLastMatch = bestMatch == lastMatch &&
+                        lastMatch.matchPercentage < bestMatch.matchPercentage &&
+                        elapsedTimeFromLastMatch < 15
+                    }
+                        
+                    if let bestMatch, (lastMatch != bestMatch && !similarToLastMatch) {
+                        self.lastMatch = bestMatch
+                        self.lastMatchDate = Date()
+                        
                         DispatchQueue.main.async {
                             self.onMatchDetected?(bestMatch)
                         }
@@ -173,5 +186,16 @@ fileprivate extension Array {
         }
         
         return result
+    }
+}
+
+extension Match: @retroactive Equatable {
+    
+    public static func ==(_ lhs: Match, _ rhs: Match) -> Bool {
+        lhs.id == rhs.id &&
+        lhs.info == rhs.info &&
+        lhs.name == rhs.name &&
+        lhs.description == rhs.description &&
+        lhs.type == rhs.type
     }
 }
