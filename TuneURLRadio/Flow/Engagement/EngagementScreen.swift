@@ -3,22 +3,28 @@ import SwiftData
 
 struct EngagementScreen: View {
     
+    @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
     
-    let engagement: Engagement
-    let stationId: Int?
-    @State var savedEngagement: SavedEngagement?
+    @State private var savedEngagement: SavedEngagement?
+    @State private var autoDismissTask: Task<Void, Never>? = nil
+    
+    private let engagement: Engagement
+    private let stationId: Int?
+    private let autodismiss: Bool
     
     init(savedEngagement: SavedEngagement) {
         self.engagement = savedEngagement.engagement
         self.savedEngagement = savedEngagement
         self.stationId = savedEngagement.sourceStationId
+        self.autodismiss = false
     }
     
     init(engagement: Engagement, stationId: Int? = nil) {
         self.engagement = engagement
         self.savedEngagement = nil
         self.stationId = stationId
+        self.autodismiss = true
     }
     
     var body: some View {
@@ -85,6 +91,14 @@ struct EngagementScreen: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding()
         .background(Color(uiColor: .secondarySystemBackground).ignoresSafeArea())
+        .onAppear {
+            if autodismiss {
+                autoDismissTask = Task {
+                    try? await Task.sleep(for: .seconds(5))
+                    dismiss()
+                }
+            }
+        }
     }
     
     private var engagementTitle: LocalizedStringKey {
@@ -129,6 +143,10 @@ struct EngagementScreen: View {
             fatalError("Could not save engagement: \(error.localizedDescription)")
         }
         savedEngagement = newEntity
+        
+        if autodismiss {
+            dismiss()
+        }
     }
     
     private func delete() {
@@ -144,12 +162,18 @@ struct EngagementScreen: View {
 }
 
 #Preview {
+    @Previewable @State var show = false
     NavigationStack {
-        EngagementScreen(engagement: Engagement(
-            type: "open_page",
-            name: "Concert Tickets",
-            description: "Buy tickets to upcoming shows",
-            info: "https://www.kissfm.ro/"
-        ))
+        Button("Show Engagement") {
+            show.toggle()
+        }
+        .sheet(isPresented: $show) {
+            EngagementScreen(engagement: Engagement(
+                type: "open_page",
+                name: "Concert Tickets",
+                description: "Buy tickets to upcoming shows",
+                info: "https://www.kissfm.ro/"
+            ))
+        }
     }
 }
