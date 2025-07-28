@@ -5,6 +5,12 @@ struct SettingsScreen: View {
     var body: some View {
         List {
             Section {
+                NavigationLink(destination: ParsingSettingsScreen()) {
+                    Label("Parsing Settings", systemImage: "slider.horizontal.3")
+                }
+            }
+            
+            Section {
                 Button {
                     UIApplication.shared.open(Constants.websiteURL)
                 } label: {

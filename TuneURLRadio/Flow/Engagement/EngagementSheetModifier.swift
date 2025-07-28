@@ -87,7 +87,7 @@ struct ItemOverlaySheetViewModifier<Child: View, Item: Identifiable>: ViewModifi
             content
             
             ZStack(alignment: .bottom) {
-                if let item {
+                if item != nil {
                     Color.black.opacity(0.2)
                         .ignoresSafeArea()
                         .transition(.opacity)

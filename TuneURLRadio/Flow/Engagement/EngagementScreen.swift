@@ -94,11 +94,19 @@ struct EngagementScreen: View {
         .onAppear {
             if autodismiss {
                 autoDismissTask = Task {
-                    try? await Task.sleep(for: .seconds(5))
+                    try? await Task.sleep(for: .seconds(autoDismissDelay))
                     dismiss()
                 }
             }
         }
+    }
+    
+    private var autoDismissDelay: Double {
+        #if DEBUG
+        return 5.0
+        #else
+        return 15.0
+        #endif
     }
     
     private var engagementTitle: LocalizedStringKey {

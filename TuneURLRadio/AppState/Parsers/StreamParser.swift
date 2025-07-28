@@ -1,10 +1,11 @@
 import Foundation
 import TuneURL
 
+fileprivate let log = Log(label: "StreamParser")
+
 class StreamParser: NSObject {
     
     // MARK: - Public props
-    var matchThreshold = 10
     var onMatchDetected: ((Match) -> Void)?
     
     // MARK: - Private props
@@ -30,7 +31,6 @@ class StreamParser: NSObject {
     private var currentRequestTask: URLSessionDataTask?
     
     private var currentStreamURL: URL?
-    private var isRunning = false
     
     private let chunkQueue = DispatchQueue(label: "stream-parser.chunk.queue")
     private var mediaDataChunks = [Data]()
@@ -39,12 +39,15 @@ class StreamParser: NSObject {
     private var lastMatch: Match?
     private var lastMatchDate: Date?
     
+    private var settings = UserSettings.shared
+    
     // MARK: - Public funcs
     func start(streamURL: URL) {
         guard streamURL != currentStreamURL else { return }
         stop()
         
         dataTaskQueue.addOperation { [weak self] in
+            log.write("Starting StreamParser with URL: \(streamURL)")
             self?.currentStreamURL = streamURL
             self?.currentRequestTask = self?.session.dataTask(with: streamURL)
             self?.currentRequestTask?.resume()
@@ -55,6 +58,7 @@ class StreamParser: NSObject {
     
     func stop() {
         dataTaskQueue.addOperation { [weak self] in
+            log.write("Stopping StreamParser")
             self?.currentStreamURL = nil
             
             self?.parsingWorkItem?.cancel()
@@ -70,8 +74,11 @@ class StreamParser: NSObject {
     // MARK: - Private funcs
     func scheduleParsingTask() {
         let newTask = DispatchWorkItem { [weak self] in
-            guard let self = self else { return }
-            guard !self.mediaDataChunks.isEmpty else { return }
+            guard
+                let self,
+                !self.mediaDataChunks.isEmpty
+            else { return }
+            
             let data = chunkQueue.sync {
                 let combined = self.mediaDataChunks.reduce(Data(), +)
                 return combined
@@ -83,53 +90,63 @@ class StreamParser: NSObject {
                 
                 var parsed = false
                 Detector.processAudio(for: fileURL) { [weak self] matches in
-                    guard let self else { return }
+                    guard
+                        let self,
+                        !parsed
+                    else { return }
+                    parsed = true
+                    
                     let uniqueMatches = matches.uniqueBy(key: { $0.id })
-#if DEBUG
+    
                     if uniqueMatches.isEmpty {
-                        print("No matches found in the audio chunk.")
+                        log.write("No matches found in the audio chunk")
                     } else {
-                        print("------------------------------------------------")
+                        var logMessage = "Found \(uniqueMatches.count) matches in the audio chunk"
                         for match in uniqueMatches {
-                            print("Matched TuneURL:\n\(match.prettyDescription())")
-                            print("----------------")
+                            logMessage += "\n\n\(match.prettyDescription())"
                         }
-                        print("------------------------------------------------")
+                        log.write(logMessage)
                     }
-#endif
                     
                     let bestMatch = uniqueMatches
-                        .filter { $0.matchPercentage >= self.matchThreshold }
+                        .filter { $0.matchPercentage >= self.settings.streamMatchThreshold }
                         .max(by: { $0.matchPercentage < $1.matchPercentage })
-                    let elapsedTimeFromLastMatch = abs(self.lastMatchDate?.timeIntervalSinceNow ?? 0)
-                    var similarToLastMatch = false
-                    if let lastMatch, let bestMatch {
-                        similarToLastMatch = bestMatch == lastMatch &&
-                        lastMatch.matchPercentage < bestMatch.matchPercentage &&
-                        elapsedTimeFromLastMatch < 15
-                    }
+                    
+                    if let bestMatch {
+                        let elapsedTimeFromLastMatch = abs(self.lastMatchDate?.timeIntervalSinceNow ?? 0)
                         
-                    if let bestMatch, (lastMatch != bestMatch && !similarToLastMatch) {
-                        self.lastMatch = bestMatch
-                        self.lastMatchDate = Date()
+                        var similarToLastMatch = false
+                        if let lastMatch {
+                            similarToLastMatch = bestMatch == lastMatch &&
+                            (lastMatch.matchPercentage < bestMatch.matchPercentage && elapsedTimeFromLastMatch < 10) ||
+                            (elapsedTimeFromLastMatch < 15)
+                        }
                         
-                        DispatchQueue.main.async {
-                            self.onMatchDetected?(bestMatch)
+                        if !similarToLastMatch {
+                            log.write("Reporting Match:\n\(bestMatch.prettyDescription())")
+                            self.lastMatch = bestMatch
+                            self.lastMatchDate = Date()
+                            
+                            DispatchQueue.main.async {
+                                self.onMatchDetected?(bestMatch)
+                            }
+                        } else {
+                            log.write("Match ignored because same match is already reported during last 15 seconds.")
+                        }
+                    } else {
+                        if !uniqueMatches.isEmpty {
+                            log.write("Not found match with sufficient match percentage -\(settings.streamMatchThreshold).")
                         }
                     }
                     
-                    try? FileManager.default.removeItem(at: fileURL)
-                    if !parsed {
-                        parsed = true
-                        self.scheduleParsingTask()
-                    }
+                    self.scheduleParsingTask()
                 }
             } catch {
                 print("Error writing data to file: \(error)")
                 self.scheduleParsingTask()
             }
         }
-        DispatchQueue.global().asyncAfter(deadline: .now() + 2, execute: newTask)
+        DispatchQueue.global().asyncAfter(deadline: .now() + 3, execute: newTask)
         parsingWorkItem = newTask
     }
 }
@@ -149,14 +166,15 @@ extension StreamParser: URLSessionDelegate {
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
         chunkQueue.async {
             self.mediaDataChunks.append(data)
-            while self.mediaDataChunks.reduce(0, { $0 + $1.count }) > 400_000 {
+            while self.mediaDataChunks.reduce(0, { $0 + $1.count }) > 500_000 {
                 self.mediaDataChunks.removeFirst()
             }
         }
     }
     
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        print("Task completed with error: \(String(describing: error))")
+        if let error = error as? URLError, error.code == .cancelled { return }
+        log.write("Stream request failed with error: \(String(describing: error))", level: .error)
         self.stop()
     }
 }
