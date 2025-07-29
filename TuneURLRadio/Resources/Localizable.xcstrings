@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "0%" : {
+
+    },
     "1 hour" : {
 
     },
@@ -14,6 +17,9 @@
 
     },
     "30 mins" : {
+
+    },
+    "90%" : {
 
     },
     "Call to: %@" : {
@@ -52,6 +58,15 @@
     "OFFLINE" : {
 
     },
+    "OTA Match Threshold" : {
+
+    },
+    "OTA Match Threshold: **%lld%%**" : {
+
+    },
+    "Parsing Settings" : {
+
+    },
     "Phone Call" : {
 
     },
@@ -80,6 +95,12 @@
 
     },
     "Stations" : {
+
+    },
+    "Stream Match Threshold" : {
+
+    },
+    "Stream Match Threshold: **%lld%%**" : {
 
     },
     "Version %@(%@)" : {
