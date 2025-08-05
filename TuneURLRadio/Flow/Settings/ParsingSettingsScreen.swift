@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ParsingSettingsScreen: View {
     
-    @State var settings = UserSettings.shared
+    @Environment(UserSettings.self) private var settings
     
     var body: some View {
         List {
@@ -59,5 +59,6 @@ struct ParsingSettingsScreen: View {
 #Preview {
     NavigationStack {
         ParsingSettingsScreen()
+            .withPreviewEnv()
     }
 }

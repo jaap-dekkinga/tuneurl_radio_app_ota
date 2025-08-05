@@ -25,6 +25,12 @@
     "Call to: %@" : {
 
     },
+    "Cancel" : {
+
+    },
+    "Clear" : {
+
+    },
     "Complete Survey" : {
 
     },
@@ -34,10 +40,19 @@
     "Delete" : {
 
     },
+    "Enable Notifications" : {
+
+    },
     "Engagement" : {
 
     },
     "Explore Our Socials" : {
+
+    },
+    "General" : {
+
+    },
+    "Info" : {
 
     },
     "LIVE" : {
@@ -46,7 +61,13 @@
     "LOADING..." : {
 
     },
+    "Looks like you don't have any Turls yet." : {
+
+    },
     "Message" : {
+
+    },
+    "Modal" : {
 
     },
     "No Saved URLs" : {
@@ -55,13 +76,22 @@
     "None" : {
 
     },
+    "Notification" : {
+
+    },
     "OFFLINE" : {
+
+    },
+    "Open Settings" : {
 
     },
     "OTA Match Threshold" : {
 
     },
     "OTA Match Threshold: **%lld%%**" : {
+
+    },
+    "Parsing" : {
 
     },
     "Parsing Settings" : {
@@ -88,19 +118,34 @@
     "Share" : {
 
     },
+    "Show \"Turls\" as" : {
+
+    },
     "Sleep" : {
 
     },
     "Sleep in: " : {
 
     },
+    "Start listen radion and Turls will appear here." : {
+
+    },
     "Stations" : {
+
+    },
+    "Store \"Turls\" history" : {
 
     },
     "Stream Match Threshold" : {
 
     },
     "Stream Match Threshold: **%lld%%**" : {
+
+    },
+    "This feature requires notifications permission. Please enable notifications in Settings." : {
+
+    },
+    "Turls" : {
 
     },
     "Version %@(%@)" : {

@@ -3,7 +3,7 @@ import LinkPresentation
 
 struct PlayerScreen: View {
 
-    @Environment(DataStore.self) private var dataStore
+    @Environment(StationsStore.self) private var stationsStore
     @Environment(StateManager.self) private var stateManager
     
     @State private var artworkImage: UIImage? = UIImage.stationLogo
@@ -174,6 +174,6 @@ struct PlayerScreen: View {
     PlayerScreen(animation: animation)
         .withPreviewEnv()
         .onAppear {
-            StateManager.shared.switchStation(to: DataStore.shared.stations[3])
+            StateManager.shared.switchStation(to: StationsStore.shared.stations[3])
         }
 }

@@ -1,9 +1,9 @@
 import Foundation
 
 @Observable
-class DataStore {
+class StationsStore {
     
-    static let shared = DataStore()
+    static let shared = StationsStore()
     
     var stations: [Station] = []
     

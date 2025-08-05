@@ -7,7 +7,7 @@ import FRadioPlayer
 struct TuneURLRadioApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    
+
     init() {
         StateManager.shared.configure()
         UIApplication.shared.beginReceivingRemoteControlEvents()
@@ -31,14 +31,20 @@ extension View {
     func withEnv() -> some View {
         self
             .modelContainer(Persistance.shared.container)
-            .environment(DataStore.shared)
+            .environment(StationsStore.shared)
             .environment(StateManager.shared)
+            .environment(UserSettings.shared)
+            .environment(EngagementsStore.shared)
+            .environment(NotificationsStore.shared)
     }
     
     func withPreviewEnv() -> some View {
         self
             .modelContainer(Persistance.shared.previewContainer)
-            .environment(DataStore.shared)
+            .environment(StationsStore.shared)
             .environment(StateManager.shared)
+            .environment(UserSettings.shared)
+            .environment(EngagementsStore.shared)
+            .environment(NotificationsStore.shared)
     }
 }

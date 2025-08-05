@@ -5,6 +5,8 @@ import TuneURL
 import MediaPlayer
 import Kingfisher
 
+private let log = Log(label: "StateManager")
+
 @Observable
 class StateManager {
     
@@ -25,7 +27,7 @@ class StateManager {
     private(set) var isPlaying = false
     private(set) var isListening = false
     
-    var currentMatch: TuneURL.Match?
+    var currentMatch: PresentedMatch?
     
     // MARK: - Private props
     @ObservationIgnored private let player = FRadioPlayer.shared
@@ -42,14 +44,12 @@ class StateManager {
         
         otaParser.onMatchDetected = { [weak self] match in
             print("➡️ State - On OTA Match")
-            guard self?.currentMatch == nil else { return }
-            self?.currentMatch = match
+            self?.handleMatch(match, isOTA: true)
         }
         
         streamParser.onMatchDetected = { [weak self] match in
             print("➡️ State - On Stream Match")
-            guard self?.currentMatch == nil else { return }
-            self?.currentMatch = match
+            self?.handleMatch(match)
         }
     }
     
@@ -145,6 +145,28 @@ class StateManager {
             startListening()
         }
     }
+    
+    // MARK: - Handle Matches
+    @MainActor private func handleMatch(_ match: TuneURL.Match, isOTA: Bool = false) {
+        // Save match to history if needed
+        EngagementsStore.shared.saveToHistory(
+            match: match,
+            stationId: isOTA ? nil : currentStation?.id
+        )
+        
+        let settings = UserSettings.shared
+        switch settings.engagementDisplayMode {
+            case .modal:
+                guard currentMatch == nil else { return }
+                currentMatch = .init(
+                    match: match,
+                    autodismiss: true
+                )
+                
+            case .notification:
+                NotificationsStore.shared.showNotification(for: match)
+        }
+    }
 }
 
 extension StateManager: FRadioPlayerObserver {
@@ -197,5 +219,12 @@ extension StateManager {
                 case .offline: "OFFLINE"
             }
         }
+    }
+    
+    struct PresentedMatch: Identifiable {
+        let match: TuneURL.Match
+        let autodismiss: Bool
+        
+        var id: Int { match.id }
     }
 }

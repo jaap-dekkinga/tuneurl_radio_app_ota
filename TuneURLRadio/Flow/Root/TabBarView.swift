@@ -5,6 +5,7 @@ struct TabBarView: View {
     static let kMiniPlayerOffet = -54.0
     static let kTabContentBottomOffset = 60.0
     
+    @Environment(UserSettings.self) private var userSettings
     @Environment(StateManager.self) private var stateManager
     
     @SceneStorage("selectedTab")
@@ -90,6 +91,8 @@ struct TabBarView: View {
                         StationsScreen()
                     case .saved:
                         EngagementsScreen()
+                    case .turls:
+                        EngagementHistoryScreen()
                     case .settings:
                         SettingsScreen()
                 }

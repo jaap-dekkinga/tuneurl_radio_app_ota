@@ -6,7 +6,7 @@ fileprivate let log = Log(label: "OTAParser")
 class OTAParser {
     
     // MARK: - Public props
-    var onMatchDetected: ((Match) -> Void)?
+    var onMatchDetected: (@MainActor (Match) -> Void)?
     
     // MARK: - Private props
     private var settings = UserSettings.shared
@@ -25,7 +25,9 @@ class OTAParser {
                 return
             }
             log.write("OTA Match Detected\n\(match.prettyDescription())")
-            onMatchDetected?(match)
+            DispatchQueue.main.async {
+                self.onMatchDetected?(match)
+            }
         }
     }
     

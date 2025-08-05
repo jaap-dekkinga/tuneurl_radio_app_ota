@@ -1,10 +1,13 @@
 import SwiftUI
 import SwiftData
 
+private let log = Log(label: "EngagementScreen")
+
 struct EngagementScreen: View {
     
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
+    @Environment(EngagementsStore.self) private var engagementsStore
     
     @State private var savedEngagement: SavedEngagement?
     @State private var autoDismissTask: Task<Void, Never>? = nil
@@ -20,11 +23,18 @@ struct EngagementScreen: View {
         self.autodismiss = false
     }
     
-    init(engagement: Engagement, stationId: Int? = nil) {
+    init(historyEngagement: HistoryEngagement) {
+        self.engagement = historyEngagement.engagement
+        self.savedEngagement = nil
+        self.stationId = historyEngagement.sourceStationId
+        self.autodismiss = false
+    }
+    
+    init(engagement: Engagement, stationId: Int? = nil, autodismiss: Bool = true) {
         self.engagement = engagement
         self.savedEngagement = nil
         self.stationId = stationId
-        self.autodismiss = true
+        self.autodismiss = autodismiss
     }
     
     var body: some View {
@@ -140,17 +150,10 @@ struct EngagementScreen: View {
     }
     
     private func save() {
-        let newEntity = SavedEngagement(
-            engagement: engagement,
+        savedEngagement = engagementsStore.save(
+            engagement,
             stationId: stationId
         )
-        context.insert(newEntity)
-        do {
-            try context.save()
-        } catch {
-            fatalError("Could not save engagement: \(error.localizedDescription)")
-        }
-        savedEngagement = newEntity
         
         if autodismiss {
             dismiss()
@@ -159,12 +162,7 @@ struct EngagementScreen: View {
     
     private func delete() {
         guard let entity = savedEngagement else { return }
-        context.delete(entity)
-        do {
-            try context.save()
-        } catch {
-            fatalError("Could not delete engagement: \(error.localizedDescription)")
-        }
+        engagementsStore.delete(entity)
         savedEngagement = nil
     }
 }

@@ -8,6 +8,7 @@ class Persistance {
     var container: ModelContainer = {
         let schema = Schema([
             SavedEngagement.self,
+            HistoryEngagement.self,
         ])
         let modelConfiguration = ModelConfiguration(
             schema: schema,
@@ -28,6 +29,7 @@ class Persistance {
     var previewContainer: ModelContainer = {
         let schema = Schema([
             SavedEngagement.self,
+            HistoryEngagement.self,
         ])
         
         let modelConfiguration = ModelConfiguration(

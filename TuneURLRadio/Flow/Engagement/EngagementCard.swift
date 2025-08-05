@@ -5,14 +5,16 @@ import LinkPresentation
 
 struct EngagementCard: View {
     
-    @Environment(\.modelContext) private var context
-    @Environment(DataStore.self) private var dataStore
+    @Environment(StationsStore.self) private var stationsStore
     
     @State private var metadata: LPLinkMetadata?
     @State private var image: UIImage?
     
-    let item: SavedEngagement
-    let previewsStore = URLPreviewsStore.shared
+    let infoURL: URL?
+    let info: String?
+    let stationId: Int?
+    let date: Date?
+    private let previewsStore = URLPreviewsStore.shared
     
     var body: some View {
         VStack(spacing: 0) {
@@ -26,7 +28,7 @@ struct EngagementCard: View {
             
             VStack(alignment: .leading, spacing: 4) {
                 Group {
-                    if item.engagementURL == nil, let title = item.engagementInfo {
+                    if infoURL == nil, let title = info {
                         Text(title)
                     } else if let title = metadata?.title {
                         Text(title)
@@ -35,13 +37,15 @@ struct EngagementCard: View {
                 .font(.headline)
                 .lineLimit(2)
                 
-                if let station = dataStore.stations.first(where: { $0.id == item.sourceStationId }) {
+                if let station = stationsStore.stations.first(where: { $0.id == stationId }) {
                     SourceInfo(station)
                 }
                 
-                Text(item.saveDate.formatted())
-                    .font(.caption2)
-                    .foregroundColor(.secondary)
+                if let date {
+                    Text(date.formatted())
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.vertical, 8)
@@ -51,15 +55,8 @@ struct EngagementCard: View {
         .aspectRatio(1, contentMode: .fit)
         .background(Color(uiColor: .systemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-        .contextMenu {
-            Button(role: .destructive) {
-                delete()
-            } label: {
-                Text("Delete")
-            }
-        }
         .task {
-            guard let url = item.engagementURL else { return }
+            guard let url = infoURL else { return }
             if let cachedImage = KingfisherManager.shared.cache.retrieveImageInMemoryCache(
                 forKey: url.absoluteString
             ) {
@@ -106,15 +103,6 @@ struct EngagementCard: View {
                 .foregroundColor(.secondary)
                 .lineLimit(1)
                 .frame(maxWidth: .infinity, alignment: .leading)
-        }
-    }
-    
-    private func delete() {
-        context.delete(item)
-        do {
-            try context.save()
-        } catch {
-            fatalError("Could not delete engagement: \(error.localizedDescription)")
         }
     }
 }

@@ -5,7 +5,7 @@ struct StationsScreen: View {
     
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     
-    @Environment(DataStore.self) var store
+    @Environment(StationsStore.self) var store
     @Environment(StateManager.self) var stateManager
     
     var body: some View {

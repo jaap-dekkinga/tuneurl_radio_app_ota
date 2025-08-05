@@ -6,7 +6,7 @@ fileprivate let log = Log(label: "StreamParser")
 class StreamParser: NSObject {
     
     // MARK: - Public props
-    var onMatchDetected: ((Match) -> Void)?
+    var onMatchDetected: (@MainActor (Match) -> Void)?
     
     // MARK: - Private props
     private let dataTaskQueue: OperationQueue = {

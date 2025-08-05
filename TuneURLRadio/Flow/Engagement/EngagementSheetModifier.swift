@@ -6,10 +6,11 @@ struct EngagementSheetModifier: ViewModifier {
     @State var state = StateManager.shared
     
     func body(content: Content) -> some View {
-        content.sheet(item: $state.currentMatch) { match in
+        content.sheet(item: $state.currentMatch) { value in
             EngagementScreen(
-                engagement: .init(match),
-                stationId: state.currentPlayingStation?.id
+                engagement: .init(value.match),
+                stationId: state.currentPlayingStation?.id,
+                autodismiss: value.autodismiss
             )
             .withEnv()
             .presentationDetents([.fraction(0.95), .large], selection: .constant(.large))

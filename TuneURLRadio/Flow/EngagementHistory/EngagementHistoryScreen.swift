@@ -1,19 +1,16 @@
 import SwiftUI
 import SwiftData
-import Kingfisher
 
-struct EngagementsScreen: View {
+struct EngagementHistoryScreen: View {
     
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-    
     @Environment(\.modelContext) private var context
-    @Environment(StationsStore.self) private var stationsStore
     @Environment(EngagementsStore.self) private var engagementsStore
     
-    @Query(sort: \SavedEngagement.saveDate, order: .reverse)
-    private var items: [SavedEngagement]
+    @Query(sort: \HistoryEngagement.saveDate, order: .reverse)
+    private var items: [HistoryEngagement]
     
-    @State private var selected: SavedEngagement?
+    @State private var selected: HistoryEngagement?
     
     var body: some View {
         ScrollView {
@@ -50,22 +47,29 @@ struct EngagementsScreen: View {
         .overlay {
             if items.isEmpty {
                 ContentUnavailableView(
-                    "No Saved URLs",
+                    "Looks like you don't have any Turls yet.",
                     systemImage: "tray",
-                    description: Text("You haven't saved any URLs yet.")
+                    description: Text("Start listen radion and Turls will appear here.")
                 )
             }
         }
         .background(Color(uiColor: .secondarySystemBackground))
-        .navigationTitle("Saved URLs")
+        .navigationTitle("Turls")
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("Clear") {
+                    engagementsStore.clearHistory()
+                }
+            }
+        }
         .sheet(item: $selected) { item in
-            EngagementScreen(savedEngagement: item)
+            EngagementScreen(historyEngagement: item)
                 .withEnv()
         }
     }
 }
 
 #Preview {
-    EngagementsScreen()
+    EngagementHistoryScreen()
         .withPreviewEnv()
 }

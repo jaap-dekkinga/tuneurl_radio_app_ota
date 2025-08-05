@@ -10,14 +10,15 @@ extension StateManager {
             return
         }
         
-        print("➡️ State - Update Now Playing Artwork")
-        
         KingfisherManager.shared.retrieveImage(with: artworkURL) { result in
             guard case .success(let imageResult) = result else { return }
             let image = imageResult.image
             
             DispatchQueue.main.async {
-                var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo ?? [String: Any]()
+                guard
+                    var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo,
+                    !nowPlayingInfo.isEmpty
+                else { return }
                 
                 nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(
                     boundsSize: image.size,
@@ -29,8 +30,6 @@ extension StateManager {
     }
     
     func updateNowPlayerInfo() {
-        print("➡️ State - Update Now Playing Info")
-        
         var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo ?? [String: Any]()
         if let artistName = currentMetadata?.artistName {
             nowPlayingInfo[MPMediaItemPropertyArtist] = artistName
@@ -38,6 +37,8 @@ extension StateManager {
         if let trackName = currentMetadata?.trackName {
             nowPlayingInfo[MPMediaItemPropertyTitle] = trackName
         }
-        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+        if !nowPlayingInfo.isEmpty {
+            MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+        }
     }
 }
