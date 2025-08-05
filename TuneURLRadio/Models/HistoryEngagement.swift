@@ -24,6 +24,23 @@ final class HistoryEngagement {
         saveDate = Date.now
         sourceStationId = stationId
     }
+    
+    init(
+        type: String,
+        name: String? = nil,
+        description: String? = nil,
+        info: String? = nil,
+        stationId: Int? = nil
+    ) {
+        id = UUID()
+        self.engagementType = type
+        self.engagementName = name
+        self.engagementDescription = description
+        self.engagementInfo = info
+        
+        saveDate = Date.now
+        self.sourceStationId = stationId
+    }
 }
 
 extension HistoryEngagement {

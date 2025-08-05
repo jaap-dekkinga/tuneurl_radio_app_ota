@@ -17,7 +17,7 @@ struct EngagementHistoryScreen: View {
             LazyVGrid(
                 columns: Array(
                     repeating: GridItem(.flexible(), spacing: 12),
-                    count: horizontalSizeClass == .compact ? 2 : 4
+                    count: horizontalSizeClass == .compact ? 1 : 2
                 ),
                 spacing: 12
             ) {
@@ -25,9 +25,9 @@ struct EngagementHistoryScreen: View {
                     Button {
                         selected = item
                     } label: {
-                        EngagementCard(
+                        EngagementHistoryCard(
                             infoURL: item.engagementURL,
-                            info: item.engagementInfo,
+                            info: item.engagementDescription,
                             stationId: item.sourceStationId,
                             date: item.saveDate
                         )
@@ -49,7 +49,7 @@ struct EngagementHistoryScreen: View {
                 ContentUnavailableView(
                     "Looks like you don't have any Turls yet.",
                     systemImage: "tray",
-                    description: Text("Start listen radion and Turls will appear here.")
+                    description: Text("Start listen radio and Turls will appear here.")
                 )
             }
         }

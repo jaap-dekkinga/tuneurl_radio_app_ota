@@ -30,7 +30,7 @@ struct EngagementsScreen: View {
                     } label: {
                         EngagementCard(
                             infoURL: item.engagementURL,
-                            info: item.engagementInfo,
+                            info: item.engagementDescription,
                             stationId: item.sourceStationId,
                             date: item.saveDate
                         )
