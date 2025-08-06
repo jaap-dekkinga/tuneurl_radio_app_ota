@@ -11,7 +11,7 @@ enum AppTab: String, Hashable, CaseIterable, Identifiable {
     var title: LocalizedStringKey {
         switch self {
             case .stations: "Stations"
-            case .saved: "Saved URLs"
+            case .saved: "Saved Turls"
             case .turls: "Turls"
             case .settings: "Settings"
         }

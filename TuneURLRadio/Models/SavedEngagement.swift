@@ -32,6 +32,10 @@ extension SavedEngagement {
         return URL(string: info, encodingInvalidCharacters: false)
     }
     
+    var isWebEngagement: Bool {
+        engagementURL?.absoluteString.hasPrefix("http") ?? false
+    }
+    
     var engagement: Engagement {
         Engagement(
             type: engagementType,

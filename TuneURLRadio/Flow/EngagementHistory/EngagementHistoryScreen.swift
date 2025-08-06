@@ -13,19 +13,13 @@ struct EngagementHistoryScreen: View {
     @State private var selected: HistoryEngagement?
     
     var body: some View {
-        ScrollView {
-            LazyVGrid(
-                columns: Array(
-                    repeating: GridItem(.flexible(), spacing: 12),
-                    count: horizontalSizeClass == .compact ? 1 : 2
-                ),
-                spacing: 12
-            ) {
-                ForEach(items) { item in
+        List {
+            ForEach(items) { item in
+                Section {
                     Button {
                         selected = item
                     } label: {
-                        EngagementHistoryCard(
+                        EngagementCard(
                             infoURL: item.engagementURL,
                             info: item.engagementDescription,
                             stationId: item.sourceStationId,
@@ -33,17 +27,21 @@ struct EngagementHistoryScreen: View {
                         )
                     }
                     .buttonStyle(.plain)
-                    .contextMenu {
+                    .swipeActions(content: {
                         Button(role: .destructive) {
-                            engagementsStore.delete(item)
+                            withAnimation {
+                                engagementsStore.delete(item)
+                            }
                         } label: {
                             Text("Delete")
                         }
-                    }
+                    })
                 }
             }
-            .padding()
+            .listRowSeparator(.hidden)
+            .listRowInsets(EdgeInsets())
         }
+        .listSectionSpacing(16)
         .overlay {
             if items.isEmpty {
                 ContentUnavailableView(
@@ -53,7 +51,6 @@ struct EngagementHistoryScreen: View {
                 )
             }
         }
-        .background(Color(uiColor: .secondarySystemBackground))
         .navigationTitle("Turls")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {

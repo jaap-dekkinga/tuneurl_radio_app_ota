@@ -16,15 +16,9 @@ struct EngagementsScreen: View {
     @State private var selected: SavedEngagement?
     
     var body: some View {
-        ScrollView {
-            LazyVGrid(
-                columns: Array(
-                    repeating: GridItem(.flexible(), spacing: 12),
-                    count: horizontalSizeClass == .compact ? 2 : 4
-                ),
-                spacing: 12
-            ) {
-                ForEach(items) { item in
+        List {
+            ForEach(items) { item in
+                Section {
                     Button {
                         selected = item
                     } label: {
@@ -36,31 +30,38 @@ struct EngagementsScreen: View {
                         )
                     }
                     .buttonStyle(.plain)
-                    .contextMenu {
+                    .swipeActions(content: {
                         Button(role: .destructive) {
-                            engagementsStore.delete(item)
+                            withAnimation {
+                                engagementsStore.delete(item)
+                            }
                         } label: {
                             Text("Delete")
                         }
-                    }
+                    })
                 }
             }
-            .padding()
+            .listRowSeparator(.hidden)
+            .listRowInsets(EdgeInsets())
         }
+        .listSectionSpacing(16)
         .overlay {
             if items.isEmpty {
                 ContentUnavailableView(
-                    "No Saved URLs",
+                    "No Saved Turls",
                     systemImage: "tray",
                     description: Text("You haven't saved any URLs yet.")
                 )
             }
         }
-        .background(Color(uiColor: .secondarySystemBackground))
-        .navigationTitle("Saved URLs")
+        .navigationTitle("Saved Turls")
         .sheet(item: $selected) { item in
-            EngagementScreen(savedEngagement: item)
-                .withEnv()
+            if item.isWebEngagement, let url = item.engagementURL {
+                SafariView(url: url)
+            } else {
+                EngagementScreen(savedEngagement: item)
+                    .withEnv()
+            }
         }
     }
 }

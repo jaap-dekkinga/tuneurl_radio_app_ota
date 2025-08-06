@@ -17,21 +17,29 @@ struct EngagementCard: View {
     private let previewsStore = URLPreviewsStore.shared
     
     var body: some View {
-        VStack(spacing: 0) {
-            GeometryReader { proxy in
-                Image(uiImage: image ?? .stationLogo)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: proxy.size.width, height: proxy.size.height)
-                    .clipped()
-            }
+        HStack(spacing: 8) {
+            Image(uiImage: image ?? .stationLogo)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 100)
+                .clipShape(
+                    UnevenRoundedRectangle(
+                        cornerRadii: .init(
+                            topLeading: 8,
+                            bottomLeading: 8
+                        ),
+                        style: .continuous
+                    )
+                )
             
             VStack(alignment: .leading, spacing: 4) {
                 Group {
-                    if infoURL == nil, let title = info {
+                    if let title = info?.trimmed.nilIfEmpty {
                         Text(title)
                     } else if let title = metadata?.title {
                         Text(title)
+                    } else {
+                        Text("No Info")
                     }
                 }
                 .font(.headline)
@@ -45,16 +53,15 @@ struct EngagementCard: View {
                     Text(date.formatted())
                         .font(.caption2)
                         .foregroundColor(.secondary)
+                        .lineLimit(1)
                 }
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.vertical, 8)
-            .padding(.horizontal, 8)
+            .padding(.vertical, 6)
+            .padding(.trailing, 8)
+            .frame(maxHeight: .infinity, alignment: .topLeading)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .aspectRatio(1, contentMode: .fit)
-        .background(Color(uiColor: .systemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .frame(maxWidth: .infinity)
+        .frame(height: 100)
         .task {
             guard let url = infoURL else { return }
             if let cachedImage = KingfisherManager.shared.cache.retrieveImageInMemoryCache(

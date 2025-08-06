@@ -70,7 +70,10 @@
     "Modal" : {
 
     },
-    "No Saved URLs" : {
+    "No Info" : {
+
+    },
+    "No Saved Turls" : {
 
     },
     "None" : {
@@ -103,7 +106,7 @@
     "Privacy Policy" : {
 
     },
-    "Saved URLs" : {
+    "Saved Turls" : {
 
     },
     "Select station to play" : {
@@ -127,7 +130,7 @@
     "Sleep in: " : {
 
     },
-    "Start listen radion and Turls will appear here." : {
+    "Start listen radio and Turls will appear here." : {
 
     },
     "Stations" : {
