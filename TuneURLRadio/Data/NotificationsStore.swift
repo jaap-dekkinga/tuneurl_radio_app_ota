@@ -43,7 +43,7 @@ class NotificationsStore: NSObject {
             let content = UNMutableNotificationContent()
             content.sound = .default
             content.title = "New Turl!"
-            content.body = match.description.trimmed.nilIfEmpty ?? "Tap to see the offer."
+            content.body = match.description.trimmed.nilIfEmpty ?? "If you're interested, then click 'save'"
             content.interruptionLevel = .timeSensitive
             content.relevanceScore = 1.0
             content.userInfo = [
