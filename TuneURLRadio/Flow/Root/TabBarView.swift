@@ -5,7 +5,7 @@ struct TabBarView: View {
     static let kMiniPlayerOffet = -54.0
     static let kTabContentBottomOffset = 60.0
     
-    @Environment(UserSettings.self) private var userSettings
+    @Environment(SettingsStore.self) private var settingsStore
     @Environment(StateManager.self) private var stateManager
     
     @SceneStorage("selectedTab")
@@ -14,17 +14,24 @@ struct TabBarView: View {
     let animationID: Namespace.ID
     
     var body: some View {
-//        if #available(iOS 26, *) {
-//            iOS18TabBarView
-//                .tabBarMinimizeBehavior(.onScrollDown)
-//                .tabViewBottomAccessory {
-//                    MiniPlayerView()
-//                        .matchedTransitionSource(id: AnimationID.playerView.rawValue, in: animation)
-//                        .onTapGesture {
-//                            expandMiniPlayer.toggle()
-//                        }
-//                }
-//        }
+        if #available(iOS 26, *) {
+            iOS18TabBarView(Self.kTabContentBottomOffset)
+                .overlay(alignment: .bottom) {
+                    HStack {
+                        MiniPlayerView()
+                            .matchedTransitionSource(id: AnimationID.playerView.rawValue, in: animationID)
+                            .glassEffect(.regular.interactive())
+                            .onTapGesture {
+                                stateManager.expandPlayer()
+                            }
+                        
+                        ListeningControl()
+                    }
+                    .offset(y: Self.kMiniPlayerOffet)
+                    .padding(.horizontal)
+                }
+                .ignoresSafeArea(.keyboard, edges: .all)
+        } else
         if #available(iOS 18.0, *) {
             iOS18TabBarView(Self.kTabContentBottomOffset)
                 .overlay(alignment: .bottom) {
@@ -132,24 +139,33 @@ struct TabBarView: View {
         Button {
             stateManager.switchListening()
         } label: {
-            Image(stateManager.isListening ? .customMicrophoneFillBadgeWaveform : .customMicrophoneBadgePause)
-                .symbolEffect(.pulse, isActive: stateManager.isListening)
-                .font(.title2)
-                .foregroundStyle(stateManager.isListening ? Color.accentColor : .secondary)
-                .environment(\.symbolVariants, stateManager.isListening ? .fill : .none)
-                .padding()
-                .background(content: {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 15, style: .continuous)
-                            .fill(.gray.opacity(0.2))
-                        
-                        RoundedRectangle(cornerRadius: 15, style: .continuous)
-                            .fill(.background)
-                            .padding(1.2)
+            if #available(iOS 26.0, *) {
+                ListeningControlContent()
+                    .glassEffect(.regular.interactive())
+            } else {
+                ListeningControlContent()
+                    .background {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 15, style: .continuous)
+                                .fill(.gray.opacity(0.2))
+                            
+                            RoundedRectangle(cornerRadius: 15, style: .continuous)
+                                .fill(.background)
+                                .padding(1.2)
+                        }
+                        .compositingGroup()
                     }
-                    .compositingGroup()
-                })
+            }
         }
         .buttonStyle(.plain)
+    }
+    
+    @ViewBuilder private func ListeningControlContent() -> some View {
+        Image(stateManager.isListening ? .customMicrophoneFillBadgeWaveform : .customMicrophoneBadgePause)
+            .symbolEffect(.pulse, isActive: stateManager.isListening)
+            .font(.title2)
+            .foregroundStyle(stateManager.isListening ? Color.accentColor : .secondary)
+            .environment(\.symbolVariants, stateManager.isListening ? .fill : .none)
+            .padding(16)
     }
 }
