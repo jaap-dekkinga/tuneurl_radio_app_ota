@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import MessageUI
 
 struct EngagementHistoryScreen: View {
     
@@ -7,7 +8,7 @@ struct EngagementHistoryScreen: View {
     @Environment(\.modelContext) private var context
     @Environment(EngagementsStore.self) private var engagementsStore
     
-    @Query(sort: \HistoryEngagement.saveDate, order: .reverse)
+    @Query(sort: \HistoryEngagement.createAt, order: .reverse)
     private var items: [HistoryEngagement]
     
     @State private var selected: HistoryEngagement?
@@ -18,12 +19,13 @@ struct EngagementHistoryScreen: View {
                 Section {
                     Button {
                         selected = item
+                        ReportAction.acted(item.engagement).report()
                     } label: {
-                        EngagementCard(
+                        EngagementListCard(
                             infoURL: item.engagementURL,
                             info: item.engagementDescription,
                             stationId: item.sourceStationId,
-                            date: item.saveDate
+                            date: item.heardAt
                         )
                     }
                     .buttonStyle(.plain)
@@ -60,7 +62,7 @@ struct EngagementHistoryScreen: View {
             }
         }
         .sheet(item: $selected) { item in
-            EngagementScreen(historyEngagement: item)
+            ViewEngagementScreen(historyEngagement: item)
                 .withEnv()
         }
     }

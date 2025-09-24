@@ -9,7 +9,7 @@ class OTAParser {
     var onMatchDetected: (@MainActor (Match) -> Void)?
     
     // MARK: - Private props
-    private var settings = UserSettings.shared
+    private var settings = SettingsStore.shared
     private var isRunning = false
     
     func start() {

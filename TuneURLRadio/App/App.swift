@@ -11,6 +11,8 @@ struct TuneURLRadioApp: App {
     init() {
         StateManager.shared.configure()
         UIApplication.shared.beginReceivingRemoteControlEvents()
+        
+        VoiceCommandManager.shared.requestPermission()
     }
     
     var body: some Scene {
@@ -32,19 +34,25 @@ extension View {
         self
             .modelContainer(Persistance.shared.container)
             .environment(StationsStore.shared)
-            .environment(StateManager.shared)
-            .environment(UserSettings.shared)
+            .environment(SettingsStore.shared)
             .environment(EngagementsStore.shared)
-            .environment(NotificationsStore.shared)
+            .environment(PollStore.shared)
+            .environment(GlobalSheetStore.shared)
+            .environment(StateManager.shared)
+            .environment(NotificationsManager.shared)
+            .environment(VoiceCommandManager.shared)
     }
     
     func withPreviewEnv() -> some View {
         self
             .modelContainer(Persistance.shared.previewContainer)
             .environment(StationsStore.shared)
-            .environment(StateManager.shared)
-            .environment(UserSettings.shared)
+            .environment(SettingsStore.shared)
             .environment(EngagementsStore.shared)
-            .environment(NotificationsStore.shared)
+            .environment(PollStore.shared)
+            .environment(GlobalSheetStore.shared)
+            .environment(StateManager.shared)
+            .environment(NotificationsManager.shared)
+            .environment(VoiceCommandManager.shared)
     }
 }

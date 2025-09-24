@@ -2,12 +2,12 @@ import Foundation
 import UserNotifications
 import TuneURL
 
-private let log = Log(label: "NotificationsStore")
+private let log = Log(label: "NotificationsManager")
 
 @MainActor @Observable
-class NotificationsStore: NSObject {
+class NotificationsManager: NSObject {
     
-    static let shared = NotificationsStore()
+    static let shared = NotificationsManager()
     
     private override init() {
         super.init()
@@ -37,13 +37,13 @@ class NotificationsStore: NSObject {
         }
     }
     
-    func showNotification(for match: TuneURL.Match) {
+    func showNotification(for engagement: Engagement) {
         Task {
-            guard let matchData = try? JSONEncoder().encode(match) else { return }
+            guard let matchData = try? JSONEncoder().encode(engagement) else { return }
             let content = UNMutableNotificationContent()
             content.sound = .default
             content.title = "New Turl!"
-            content.body = match.description.trimmed.nilIfEmpty ?? "If you're interested, then click 'save'"
+            content.body = engagement.description?.trimmed.nilIfEmpty ?? "If you're interested, then click 'save'"
             content.interruptionLevel = .timeSensitive
             content.relevanceScore = 1.0
             content.userInfo = [
@@ -51,7 +51,7 @@ class NotificationsStore: NSObject {
             ]
                 
             let request = UNNotificationRequest(
-                identifier: match.id.description,
+                identifier: engagement.id.description,
                 content: content,
                 trigger: nil
             )
@@ -69,7 +69,7 @@ class NotificationsStore: NSObject {
     }
 }
 
-extension NotificationsStore: UNUserNotificationCenterDelegate {
+extension NotificationsManager: UNUserNotificationCenterDelegate {
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
         return [.banner, .list]
@@ -78,11 +78,12 @@ extension NotificationsStore: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
         guard
             let data = response.notification.request.content.userInfo["data"] as? Data,
-            let match = try? JSONDecoder().decode(TuneURL.Match.self, from: data)
+            let engagement = try? JSONDecoder().decode(Engagement.self, from: data)
         else { return }
-        StateManager.shared.currentMatch = .init(
-            match: match,
-            autodismiss: false
+        StateManager.shared.presentEngagement(
+            engagement: engagement,
+            autodismiss: false,
+            forceCloseCurrent: true
         )
     }
 }

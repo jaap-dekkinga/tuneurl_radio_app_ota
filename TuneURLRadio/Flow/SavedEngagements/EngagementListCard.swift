@@ -3,7 +3,7 @@ import SwiftData
 import Kingfisher
 import LinkPresentation
 
-struct EngagementCard: View {
+struct EngagementListCard: View {
     
     @Environment(StationsStore.self) private var stationsStore
     
@@ -115,6 +115,6 @@ struct EngagementCard: View {
 }
 
 #Preview {
-    EngagementsScreen()
+    SavedEngagementsScreen()
         .withPreviewEnv()
 }

@@ -29,7 +29,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     
     // MARK: - Helpers
     func setupLogging() {
-//        NetworkLogger.enableProxy()
+        NetworkLogger.enableProxy()
         LoggerStore.shared.removeAll()
         setupNotifications()
     }
@@ -70,7 +70,7 @@ final class SceneDelegate: NSObject, UIWindowSceneDelegate {
             rootView:
                 EmptyView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .modifier(EngagementSheetModifier())
+                .modifier(GlobalSheetModifier())
         )
         secondaryViewController.view.backgroundColor = .clear
         let secondaryWindow = PassThroughWindow(windowScene: scene)

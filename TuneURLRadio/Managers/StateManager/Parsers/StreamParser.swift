@@ -39,7 +39,7 @@ class StreamParser: NSObject {
     private var lastMatch: Match?
     private var lastMatchDate: Date?
     
-    private var settings = UserSettings.shared
+    private var settings = SettingsStore.shared
     
     // MARK: - Public funcs
     func start(streamURL: URL) {

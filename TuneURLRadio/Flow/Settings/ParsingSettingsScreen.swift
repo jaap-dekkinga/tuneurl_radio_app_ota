@@ -2,13 +2,13 @@ import SwiftUI
 
 struct ParsingSettingsScreen: View {
     
-    @Environment(UserSettings.self) private var settings
+    @Environment(SettingsStore.self) private var settings
     
     var body: some View {
         List {
             Section {
                 VStack {
-                    Text("OTA Match Threshold: **\(settings.otaMatchThreshold)%**")
+                    Text("Over the Air Match Threshold: **\(settings.otaMatchThreshold)%**")
                         .frame(maxWidth: .infinity, alignment: .leading)
                     Slider(value: .init(get: {
                         Double(settings.otaMatchThreshold)
@@ -17,7 +17,7 @@ struct ParsingSettingsScreen: View {
                             $0 = Int(newValue)
                         }
                     }), in: 0...90) {
-                        Text("OTA Match Threshold")
+                        Text("Over the Air Match Threshold")
                     } minimumValueLabel: {
                         Text("0%")
                             .foregroundStyle(.secondary)

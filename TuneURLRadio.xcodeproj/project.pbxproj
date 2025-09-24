@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		813F27042E814AEA00682B50 /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 813F27032E814AEA00682B50 /* AsyncAlgorithms */; };
 		814FF9F32E1D69D00008097F /* FRadioPlayer in Frameworks */ = {isa = PBXBuildFile; productRef = 814FF9F22E1D69D00008097F /* FRadioPlayer */; };
 		8159C20B2E267CFC00F87383 /* TuneURL.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8159C2092E267CEB00F87383 /* TuneURL.xcframework */; };
 		8159C20C2E267CFC00F87383 /* TuneURL.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8159C2092E267CEB00F87383 /* TuneURL.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -69,6 +70,7 @@
 				814FF9F32E1D69D00008097F /* FRadioPlayer in Frameworks */,
 				81AAF50A2E37745200EB91BC /* Pulse in Frameworks */,
 				8159C20B2E267CFC00F87383 /* TuneURL.xcframework in Frameworks */,
+				813F27042E814AEA00682B50 /* AsyncAlgorithms in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,6 +129,7 @@
 				81AAF50B2E37745200EB91BC /* PulseProxy */,
 				81AAF50D2E37745200EB91BC /* PulseUI */,
 				81AAFC092E3789AA00EB91BC /* Sharing */,
+				813F27032E814AEA00682B50 /* AsyncAlgorithms */,
 			);
 			productName = TuneURLRadio;
 			productReference = 81BADE922E19618300032246 /* TuneURLRadio.app */;
@@ -160,6 +163,7 @@
 				819D32EE2E1C3E9C00F11D7B /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				81AAF5082E37745200EB91BC /* XCRemoteSwiftPackageReference "Pulse" */,
 				81AAFC082E3789AA00EB91BC /* XCRemoteSwiftPackageReference "swift-sharing" */,
+				813F27022E814AEA00682B50 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 81BADE932E19618300032246 /* Products */;
@@ -328,6 +332,7 @@
 				INFOPLIST_FILE = TuneURLRadio/Info.plist;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "The microphone to used to listen for Tune URLs.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Speech recognition is used so you can respond to Tune URLs with your voice.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -363,6 +368,7 @@
 				INFOPLIST_FILE = TuneURLRadio/Info.plist;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "The microphone to used to listen for Tune URLs.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Speech recognition is used so you can respond to Tune URLs with your voice.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -407,6 +413,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		813F27022E814AEA00682B50 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-async-algorithms.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.4;
+			};
+		};
 		819D32EE2E1C3E9C00F11D7B /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
@@ -434,6 +448,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		813F27032E814AEA00682B50 /* AsyncAlgorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 813F27022E814AEA00682B50 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */;
+			productName = AsyncAlgorithms;
+		};
 		814FF9F22E1D69D00008097F /* FRadioPlayer */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FRadioPlayer;

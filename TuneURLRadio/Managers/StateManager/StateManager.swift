@@ -4,6 +4,7 @@ import FRadioPlayer
 import TuneURL
 import MediaPlayer
 import Kingfisher
+import MessageUI
 
 private let log = Log(label: "StateManager")
 
@@ -27,12 +28,11 @@ class StateManager {
     private(set) var isPlaying = false
     private(set) var isListening = false
     
-    var currentMatch: PresentedMatch?
-    
     // MARK: - Private props
     @ObservationIgnored private let player = FRadioPlayer.shared
     @ObservationIgnored private let otaParser = OTAParser()
     @ObservationIgnored private let streamParser = StreamParser()
+    @ObservationIgnored private let sheet = GlobalSheetStore.shared
     
     var sleepDeadline: Date?
     @ObservationIgnored var sleepTimer: Timer?
@@ -122,8 +122,6 @@ class StateManager {
         guard !isListening else { return }
         print("➡️ State - Start Listening")
         isListening = true
-        
-        // TODO: need to optimize inside TuneURL and use DispatchQueue
         otaParser.start()
     }
     
@@ -131,7 +129,6 @@ class StateManager {
         guard isListening else { return }
         print("➡️ State - Stop Listening")
         isListening = false
-        // TODO: need to optimize inside TuneURL and use DispatchQueue
         otaParser.stop()
     }
     
@@ -146,25 +143,71 @@ class StateManager {
         }
     }
     
+    func listeningBuffer(_ callback: ((AVAudioPCMBuffer) -> Void)?) {
+        Listener.audioBufferDelegate = callback
+    }
+    
+    // MARK: - Present Current Engagement
+    func presentEngagement(
+        engagement: Engagement,
+        autodismiss: Bool,
+        forceCloseCurrent: Bool = false
+    ) {
+        // Only one engagement can be presented at a time unless forced from notification
+        guard forceCloseCurrent || sheet.isEmpty else {
+            return
+        }
+        
+        sheet.currentEngagementOffer = .init(
+            engagement: engagement,
+            autodismiss: autodismiss
+        )
+    }
+    
     // MARK: - Handle Matches
     @MainActor private func handleMatch(_ match: TuneURL.Match, isOTA: Bool = false) {
-        // Save match to history if needed
-        EngagementsStore.shared.saveToHistory(
+        let engagement = Engagement(
             match: match,
-            stationId: isOTA ? nil : currentStation?.id
+            heardAt: Date.now,
+            sourceStationId: isOTA ? nil : currentStation?.id
         )
         
-        let settings = UserSettings.shared
-        switch settings.engagementDisplayMode {
-            case .modal:
-                guard currentMatch == nil else { return }
-                currentMatch = .init(
-                    match: match,
-                    autodismiss: true
-                )
+        ReportAction.heard(engagement).report()
+        
+        let settings = SettingsStore.shared
+        // Save match to history if enabled and if it can be saved
+        if settings.storeAllEngagementsHistory && engagement.canSave {
+            EngagementsStore.shared.saveToHistory(engagement)
+        }
+        
+        switch engagement.type {
+            case .unknown:
+                log.write("Unknown engagement type: \(match.type)")
                 
-            case .notification:
-                NotificationsStore.shared.showNotification(for: match)
+            case .api:
+                handleAPIEngagement(engagement)
+                
+            case .openPage, .savePage, .coupon, .poll, .phone, .sms:
+                switch settings.engagementDisplayMode {
+                    case .modal:
+                        presentEngagement(
+                            engagement: engagement,
+                            autodismiss: true
+                        )
+                        
+                    case .notification:
+                        NotificationsManager.shared.showNotification(
+                            for: engagement
+                        )
+                }
+        }
+    }
+    
+    private func handleAPIEngagement(_ engagement: Engagement) {
+        Task {
+            guard let requestURL = engagement.handleURL else { return }
+            let request = URLRequest(url: requestURL)
+            _ = try? await URLSession.shared.data(for: request)
         }
     }
 }
@@ -219,12 +262,5 @@ extension StateManager {
                 case .offline: "OFFLINE"
             }
         }
-    }
-    
-    struct PresentedMatch: Identifiable {
-        let match: TuneURL.Match
-        let autodismiss: Bool
-        
-        var id: Int { match.id }
     }
 }

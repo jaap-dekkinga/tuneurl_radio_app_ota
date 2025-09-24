@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftData
 import Kingfisher
 
-struct EngagementsScreen: View {
+struct SavedEngagementsScreen: View {
     
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     
@@ -10,7 +10,7 @@ struct EngagementsScreen: View {
     @Environment(StationsStore.self) private var stationsStore
     @Environment(EngagementsStore.self) private var engagementsStore
     
-    @Query(sort: \SavedEngagement.saveDate, order: .reverse)
+    @Query(sort: \SavedEngagement.createAt, order: .reverse)
     private var items: [SavedEngagement]
     
     @State private var selected: SavedEngagement?
@@ -21,12 +21,13 @@ struct EngagementsScreen: View {
                 Section {
                     Button {
                         selected = item
+                        ReportAction.acted(item.engagement).report()
                     } label: {
-                        EngagementCard(
+                        EngagementListCard(
                             infoURL: item.engagementURL,
                             info: item.engagementDescription,
                             stationId: item.sourceStationId,
-                            date: item.saveDate
+                            date: item.heardAt
                         )
                     }
                     .buttonStyle(.plain)
@@ -59,7 +60,7 @@ struct EngagementsScreen: View {
             if item.isWebEngagement, let url = item.engagementURL {
                 SafariView(url: url)
             } else {
-                EngagementScreen(savedEngagement: item)
+                ViewEngagementScreen(savedEngagement: item)
                     .withEnv()
             }
         }
@@ -67,6 +68,6 @@ struct EngagementsScreen: View {
 }
 
 #Preview {
-    EngagementsScreen()
+    SavedEngagementsScreen()
         .withPreviewEnv()
 }

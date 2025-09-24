@@ -2,7 +2,7 @@ import Foundation
 import Sharing
 
 @Observable
-class UserSettings {
+class SettingsStore {
     
     // MARK: - Settings
     @ObservationIgnored
@@ -21,8 +21,12 @@ class UserSettings {
     @Shared(.appStorage("store_all_engagements"))
     var storeAllEngagementsHistory: Bool = false
     
+    @ObservationIgnored
+    @Shared(.appStorage("enable_voice_commands"))
+    var voiceCommands: Bool = true
+    
     
     // MARK: - Instance
-    static let shared = UserSettings()
+    static let shared = SettingsStore()
     private init() {}
 }

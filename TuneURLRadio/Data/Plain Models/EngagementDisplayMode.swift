@@ -6,8 +6,8 @@ enum EngagementDisplayMode: String, CaseIterable, Hashable, Sendable {
     
     var displayName: LocalizedStringKey {
         switch self {
-        case .modal: "Modal"
-        case .notification: "Notification"
+            case .modal: "Modal"
+            case .notification: "Notification"
         }
     }
 }

@@ -97,7 +97,7 @@ struct TabBarView: View {
                     case .stations:
                         StationsScreen()
                     case .saved:
-                        EngagementsScreen()
+                        SavedEngagementsScreen()
                     case .turls:
                         EngagementHistoryScreen()
                     case .settings:
@@ -167,5 +167,6 @@ struct TabBarView: View {
             .foregroundStyle(stateManager.isListening ? Color.accentColor : .secondary)
             .environment(\.symbolVariants, stateManager.isListening ? .fill : .none)
             .padding(16)
+            .contentShape(Rectangle())
     }
 }

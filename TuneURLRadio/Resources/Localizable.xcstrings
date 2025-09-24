@@ -1,6 +1,21 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "👍Yes" : {
+
+    },
+    "👍Yes, Call" : {
+
+    },
+    "👍Yes, Save" : {
+
+    },
+    "👍Yes, Write" : {
+
+    },
+    "👎No" : {
+
+    },
     "0%" : {
 
     },
@@ -22,7 +37,7 @@
     "90%" : {
 
     },
-    "Call to: %@" : {
+    "Are you interested?" : {
 
     },
     "Cancel" : {
@@ -31,22 +46,22 @@
     "Clear" : {
 
     },
-    "Complete Survey" : {
-
-    },
-    "Coupon" : {
+    "Close" : {
 
     },
     "Delete" : {
 
     },
+    "Delete Coupon" : {
+
+    },
     "Enable Notifications" : {
 
     },
-    "Engagement" : {
+    "Explore Our Socials" : {
 
     },
-    "Explore Our Socials" : {
+    "Failder to load content." : {
 
     },
     "General" : {
@@ -64,9 +79,6 @@
     "Looks like you don't have any Turls yet." : {
 
     },
-    "Message" : {
-
-    },
     "Modal" : {
 
     },
@@ -74,6 +86,12 @@
 
     },
     "No Saved Turls" : {
+
+    },
+    "No👎" : {
+
+    },
+    "No👎 - %lld%%" : {
 
     },
     "None" : {
@@ -88,10 +106,10 @@
     "Open Settings" : {
 
     },
-    "OTA Match Threshold" : {
+    "Over the Air Match Threshold" : {
 
     },
-    "OTA Match Threshold: **%lld%%**" : {
+    "Over the Air Match Threshold: **%lld%%**" : {
 
     },
     "Parsing" : {
@@ -100,19 +118,22 @@
     "Parsing Settings" : {
 
     },
-    "Phone Call" : {
+    "Phone Number" : {
 
     },
     "Privacy Policy" : {
+
+    },
+    "Save" : {
+
+    },
+    "Save Coupon" : {
 
     },
     "Saved Turls" : {
 
     },
     "Select station to play" : {
-
-    },
-    "Send a message to: %@" : {
 
     },
     "Settings" : {
@@ -122,6 +143,9 @@
 
     },
     "Show \"Turls\" as" : {
+
+    },
+    "Skip" : {
 
     },
     "Sleep" : {
@@ -161,10 +185,16 @@
         }
       }
     },
-    "Web Page" : {
+    "Voice Commands" : {
 
     },
     "Website" : {
+
+    },
+    "Yes👍" : {
+
+    },
+    "Yes👍 - %lld%%" : {
 
     },
     "You haven't saved any URLs yet." : {
