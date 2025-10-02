@@ -44,6 +44,7 @@ struct EngagementListCard: View {
                 }
                 .font(.headline)
                 .lineLimit(2)
+                .frame(maxWidth: .infinity, alignment: .leading)
                 
                 if let station = stationsStore.stations.first(where: { $0.id == stationId }) {
                     SourceInfo(station)
