@@ -17,14 +17,18 @@ class ReportingManager {
     private let client: API
     private var sendingChunk: [ReportModel]?
     
-    private init() {
-        let baseURL = URL(string: "https://65neejq3c9.execute-api.us-east-2.amazonaws.com")!
-        
-        let encoder = JSONEncoder()
+    private let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         let timeZone = TimeZone(identifier: "UTC")
         dateFormatter.dateFormat = "YYYY-MM-dd'T'HHmm"
         dateFormatter.timeZone = timeZone
+        return dateFormatter
+    }()
+    
+    private init() {
+        let baseURL = URL(string: "https://65neejq3c9.execute-api.us-east-2.amazonaws.com")!
+        
+        let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .formatted(dateFormatter)
         
         client = API(
@@ -47,10 +51,10 @@ class ReportingManager {
     }
     
     func report(_ action: ReportAction) {
-        log.write("Reporting action: \(action.actionValue) for matchId: \(action.matchId?.description ?? "nil")", level: .info)
+        log.write("Reporting action: \(action.actionValue) for matchId: \(action.matchId.description)", level: .info)
         
         let model = ReportModel(
-            userId: userId,
+            userId: userId.replacingOccurrences(of: "-", with: ""),
             date: action.heardDate,
             matchId: action.matchId,
             action: action.actionValue
@@ -63,6 +67,11 @@ class ReportingManager {
         sendReportsIfNeeded()
     }
     
+    func sendPendingReports() {
+        sendReportsIfNeeded(skipLimit: true)
+    }
+    
+    // MARK: - Private funcs
     @objc private func applicationNotifications(_ notification: Notification) {
         sendReportsIfNeeded(skipLimit: true)
     }
@@ -79,13 +88,36 @@ class ReportingManager {
             
             Task {
                 do {
-                    try await client.post("/interests", params: reportsToSend)
+                    var data = "[\n"
+                    for report in reportsToSend { 
+                        data += """
+{
+"UserID": "\(report.userId.replacingOccurrences(of: "-", with: ""))",
+"Date": "\(dateFormatter.string(from: report.date))",
+"TuneURL_ID": "\(report.matchId)",
+"Interest_action": "\(report.action.lowercased())"
+}
+"""
+                        
+                        if report.id != reportsToSend.last?.id {
+                            data += ",\n"
+                        }
+                    }
+                    data += "\n]\n"
+ 
+                    try await client.post("/interests", params: data, headers: ["Content-Type": "text/plain"])
                     let idsToRemove = Set(reportsToSend.map { $0.id })
                     $reportingCache.withLock {
                         $0.removeAll { idsToRemove.contains($0.id) }
                     }
                     log.write("Successfully sent \(reportsToSend.count) reports", level: .info)
                 } catch {
+                    if error.localizedDescription.contains("Duplicate entry") {
+                        let idsToRemove = Set(reportsToSend.map { $0.id })
+                        $reportingCache.withLock {
+                            $0.removeAll { idsToRemove.contains($0.id) }
+                        }
+                    }
                     log.write("Failed to send reports: \(error)", level: .error)
                 }
             }
@@ -97,7 +129,7 @@ fileprivate struct ReportModel: Codable {
     let id: UUID = UUID()
     let userId: String
     let date: Date
-    let matchId: Int?
+    let matchId: Int
     let action: String
     
     enum CodingKeys: String, CodingKey {
@@ -112,14 +144,14 @@ fileprivate extension ReportAction {
     
      var actionValue: String {
         switch self {
-            case .heard: "Heard"
-            case .interested: "Interested"
-            case .acted: "Acted"
-            case .shared: "Shared"
+            case .heard: "heard"
+            case .interested: "interested"
+            case .acted: "acted"
+            case .shared: "shared"
         }
     }
     
-    var matchId: Int? {
+    var matchId: Int {
         switch self {
             case .heard(let model): model.id
             case .interested(let model): model.id

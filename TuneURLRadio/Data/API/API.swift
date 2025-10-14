@@ -82,6 +82,19 @@ class API {
         _ = try await rawDataRequest(request)
     }
     
+    func post(
+        _ path: String,
+        params: String,
+        headers: [String: String] = [:]
+    ) async throws {
+        var request = URLRequest(url: baseURL.appendingPathComponent(path))
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        headers.forEach { request.setValue($0.value, forHTTPHeaderField: $0.key) }
+        request.httpBody = params.data(using: .utf8)
+        _ = try await rawDataRequest(request)
+    }
+    
     // MARK: - Internal request helpers
     private func dataRequest<T: Decodable>(_ request: URLRequest) async throws -> T {
         let (data, _) = try await rawDataRequest(request)

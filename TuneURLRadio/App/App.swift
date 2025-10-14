@@ -24,6 +24,9 @@ struct TuneURLRadioApp: App {
                 ) { _ in
                     UIApplication.shared.endReceivingRemoteControlEvents()
                 }
+                .onAppear {
+                    ReportingManager.shared.sendPendingReports()
+                }
         }
     }
 }
