@@ -23,13 +23,20 @@
       },
       {
         "kind": "Import",
-        "name": "AVFoundation",
-        "printedName": "AVFoundation",
+        "name": "Foundation",
+        "printedName": "Foundation",
         "declKind": "Import",
         "moduleName": "TuneURL",
         "declAttributes": [
           "RawDocComment"
         ]
+      },
+      {
+        "kind": "Import",
+        "name": "AVFoundation",
+        "printedName": "AVFoundation",
+        "declKind": "Import",
+        "moduleName": "TuneURL"
       },
       {
         "kind": "Import",
@@ -46,17 +53,17 @@
         "name": "Foundation",
         "printedName": "Foundation",
         "declKind": "Import",
-        "moduleName": "TuneURL"
+        "moduleName": "TuneURL",
+        "declAttributes": [
+          "RawDocComment"
+        ]
       },
       {
         "kind": "Import",
         "name": "AVFoundation",
         "printedName": "AVFoundation",
         "declKind": "Import",
-        "moduleName": "TuneURL",
-        "declAttributes": [
-          "RawDocComment"
-        ]
+        "moduleName": "TuneURL"
       },
       {
         "kind": "Import",
@@ -73,17 +80,17 @@
         "name": "Foundation",
         "printedName": "Foundation",
         "declKind": "Import",
-        "moduleName": "TuneURL"
+        "moduleName": "TuneURL",
+        "declAttributes": [
+          "RawDocComment"
+        ]
       },
       {
         "kind": "Import",
         "name": "AudioToolbox",
         "printedName": "AudioToolbox",
         "declKind": "Import",
-        "moduleName": "TuneURL",
-        "declAttributes": [
-          "RawDocComment"
-        ]
+        "moduleName": "TuneURL"
       },
       {
         "kind": "Import",
@@ -107,7 +114,10 @@
         "name": "Foundation",
         "printedName": "Foundation",
         "declKind": "Import",
-        "moduleName": "TuneURL"
+        "moduleName": "TuneURL",
+        "declAttributes": [
+          "RawDocComment"
+        ]
       },
       {
         "kind": "Import",
@@ -124,10 +134,7 @@
         "name": "AVFoundation",
         "printedName": "AVFoundation",
         "declKind": "Import",
-        "moduleName": "TuneURL",
-        "declAttributes": [
-          "RawDocComment"
-        ]
+        "moduleName": "TuneURL"
       },
       {
         "kind": "Import",
@@ -138,13 +145,6 @@
         "declAttributes": [
           "ImplementationOnly"
         ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "TuneURL"
       },
       {
         "kind": "TypeDecl",
@@ -231,35 +231,6 @@
             "declAttributes": [
               "Final",
               "AccessControl"
-            ],
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "privateSetTrigger",
-            "printedName": "privateSetTrigger(_:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "URL",
-                "printedName": "Foundation.URL",
-                "usr": "s:10Foundation3URLV"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:7TuneURL8DetectorC17privateSetTriggeryy10Foundation0B0VFZ",
-            "mangledName": "$s7TuneURL8DetectorC17privateSetTriggeryy10Foundation0B0VFZ",
-            "moduleName": "TuneURL",
-            "static": true,
-            "declAttributes": [
-              "Final",
-              "AccessControl",
-              "RawDocComment"
             ],
             "funcSelfKind": "NonMutating"
           }
@@ -613,6 +584,284 @@
           "AccessControl"
         ],
         "hasMissingDesignatedInitializers": true,
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "TuneURL",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "AVFoundation",
+        "printedName": "AVFoundation",
+        "declKind": "Import",
+        "moduleName": "TuneURL"
+      },
+      {
+        "kind": "Import",
+        "name": "Fingerprint_Private",
+        "printedName": "Fingerprint_Private",
+        "declKind": "Import",
+        "moduleName": "TuneURL",
+        "declAttributes": [
+          "ImplementationOnly"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "StreamDetector",
+        "printedName": "StreamDetector",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "matchCallback",
+            "printedName": "matchCallback",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "((TuneURL.Match) -> ())?",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(TuneURL.Match) -> ()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Match",
+                        "printedName": "TuneURL.Match",
+                        "usr": "s:7TuneURL5MatchC"
+                      }
+                    ]
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:7TuneURL14StreamDetectorC13matchCallbackyAA5MatchCcSgvp",
+            "mangledName": "$s7TuneURL14StreamDetectorC13matchCallbackyAA5MatchCcSgvp",
+            "moduleName": "TuneURL",
+            "declAttributes": [
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "((TuneURL.Match) -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "(TuneURL.Match) -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Match",
+                            "printedName": "TuneURL.Match",
+                            "usr": "s:7TuneURL5MatchC"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:7TuneURL14StreamDetectorC13matchCallbackyAA5MatchCcSgvg",
+                "mangledName": "$s7TuneURL14StreamDetectorC13matchCallbackyAA5MatchCcSgvg",
+                "moduleName": "TuneURL",
+                "implicit": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "((TuneURL.Match) -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "(TuneURL.Match) -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Match",
+                            "printedName": "TuneURL.Match",
+                            "usr": "s:7TuneURL5MatchC"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:7TuneURL14StreamDetectorC13matchCallbackyAA5MatchCcSgvs",
+                "mangledName": "$s7TuneURL14StreamDetectorC13matchCallbackyAA5MatchCcSgvs",
+                "moduleName": "TuneURL",
+                "implicit": true,
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:7TuneURL14StreamDetectorC13matchCallbackyAA5MatchCcSgvM",
+                "mangledName": "$s7TuneURL14StreamDetectorC13matchCallbackyAA5MatchCcSgvM",
+                "moduleName": "TuneURL",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "StreamDetector",
+                "printedName": "TuneURL.StreamDetector",
+                "usr": "s:7TuneURL14StreamDetectorC"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "URL",
+                "printedName": "Foundation.URL",
+                "usr": "s:10Foundation3URLV"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:7TuneURL14StreamDetectorCyAC10Foundation0B0Vcfc",
+            "mangledName": "$s7TuneURL14StreamDetectorCyAC10Foundation0B0Vcfc",
+            "moduleName": "TuneURL",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "append",
+            "printedName": "append(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "AVAudioPCMBuffer",
+                "printedName": "AVFAudio.AVAudioPCMBuffer",
+                "usr": "c:objc(cs)AVAudioPCMBuffer"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:7TuneURL14StreamDetectorC6appendyySo16AVAudioPCMBufferCF",
+            "mangledName": "$s7TuneURL14StreamDetectorC6appendyySo16AVAudioPCMBufferCF",
+            "moduleName": "TuneURL",
+            "declAttributes": [
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "reset",
+            "printedName": "reset()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:7TuneURL14StreamDetectorC5resetyyF",
+            "mangledName": "$s7TuneURL14StreamDetectorC5resetyyF",
+            "moduleName": "TuneURL",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "s:7TuneURL14StreamDetectorC",
+        "mangledName": "$s7TuneURL14StreamDetectorC",
+        "moduleName": "TuneURL",
+        "declAttributes": [
+          "AccessControl"
+        ],
         "conformances": [
           {
             "kind": "Conformance",
@@ -1005,8 +1254,7 @@
             "moduleName": "TuneURL",
             "declAttributes": [
               "Required",
-              "AccessControl",
-              "RawDocComment"
+              "AccessControl"
             ],
             "throwing": true,
             "init_kind": "Designated"
@@ -1100,21 +1348,23 @@
       },
       {
         "kind": "Import",
-        "name": "Fingerprint_Private",
-        "printedName": "Fingerprint_Private",
+        "name": "Foundation",
+        "printedName": "Foundation",
         "declKind": "Import",
         "moduleName": "TuneURL",
         "declAttributes": [
-          "ImplementationOnly",
           "RawDocComment"
         ]
       },
       {
         "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
+        "name": "Fingerprint_Private",
+        "printedName": "Fingerprint_Private",
         "declKind": "Import",
-        "moduleName": "TuneURL"
+        "moduleName": "TuneURL",
+        "declAttributes": [
+          "ImplementationOnly"
+        ]
       }
     ],
     "json_format_version": 8
@@ -1123,154 +1373,154 @@
     {
       "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/AudioBuffer.swift",
       "kind": "IntegerLiteral",
-      "offset": 438,
+      "offset": 436,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/AudioBuffer.swift",
       "kind": "IntegerLiteral",
-      "offset": 479,
+      "offset": 477,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/AudioBuffer.swift",
       "kind": "IntegerLiteral",
-      "offset": 516,
+      "offset": 514,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/AudioBuffer.swift",
       "kind": "IntegerLiteral",
-      "offset": 601,
+      "offset": 599,
       "length": 1,
       "value": "2"
     },
     {
       "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/AudioBuffer.swift",
       "kind": "IntegerLiteral",
-      "offset": 702,
+      "offset": 700,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/AudioCapture.swift",
       "kind": "FloatLiteral",
-      "offset": 737,
+      "offset": 736,
       "length": 3,
       "value": "4.0"
     },
     {
       "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/AudioCapture.swift",
       "kind": "BooleanLiteral",
-      "offset": 776,
+      "offset": 775,
       "length": 5,
       "value": "false"
-    },
-    {
-      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/AudioCapture.swift",
-      "kind": "BooleanLiteral",
-      "offset": 4781,
-      "length": 4,
-      "value": "true"
-    },
-    {
-      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/AudioCapture.swift",
-      "kind": "BooleanLiteral",
-      "offset": 4961,
-      "length": 5,
-      "value": "false"
-    },
-    {
-      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/AudioCapture.swift",
-      "kind": "IntegerLiteral",
-      "offset": 5094,
-      "length": 1,
-      "value": "0"
     },
     {
       "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/AudioMatcher.swift",
       "kind": "BooleanLiteral",
-      "offset": 522,
+      "offset": 572,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/Detector.swift",
       "kind": "StringLiteral",
-      "offset": 761,
+      "offset": 804,
       "length": 18,
       "value": "\"TuneURL Detector\""
     },
     {
       "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/Detector.swift",
       "kind": "FloatLiteral",
-      "offset": 900,
+      "offset": 943,
+      "length": 3,
+      "value": "4.0"
+    },
+    {
+      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/StreamDetector.swift",
+      "kind": "StringLiteral",
+      "offset": 389,
+      "length": 49,
+      "value": "\"com.TuneURL.StreamDetector-\""
+    },
+    {
+      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/StreamDetector.swift",
+      "kind": "StringLiteral",
+      "offset": 437,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/StreamDetector.swift",
+      "kind": "FloatLiteral",
+      "offset": 551,
       "length": 3,
       "value": "4.0"
     },
     {
       "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/Match.swift",
       "kind": "StringLiteral",
-      "offset": 480,
+      "offset": 822,
       "length": 13,
       "value": "\"description\""
     },
     {
       "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/Match.swift",
       "kind": "StringLiteral",
-      "offset": 506,
+      "offset": 854,
       "length": 4,
       "value": "\"id\""
     },
     {
       "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/Match.swift",
       "kind": "StringLiteral",
-      "offset": 525,
+      "offset": 879,
       "length": 6,
       "value": "\"info\""
     },
     {
       "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/Match.swift",
       "kind": "StringLiteral",
-      "offset": 557,
+      "offset": 917,
       "length": 17,
       "value": "\"matchPercentage\""
     },
     {
       "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/Match.swift",
       "kind": "StringLiteral",
-      "offset": 589,
+      "offset": 955,
       "length": 6,
       "value": "\"name\""
     },
     {
       "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/Match.swift",
       "kind": "StringLiteral",
-      "offset": 610,
+      "offset": 982,
       "length": 6,
       "value": "\"time\""
     },
     {
       "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/Match.swift",
       "kind": "StringLiteral",
-      "offset": 631,
+      "offset": 1009,
       "length": 6,
       "value": "\"type\""
     },
     {
       "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/Server.swift",
       "kind": "StringLiteral",
-      "offset": 357,
+      "offset": 418,
       "length": 48,
       "value": "\"pnz3vadc52.execute-api.us-east-2.amazonaws.com\""
     },
     {
       "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/Server.swift",
       "kind": "StringLiteral",
-      "offset": 437,
+      "offset": 501,
       "length": 25,
       "value": "\"\/dev\/search-fingerprint\""
     }

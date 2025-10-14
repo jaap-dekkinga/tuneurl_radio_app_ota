@@ -117,20 +117,12 @@ class API {
         } catch let decoding as DecodingError {
             // This catch will be used by dataRequest when decoding T fails; raw request shouldn't decode T
             throw APIError.decoding(decoding)
+        } catch let error as APIError {
+            throw error
         } catch {
             throw APIError.unknown
         }
     }
-//    
-//    func userMessage(for error: Error) -> String {
-//        if let apiError = error as? APIError {
-//            return apiError.errorDescription ?? "Something went wrong. Please try again."
-//        }
-//        if let urlError = error as? URLError {
-//            return APIError.transport(urlError).errorDescription ?? "A network error occurred."
-//        }
-//        return "Something went wrong. Please try again."
-//    }
 }
 
 private struct APIErrorBody: Decodable {

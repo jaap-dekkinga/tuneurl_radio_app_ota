@@ -52,7 +52,7 @@ class ReportingManager {
         let model = ReportModel(
             userId: userId,
             date: action.heardDate,
-            matchId: action.matchId?.description,
+            matchId: action.matchId,
             action: action.actionValue
         )
         
@@ -97,7 +97,7 @@ fileprivate struct ReportModel: Codable {
     let id: UUID = UUID()
     let userId: String
     let date: Date
-    let matchId: String?
+    let matchId: Int?
     let action: String
     
     enum CodingKeys: String, CodingKey {

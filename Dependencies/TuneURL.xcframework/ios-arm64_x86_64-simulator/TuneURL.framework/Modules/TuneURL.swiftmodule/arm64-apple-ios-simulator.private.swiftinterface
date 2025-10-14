@@ -1,7 +1,7 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 6.1.2 effective-5.10 (swiftlang-6.1.2.1.2 clang-1700.0.13.5)
-// swift-module-flags: -target arm64-apple-ios12.2-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name TuneURL
-// swift-module-flags-ignorable: -no-verify-emitted-module-interface -interface-compiler-version 6.1.2
+// swift-compiler-version: Apple Swift version 6.2 effective-5.10 (swiftlang-6.2.0.19.9 clang-1700.3.19.1)
+// swift-module-flags: -target arm64-apple-ios15.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name TuneURL
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2
 import AVFoundation
 import AudioToolbox
 import Foundation
@@ -14,7 +14,6 @@ import _SwiftConcurrencyShims
   public typealias CompletionHandler = ([TuneURL.Match]) -> Swift.Void
   public static func setTrigger(_ audioFileURL: Foundation.URL)
   public static func processAudio(for audioFileURL: Foundation.URL, completionHandler: @escaping TuneURL.Detector.CompletionHandler)
-  public static func privateSetTrigger(_ audioFileURL: Foundation.URL)
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class Listener {
@@ -23,14 +22,23 @@ import _SwiftConcurrencyShims
   public static var isListening: Swift.Bool {
     get
   }
+  #if compiler(>=5.3) && $NonescapableTypes
   public static var audioBufferDelegate: TuneURL.Listener.AudioBufferHandler? {
     get
     set
   }
+  #endif
   public static func setTrigger(_ audioFileURL: Foundation.URL)
   public static func startListening(matchHandler: @escaping (TuneURL.Match) -> Swift.Void)
   public static func stopListening()
   @objc deinit
+}
+public class StreamDetector {
+  public var matchCallback: ((TuneURL.Match) -> Swift.Void)?
+  public init(_ triggerURL: Foundation.URL)
+  @objc deinit
+  public func append(_ buffer: AVFAudio.AVAudioPCMBuffer)
+  public func reset()
 }
 @_hasMissingDesignatedInitializers public class Match : Swift.Codable {
   final public let description: Swift.String

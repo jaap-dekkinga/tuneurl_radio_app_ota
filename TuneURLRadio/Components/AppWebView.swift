@@ -16,8 +16,7 @@ struct AppWebView: UIViewRepresentable {
         return view
     }
     
-    func updateUIView(_ uiView: WKWebView, context: Context) {
-    }
+    func updateUIView(_ uiView: WKWebView, context: Context) {}
     
     class Coordinator: NSObject, WKNavigationDelegate {
         var parent: AppWebView

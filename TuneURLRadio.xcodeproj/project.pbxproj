@@ -12,6 +12,7 @@
 		8159C20B2E267CFC00F87383 /* TuneURL.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8159C2092E267CEB00F87383 /* TuneURL.xcframework */; };
 		8159C20C2E267CFC00F87383 /* TuneURL.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8159C2092E267CEB00F87383 /* TuneURL.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		819D32F02E1C3E9C00F11D7B /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 819D32EF2E1C3E9C00F11D7B /* Kingfisher */; };
+		819DB9182E9EA74E0021C7A2 /* AudioStreaming in Frameworks */ = {isa = PBXBuildFile; productRef = 819DB9172E9EA74E0021C7A2 /* AudioStreaming */; };
 		81AAF50A2E37745200EB91BC /* Pulse in Frameworks */ = {isa = PBXBuildFile; productRef = 81AAF5092E37745200EB91BC /* Pulse */; };
 		81AAF50C2E37745200EB91BC /* PulseProxy in Frameworks */ = {isa = PBXBuildFile; productRef = 81AAF50B2E37745200EB91BC /* PulseProxy */; };
 		81AAF50E2E37745200EB91BC /* PulseUI in Frameworks */ = {isa = PBXBuildFile; productRef = 81AAF50D2E37745200EB91BC /* PulseUI */; };
@@ -63,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				819DB9182E9EA74E0021C7A2 /* AudioStreaming in Frameworks */,
 				81AAF50E2E37745200EB91BC /* PulseUI in Frameworks */,
 				819D32F02E1C3E9C00F11D7B /* Kingfisher in Frameworks */,
 				81AAF50C2E37745200EB91BC /* PulseProxy in Frameworks */,
@@ -130,6 +132,7 @@
 				81AAF50D2E37745200EB91BC /* PulseUI */,
 				81AAFC092E3789AA00EB91BC /* Sharing */,
 				813F27032E814AEA00682B50 /* AsyncAlgorithms */,
+				819DB9172E9EA74E0021C7A2 /* AudioStreaming */,
 			);
 			productName = TuneURLRadio;
 			productReference = 81BADE922E19618300032246 /* TuneURLRadio.app */;
@@ -164,6 +167,7 @@
 				81AAF5082E37745200EB91BC /* XCRemoteSwiftPackageReference "Pulse" */,
 				81AAFC082E3789AA00EB91BC /* XCRemoteSwiftPackageReference "swift-sharing" */,
 				813F27022E814AEA00682B50 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
+				819DB9162E9EA74E0021C7A2 /* XCRemoteSwiftPackageReference "AudioStreaming" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 81BADE932E19618300032246 /* Products */;
@@ -429,6 +433,14 @@
 				minimumVersion = 8.4.0;
 			};
 		};
+		819DB9162E9EA74E0021C7A2 /* XCRemoteSwiftPackageReference "AudioStreaming" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dimitris-c/AudioStreaming.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.0;
+			};
+		};
 		81AAF5082E37745200EB91BC /* XCRemoteSwiftPackageReference "Pulse" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kean/Pulse";
@@ -461,6 +473,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 819D32EE2E1C3E9C00F11D7B /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		819DB9172E9EA74E0021C7A2 /* AudioStreaming */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 819DB9162E9EA74E0021C7A2 /* XCRemoteSwiftPackageReference "AudioStreaming" */;
+			productName = AudioStreaming;
 		};
 		81AAF5092E37745200EB91BC /* Pulse */ = {
 			isa = XCSwiftPackageProductDependency;
