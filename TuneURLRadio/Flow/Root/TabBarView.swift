@@ -49,8 +49,8 @@ struct TabBarView: View {
                 }
                 .ignoresSafeArea(.keyboard, edges: .all)
         } else {
-            (selection: $selectedTab) {
-                ForEach(AppTab.allCases, id: \.hashValue) { tab in
+            TabView(selection: $selectedTab) {
+                ForEach(AppTab.allCases) { tab in
                     TabContentView(tab, Self.kTabContentBottomOffset)
                         .tabItem {
                             TabLabel(for: tab)
