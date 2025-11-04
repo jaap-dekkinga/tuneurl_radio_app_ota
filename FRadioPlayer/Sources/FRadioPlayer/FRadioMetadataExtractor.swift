@@ -17,7 +17,19 @@ struct DefaultMetadataExtractor: FRadioMetadataExtractor {
     func extract(from groups: [AVTimedMetadataGroup]) -> FRadioPlayer.Metadata? {
         guard !groups.isEmpty else { return nil }
         
-        let rawValue = groups.first?.items.first?.value as? String
+        // Modern async API for iOS 16+
+        let rawValue: String?
+        if #available(iOS 16.0, *) {
+            do {
+                rawValue = try await firstItem.load(.value)
+            } catch {
+                print("Failed to load value: \(error)")
+                rawValue = nil
+            }
+        } else {
+            rawValue = firstItem.stringValue
+        }
+
         let rawValueCleaned = cleanRawMetadataIfNeeded(rawValue)
         let parts = rawValueCleaned?.components(separatedBy: " - ")
         
