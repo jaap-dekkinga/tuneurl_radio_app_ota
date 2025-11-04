@@ -49,7 +49,7 @@ struct TabBarView: View {
                 }
                 .ignoresSafeArea(.keyboard, edges: .all)
         } else {
-            TabView(selection: $selectedTab) {
+            (selection: $selectedTab) {
                 ForEach(AppTab.allCases, id: \.hashValue) { tab in
                     TabContentView(tab, Self.kTabContentBottomOffset)
                         .tabItem {
@@ -77,7 +77,7 @@ struct TabBarView: View {
     @available(iOS 18.0, *)
     @ViewBuilder
     private func iOS18TabBarView(_ safeAreaBottomPadding: CGFloat = 0) -> some View {
-        TabView(selection: $selectedTab) {
+        (selection: $selectedTab) {
             ForEach(AppTab.allCases) { tab in
                 Tab(value: tab) {
                     TabContentView(tab, safeAreaBottomPadding)
@@ -94,6 +94,8 @@ struct TabBarView: View {
         NavigationStack {
             Group {
                 switch tab {
+                    case .news:
+                        NewsTabView()
                     case .stations:
                         StationsScreen()
                     case .saved:
