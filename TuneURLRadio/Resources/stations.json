@@ -42,7 +42,7 @@
     {
         "id": 6,
         "name": "KABI",
-        "https://ice42.securenetsystems.net/KABI",
+        "streamURL": "https://ice42.securenetsystems.net/KABI",
         "imageURL": "https://cdnrf.securenetsystems.net/file_radio/stations_large/KABI/v5/logo.png",
         "shortDescription": "The General 1560am | Super Hits Commander",
         "socialURL": "https://www.ksal.com/#"
