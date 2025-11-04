@@ -48,36 +48,37 @@ struct TabBarView: View {
                     .padding(.horizontal, 12)
                 }
                 .ignoresSafeArea(.keyboard, edges: .all)
-        } else {
-            (selection: $selectedTab) {
-                ForEach(AppTab.allCases, id: \.hashValue) { tab in
-                    TabContentView(tab, Self.kTabContentBottomOffset)
-                        .tabItem {
-                            TabLabel(for: tab)
-                        }
-                        .tag(tab)
+    } else {
+                (selection: $selectedTab) {
+                    ForEach(AppTab.allCases, id: \.hashValue) { tab in
+                        TabContentView(tab, Self.kTabContentBottomOffset)
+                            .tabItem {
+                                TabLabel(for: tab)
+                            }
+                            .tag(tab)
+                    }
                 }
-            }
-            .overlay(alignment: .bottom) {
-                HStack {
-                    MiniPlayerViewWithBackground()
-                        .onTapGesture {
-                            stateManager.expandPlayer()
-                        }
-                    
-                    ListeningControl()
+                .overlay(alignment: .bottom) {
+                    HStack {
+                        MiniPlayerViewWithBackground()
+                            .onTapGesture {
+                                stateManager.expandPlayer()
+                            }
+                        
+                        ListeningControl()
+                    }
+                    .offset(y: Self.kMiniPlayerOffet)
+                    .padding(.horizontal, 12)
                 }
-                .offset(y: Self.kMiniPlayerOffet)
-                .padding(.horizontal, 12)
+                .ignoresSafeArea(.keyboard, edges: .all)
             }
-            .ignoresSafeArea(.keyboard, edges: .all)
         }
     }
     
     @available(iOS 18.0, *)
     @ViewBuilder
     private func iOS18TabBarView(_ safeAreaBottomPadding: CGFloat = 0) -> some View {
-        (selection: $selectedTab) {
+        TabView(selection: $selectedTab) {
             ForEach(AppTab.allCases) { tab in
                 Tab(value: tab) {
                     TabContentView(tab, safeAreaBottomPadding)
