@@ -176,16 +176,20 @@ open class FRadioPlayer: NSObject {
         #if !os(macOS)
         let options: AVAudioSession.CategoryOptions
 
-        // Enable bluetooth playback
         #if os(iOS)
-        options = [.allowBluetooth, .allowAirPlay]
+            #if compiler(>=6.2) // Xcode 26+ (example version)
+            options = [.allowBluetoothHFP, .allowAirPlay]
+            #else
+            options = [.allowBluetooth, .allowAirPlay]
+            #endif
         #else
         options = []
         #endif
 
-        // Start audio session
         let audioSession = AVAudioSession.sharedInstance()
-        try? audioSession.setCategory(AVAudioSession.Category.playback, mode: AVAudioSession.Mode.default, options: options)
+        try? audioSession.setCategory(.playback,
+                                    mode: .default,
+                                    options: options)
         #endif
 
         // Notifications
