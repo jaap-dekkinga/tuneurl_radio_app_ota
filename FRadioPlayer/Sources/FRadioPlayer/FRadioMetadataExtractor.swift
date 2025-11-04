@@ -9,7 +9,7 @@
 import AVFoundation
 
 public protocol FRadioMetadataExtractor {
-    func extract(from groups: [AVTimedMetadataGroup]) -> FRadioPlayer.Metadata?
+    func extract(from groups: [AVTimedMetadataGroup]) async -> FRadioPlayer.Metadata?
 }
 
 // Default implementation
