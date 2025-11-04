@@ -9,7 +9,7 @@ struct TabBarView: View {
     @Environment(StateManager.self) private var stateManager
     
     @SceneStorage("selectedTab")
-    private var selectedTab: AppTab = .stations
+    private var selectedTab: AppTab = .news
     
     let animationID: Namespace.ID
     
