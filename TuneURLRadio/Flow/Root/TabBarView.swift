@@ -77,7 +77,7 @@ struct TabBarView: View {
     @available(iOS 18.0, *)
     @ViewBuilder
     private func iOS18TabBarView(_ safeAreaBottomPadding: CGFloat = 0) -> some View {
-        (selection: $selectedTab) {
+        TabView(selection: $selectedTab) {
             ForEach(AppTab.allCases) { tab in
                 Tab(value: tab) {
                     TabContentView(tab, safeAreaBottomPadding)
