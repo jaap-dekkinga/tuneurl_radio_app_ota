@@ -1,7 +1,7 @@
 [
     {
         "id": 1,
-        "name": "TuneURL Radio",
+        "name": "TESTING: TuneURL Radio",
         "streamURL": "http://libretime.tuneurl-demo.com:8000/main",
         "imageURL": null,
         "shortDescription": "Passive listening becomes interactive, measurable engagement",
@@ -9,7 +9,7 @@
     },
     {
         "id": 2,
-        "name": "RadioJar Station",
+        "name": "TESTING: RadioJar Station",
         "streamURL": "https://n10.radiojar.com/vzv0nkgsw7uvv",
         "imageURL": null,
         "shortDescription": "Radio Jar Station",
