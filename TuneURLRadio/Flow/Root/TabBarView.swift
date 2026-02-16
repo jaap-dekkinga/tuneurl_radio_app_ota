@@ -163,7 +163,10 @@ struct TabBarView: View {
     }
     
     @ViewBuilder private func ListeningControlContent() -> some View {
-        Image(stateManager.isListening ? .customMicrophoneFillBadgeWaveform : .customMicrophoneBadgePause)
+        Image(stateManager.isListening
+              //.customMicrophoneFillBadgeWaveform: .customMicrophoneBadgePause)
+              ? "waveform.badge.magnifyingglass"
+              : "speaker.zzz.fill")
             .symbolEffect(.pulse, isActive: stateManager.isListening)
             .font(.title2)
             .foregroundStyle(stateManager.isListening ? Color.accentColor : .secondary)
