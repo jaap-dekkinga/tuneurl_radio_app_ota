@@ -11,7 +11,7 @@ extension StateManager {
         configureCommandCenter()
         configureTuneURL()
         
-        startListening()
+       // startListening()
     }
     
     private func configureRadioPlayer() {
