@@ -20,13 +20,26 @@ jobs:
       WORKSPACE: TuneURLRadio.xcworkspace
       SCHEME: TuneURLRadio
       DESTINATION: "platform=iOS Simulator,name=iPhone 15,OS=latest"
-      DEVELOPER_DIR: /Applications/Xcode_16.0.app/Contents/Developer
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Show selected Xcode
+      - name: Select Xcode 16.x
+        run: |
+          # Pick the highest-version Xcode 16.x present on the runner.
+          XCODE_PATH=$(ls -d /Applications/Xcode_16*.app 2>/dev/null | sort -V | tail -1)
+          if [ -z "$XCODE_PATH" ]; then
+            echo "::error::No Xcode 16.x found on this runner."
+            echo "Available Xcodes:"
+            ls -d /Applications/Xcode*.app || true
+            exit 1
+          fi
+          echo "Selected: $XCODE_PATH"
+          sudo xcode-select -s "$XCODE_PATH/Contents/Developer"
+          echo "DEVELOPER_DIR=$XCODE_PATH/Contents/Developer" >> "$GITHUB_ENV"
+
+      - name: Show selected toolchain
         run: |
           xcode-select -p
           xcodebuild -version
@@ -61,6 +74,7 @@ jobs:
       - name: Build for iOS Simulator
         run: |
           set -o pipefail
+          mkdir -p build
           xcodebuild build \
             -workspace "$WORKSPACE" \
             -scheme "$SCHEME" \
