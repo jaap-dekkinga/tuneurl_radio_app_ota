@@ -1,0 +1,10 @@
+- name: Find Podfile (diagnostic)
+        run: |
+          echo "Repo root contents:"
+          ls -la
+          echo ""
+          echo "Searching for Podfile anywhere in repo:"
+          find . -name "Podfile" -not -path "*/node_modules/*" -not -path "*/Pods/*" 2>/dev/null || echo "No Podfile found"
+          echo ""
+          echo "Searching for .xcworkspace:"
+          find . -name "*.xcworkspace" -not -path "*/Pods/*" 2>/dev/null || echo "No workspace found"
