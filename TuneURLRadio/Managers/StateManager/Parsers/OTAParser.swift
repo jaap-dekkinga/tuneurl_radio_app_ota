@@ -17,14 +17,14 @@ class OTAParser {
         isRunning = true
         log.write("OTA Parser started with match percentage threshold: \(settings.otaMatchThreshold)")
         Listener.startListening { [weak self] match in
+            let version = match.fingerprintVersion ?? "unknown"   // moved up
             guard
                 let self,
-                match.matchPercentage >= settings.otaMatchThreshold
+                match.matchPercentage >= self.settings.otaMatchThreshold   // self.settings
             else {
-                log.write("OTA Match ignored because of low match percentage\n\(match.prettyDescription())")
+                log.write("OTA Match ignored because of low match percentage (fingerprint: \(version))\n\(match.prettyDescription())")
                 return
             }
-            let version = match.fingerprintVersion ?? "unknown"
             log.write("OTA Match Detected (fingerprint: \(version))\n\(match.prettyDescription())")
             DispatchQueue.main.async {
                 self.onMatchDetected?(match)
