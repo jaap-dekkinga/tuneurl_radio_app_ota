@@ -33,24 +33,27 @@ class StreamParser: NSObject {
         
         streamDetector.matchCallback = {[weak self] match in
             guard let self else { return }
+            let version = match.fingerprintVersion ?? "unknown"
             if match.matchPercentage >= self.settings.streamMatchThreshold {
                 DispatchQueue.main.async {
                     if let lastMatch = self.lastMatch,
                        lastMatch.id == match.id,
                        let lastMatchTime = self.lastMatchTime,
                        abs(lastMatchTime.timeIntervalSinceNow) < 10 {
-                        log.write("Duplicate recognition:\n\tPrev Time: \(lastMatchTime)\n\tMatch: \(lastMatch.prettyDescription())\n\tCurrent Time:\(Date.now)\n\tCurrent Match: \(match.prettyDescription())\n\n")
+                        log.write("Duplicate recognition (fingerprint: \(version)):\n\tPrev Time: \(lastMatchTime)\n\tMatch: \(lastMatch.prettyDescription())\n\tCurrent Time:\(Date.now)\n\tCurrent Match: \(match.prettyDescription())\n\n")
                         #if DEBUG
                         fatalError()
                         #endif
                     }
+                    
+                    log.write("Stream Match Detected (fingerprint: \(version))\n\(match.prettyDescription())")
                     
                     self.lastMatch = match
                     self.lastMatchTime = Date.now
                     self.onMatchDetected?(match)
                 }
             } else {
-                log.write("Not found match with sufficient match percentage: \(settings.streamMatchThreshold).")
+                log.write("Not found match with sufficient match percentage: \(self.settings.streamMatchThreshold) (fingerprint: \(version)).")
             }
         }
     }
