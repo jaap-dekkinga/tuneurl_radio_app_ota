@@ -25,6 +25,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+     - name: Find Podfile and workspace (diagnostic)
+        run: |
+          echo "=== Repo root contents ==="
+          ls -la
+          echo ""
+          echo "=== Searching for Podfile ==="
+          find . -name "Podfile" -not -path "*/Pods/*" 2>/dev/null || echo "No Podfile found"
+          echo ""
+          echo "=== Searching for .xcworkspace ==="
+          find . -name "*.xcworkspace" -not -path "*/Pods/*" 2>/dev/null || echo "No workspace found"
+          echo ""
+          echo "=== Searching for Gemfile ==="
+          find . -name "Gemfile" -not -path "*/Pods/*" 2>/dev/null || echo "No Gemfile found"
+
       - name: Select Xcode 16.x
         run: |
           # Pick the highest-version Xcode 16.x present on the runner.
