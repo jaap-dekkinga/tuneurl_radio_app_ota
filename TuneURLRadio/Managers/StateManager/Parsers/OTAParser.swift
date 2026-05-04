@@ -24,7 +24,7 @@ class OTAParser {
                 log.write("OTA Match ignored because of low match percentage\n\(match.prettyDescription())")
                 return
             }
-            log.write("OTA Match Detected\n\(match.prettyDescription())")
+            log.write("OTA Match Detected (fingerprint: V2 primary, V1 fallback enabled)\n\(match.prettyDescription())")
             DispatchQueue.main.async {
                 self.onMatchDetected?(match)
             }
