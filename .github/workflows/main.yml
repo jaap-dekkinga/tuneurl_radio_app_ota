@@ -25,7 +25,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-     - name: Find Podfile and workspace (diagnostic)
+      - name: Find Podfile and workspace (diagnostic)
         run: |
           echo "=== Repo root contents ==="
           ls -la
