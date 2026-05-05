@@ -25,20 +25,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Find Podfile and workspace (diagnostic)
-        run: |
-          echo "=== Repo root contents ==="
-          ls -la
-          echo ""
-          echo "=== Searching for Podfile ==="
-          find . -name "Podfile" -not -path "*/Pods/*" 2>/dev/null || echo "No Podfile found"
-          echo ""
-          echo "=== Searching for .xcworkspace ==="
-          find . -name "*.xcworkspace" -not -path "*/Pods/*" 2>/dev/null || echo "No workspace found"
-          echo ""
-          echo "=== Searching for Gemfile ==="
-          find . -name "Gemfile" -not -path "*/Pods/*" 2>/dev/null || echo "No Gemfile found"
-
       - name: Select Xcode 16.x
         run: |
           # Pick the highest-version Xcode 16.x present on the runner.
@@ -59,29 +45,21 @@ jobs:
           xcodebuild -version
           swift --version
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.2'
-          bundler-cache: true
-          
-      - name: Cache CocoaPods
+      - name: Cache Swift Package Manager
         uses: actions/cache@v4
         with:
           path: |
-            Pods
-            ~/.cocoapods
-          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+            ~/Library/Developer/Xcode/DerivedData/**/SourcePackages
+            ~/Library/Caches/org.swift.swiftpm
+          key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved', '**/*.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
           restore-keys: |
-            ${{ runner.os }}-pods-
+            ${{ runner.os }}-spm-
 
-      - name: Install Pods
+      - name: Resolve Swift packages
         run: |
-          if [ -f Gemfile ]; then
-            bundle exec pod install --repo-update
-          else
-            pod install --repo-update
-          fi
+          xcodebuild -resolvePackageDependencies \
+            -workspace "$WORKSPACE" \
+            -scheme "$SCHEME"
 
       - name: List available simulators (debug aid)
         run: xcrun simctl list devices available | head -50
