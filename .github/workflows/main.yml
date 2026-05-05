@@ -19,7 +19,7 @@ jobs:
     env:
       WORKSPACE: TuneURLRadio.xcworkspace
       SCHEME: TuneURLRadio
-      DESTINATION: "platform=iOS Simulator,name=iPhone 15,OS=latest"
+      DESTINATION: "generic/platform=iOS Simulator"
 
     steps:
       - name: Checkout
