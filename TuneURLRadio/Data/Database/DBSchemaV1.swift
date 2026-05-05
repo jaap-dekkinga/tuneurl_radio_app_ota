@@ -31,7 +31,7 @@ enum DBSchemaV1: VersionedSchema {
             engagementInfo: String?,
             heardAt: Date,
             sourceStationId: Int?,
-            createAt: Date,
+            createAt: Date
         ) {
             self.id = id
             self.createAt = createAt
