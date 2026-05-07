@@ -1,7 +1,7 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 6.2 effective-5.10 (swiftlang-6.2.0.19.9 clang-1700.3.19.1)
-// swift-module-flags: -target x86_64-apple-ios15.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name TuneURL
-// swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2
+// swift-compiler-version: Apple Swift version 6.0 effective-5.10 (swiftlang-6.0.0.9.10 clang-1600.0.26.2)
+// swift-module-flags: -target x86_64-apple-ios15.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name TuneURL
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface
 import AVFoundation
 import AudioToolbox
 import Foundation
@@ -22,12 +22,10 @@ import _SwiftConcurrencyShims
   public static var isListening: Swift.Bool {
     get
   }
-  #if compiler(>=5.3) && $NonescapableTypes
   public static var audioBufferDelegate: TuneURL.Listener.AudioBufferHandler? {
     get
     set
   }
-  #endif
   public static func setTrigger(_ audioFileURL: Foundation.URL)
   public static func startListening(matchHandler: @escaping (TuneURL.Match) -> Swift.Void)
   public static func stopListening()
@@ -48,6 +46,7 @@ public class StreamDetector {
   final public let name: Swift.String
   final public let time: Swift.Float
   final public let type: Swift.String
+  public var fingerprintVersion: Swift.String?
   required public init(from decoder: any Swift.Decoder) throws
   public func prettyDescription() -> Swift.String
   @objc deinit
