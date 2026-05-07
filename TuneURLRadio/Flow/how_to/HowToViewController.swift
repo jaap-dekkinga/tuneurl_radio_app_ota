@@ -3,7 +3,7 @@ import UIKit
 final class HowToViewController: UIViewController {
 
     // MARK: - Layout constants (HIG-ish)
-    private enum UI {
+    fileprivate enum UI {
         static let sidePadding: CGFloat = 24
         static let sectionSpacing: CGFloat = 28
         static let smallSpacing: CGFloat = 8
