@@ -1231,6 +1231,117 @@
             ]
           },
           {
+            "kind": "Var",
+            "name": "fingerprintVersion",
+            "printedName": "fingerprintVersion",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:7TuneURL5MatchC18fingerprintVersionSSSgvp",
+            "mangledName": "$s7TuneURL5MatchC18fingerprintVersionSSSgvp",
+            "moduleName": "TuneURL",
+            "declAttributes": [
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:7TuneURL5MatchC18fingerprintVersionSSSgvg",
+                "mangledName": "$s7TuneURL5MatchC18fingerprintVersionSSSgvg",
+                "moduleName": "TuneURL",
+                "implicit": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:7TuneURL5MatchC18fingerprintVersionSSSgvs",
+                "mangledName": "$s7TuneURL5MatchC18fingerprintVersionSSSgvs",
+                "moduleName": "TuneURL",
+                "implicit": true,
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:7TuneURL5MatchC18fingerprintVersionSSSgvM",
+                "mangledName": "$s7TuneURL5MatchC18fingerprintVersionSSSgvM",
+                "moduleName": "TuneURL",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
             "kind": "Constructor",
             "name": "init",
             "printedName": "init(from:)",
@@ -1371,154 +1482,154 @@
   },
   "ConstValues": [
     {
-      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/AudioBuffer.swift",
+      "filePath": "\/Users\/runner\/work\/IOS_PoC\/IOS_PoC\/TuneURL (SDK)\/AudioBuffer.swift",
       "kind": "IntegerLiteral",
       "offset": 436,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/AudioBuffer.swift",
+      "filePath": "\/Users\/runner\/work\/IOS_PoC\/IOS_PoC\/TuneURL (SDK)\/AudioBuffer.swift",
       "kind": "IntegerLiteral",
       "offset": 477,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/AudioBuffer.swift",
+      "filePath": "\/Users\/runner\/work\/IOS_PoC\/IOS_PoC\/TuneURL (SDK)\/AudioBuffer.swift",
       "kind": "IntegerLiteral",
       "offset": 514,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/AudioBuffer.swift",
+      "filePath": "\/Users\/runner\/work\/IOS_PoC\/IOS_PoC\/TuneURL (SDK)\/AudioBuffer.swift",
       "kind": "IntegerLiteral",
       "offset": 599,
       "length": 1,
       "value": "2"
     },
     {
-      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/AudioBuffer.swift",
+      "filePath": "\/Users\/runner\/work\/IOS_PoC\/IOS_PoC\/TuneURL (SDK)\/AudioBuffer.swift",
       "kind": "IntegerLiteral",
       "offset": 700,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/AudioCapture.swift",
+      "filePath": "\/Users\/runner\/work\/IOS_PoC\/IOS_PoC\/TuneURL (SDK)\/AudioCapture.swift",
       "kind": "FloatLiteral",
       "offset": 736,
       "length": 3,
       "value": "4.0"
     },
     {
-      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/AudioCapture.swift",
+      "filePath": "\/Users\/runner\/work\/IOS_PoC\/IOS_PoC\/TuneURL (SDK)\/AudioCapture.swift",
       "kind": "BooleanLiteral",
       "offset": 775,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/AudioMatcher.swift",
+      "filePath": "\/Users\/runner\/work\/IOS_PoC\/IOS_PoC\/TuneURL (SDK)\/AudioMatcher.swift",
       "kind": "BooleanLiteral",
       "offset": 572,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/Detector.swift",
+      "filePath": "\/Users\/runner\/work\/IOS_PoC\/IOS_PoC\/TuneURL (SDK)\/Detector.swift",
       "kind": "StringLiteral",
       "offset": 804,
       "length": 18,
       "value": "\"TuneURL Detector\""
     },
     {
-      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/Detector.swift",
+      "filePath": "\/Users\/runner\/work\/IOS_PoC\/IOS_PoC\/TuneURL (SDK)\/Detector.swift",
       "kind": "FloatLiteral",
       "offset": 943,
       "length": 3,
       "value": "4.0"
     },
     {
-      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/StreamDetector.swift",
+      "filePath": "\/Users\/runner\/work\/IOS_PoC\/IOS_PoC\/TuneURL (SDK)\/StreamDetector.swift",
       "kind": "StringLiteral",
       "offset": 389,
       "length": 49,
       "value": "\"com.TuneURL.StreamDetector-\""
     },
     {
-      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/StreamDetector.swift",
+      "filePath": "\/Users\/runner\/work\/IOS_PoC\/IOS_PoC\/TuneURL (SDK)\/StreamDetector.swift",
       "kind": "StringLiteral",
       "offset": 437,
       "length": 2,
       "value": "\"\""
     },
     {
-      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/StreamDetector.swift",
+      "filePath": "\/Users\/runner\/work\/IOS_PoC\/IOS_PoC\/TuneURL (SDK)\/StreamDetector.swift",
       "kind": "FloatLiteral",
       "offset": 551,
       "length": 3,
       "value": "4.0"
     },
     {
-      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/Match.swift",
+      "filePath": "\/Users\/runner\/work\/IOS_PoC\/IOS_PoC\/TuneURL (SDK)\/Match.swift",
       "kind": "StringLiteral",
-      "offset": 822,
+      "offset": 1074,
       "length": 13,
       "value": "\"description\""
     },
     {
-      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/Match.swift",
+      "filePath": "\/Users\/runner\/work\/IOS_PoC\/IOS_PoC\/TuneURL (SDK)\/Match.swift",
       "kind": "StringLiteral",
-      "offset": 854,
+      "offset": 1106,
       "length": 4,
       "value": "\"id\""
     },
     {
-      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/Match.swift",
+      "filePath": "\/Users\/runner\/work\/IOS_PoC\/IOS_PoC\/TuneURL (SDK)\/Match.swift",
       "kind": "StringLiteral",
-      "offset": 879,
+      "offset": 1131,
       "length": 6,
       "value": "\"info\""
     },
     {
-      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/Match.swift",
+      "filePath": "\/Users\/runner\/work\/IOS_PoC\/IOS_PoC\/TuneURL (SDK)\/Match.swift",
       "kind": "StringLiteral",
-      "offset": 917,
+      "offset": 1169,
       "length": 17,
       "value": "\"matchPercentage\""
     },
     {
-      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/Match.swift",
+      "filePath": "\/Users\/runner\/work\/IOS_PoC\/IOS_PoC\/TuneURL (SDK)\/Match.swift",
       "kind": "StringLiteral",
-      "offset": 955,
+      "offset": 1207,
       "length": 6,
       "value": "\"name\""
     },
     {
-      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/Match.swift",
+      "filePath": "\/Users\/runner\/work\/IOS_PoC\/IOS_PoC\/TuneURL (SDK)\/Match.swift",
       "kind": "StringLiteral",
-      "offset": 982,
+      "offset": 1234,
       "length": 6,
       "value": "\"time\""
     },
     {
-      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/Match.swift",
+      "filePath": "\/Users\/runner\/work\/IOS_PoC\/IOS_PoC\/TuneURL (SDK)\/Match.swift",
       "kind": "StringLiteral",
-      "offset": 1009,
+      "offset": 1261,
       "length": 6,
       "value": "\"type\""
     },
     {
-      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/Server.swift",
+      "filePath": "\/Users\/runner\/work\/IOS_PoC\/IOS_PoC\/TuneURL (SDK)\/Server.swift",
       "kind": "StringLiteral",
       "offset": 418,
       "length": 48,
       "value": "\"pnz3vadc52.execute-api.us-east-2.amazonaws.com\""
     },
     {
-      "filePath": "\/Users\/alexmomalexotiuk\/Documents\/Work\/Upwork\/Radio App\/IOS_PoC\/TuneURL (SDK)\/Server.swift",
+      "filePath": "\/Users\/runner\/work\/IOS_PoC\/IOS_PoC\/TuneURL (SDK)\/Server.swift",
       "kind": "StringLiteral",
       "offset": 501,
       "length": 25,
