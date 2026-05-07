@@ -20,7 +20,9 @@ struct TabBarView: View {
                     HStack {
                         MiniPlayerView()
                             .matchedTransitionSource(id: AnimationID.playerView.rawValue, in: animationID)
+                            #if compiler(>=6.2)
                             .glassEffect(.regular.interactive())
+                            #endif
                             .onTapGesture {
                                 stateManager.expandPlayer()
                             }
@@ -142,8 +144,12 @@ struct TabBarView: View {
             stateManager.switchListening()
         } label: {
             if #available(iOS 26.0, *) {
+                #if compiler(>=6.2)
                 ListeningControlContent()
                     .glassEffect(.regular.interactive())
+                #else
+                ListeningControlContent()
+                #endif
             } else {
                 ListeningControlContent()
                     .background {
