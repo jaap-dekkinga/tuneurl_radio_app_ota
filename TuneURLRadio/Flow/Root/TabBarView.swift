@@ -169,15 +169,25 @@ struct TabBarView: View {
     }
     
     @ViewBuilder private func ListeningControlContent() -> some View {
-        Image(stateManager.isListening
-              //.customMicrophoneFillBadgeWaveform: .customMicrophoneBadgePause)
-              ? "waveform.badge.magnifyingglass"
-              : "speaker.zzz.fill")
+        listeningIcon
             .symbolEffect(.pulse, isActive: stateManager.isListening)
             .font(.title2)
             .foregroundStyle(stateManager.isListening ? Color.accentColor : .secondary)
             .environment(\.symbolVariants, stateManager.isListening ? .fill : .none)
             .padding(16)
             .contentShape(Rectangle())
+    }
+    
+    @ViewBuilder
+    private var listeningIcon: some View {
+        if #available(iOS 17.0, *) {
+            Image(systemName: stateManager.isListening
+                  ? "waveform.badge.magnifyingglass"
+                  : "speaker.zzz.fill")
+        } else {
+            Image(systemName: stateManager.isListening
+                  ? "speaker.wave.3.fill"
+                  : "speaker.slash.fill")
+        }
     }
 }
