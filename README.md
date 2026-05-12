@@ -1,6 +1,6 @@
 # tuneurl_radio_app_ota
 
-vAddInstanceForFactory: No factory registered for id <CFUUID 0x60000021de40> F8BB1C28-BAE8-11D6-9C31-00039315CD46
+AddInstanceForFactory: No factory registered for id <CFUUID 0x60000021de40> F8BB1C28-BAE8-11D6-9C31-00039315CD46
 TuneURL: privateSetTrigger called with file:///Users/po/Library/Developer/CoreSimulator/Devices/039D5B7F-A469-4672-96FD-54637AC839A3/data/Containers/Bundle/Application/1B3ADCF9-E6A2-44E0-A06D-4ED1A9CC385C/TuneURLRadio.app/trigger_sound.mp3
 TuneURL: TRIGGER VERSION = V2 (first byte 0xFF, size 804)
 privateSetTrigger called with file:///Users/po/Library/Developer/CoreSimulator/Devices/039D5B7F-A469-4672-96FD-54637AC839A3/data/Containers/Bundle/Application/1B3ADCF9-E6A2-44E0-A06D-4ED1A9CC385C/TuneURLRadio.app/trigger_sound.mp3
