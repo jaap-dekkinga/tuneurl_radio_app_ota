@@ -1,18 +1,11 @@
 # tuneurl_radio_app_ota
 
-➡️ State - Switch Playback State
+➡️ State - Switch Station to TESTING: RadioJar Station
+➡️ State - Player State Changed: loading
 ➡️ State - Play
-➡️ State - Stop Listening
-iOSSimulatorAudioDevice-16307-5: Abandoning I/O cycle because reconfig pending
-            HALPlugIn.cpp:540    HALPlugIn::StopIOProc: got an error from the plug-in routine, Error: 560227702 (!dev)
-       LoudnessManager.mm:1215  IsHardwareSupported: no plist loaded, returning false
-       LoudnessManager.mm:1215  IsHardwareSupported: no plist loaded, returning false
-       LoudnessManager.mm:1215  IsHardwareSupported: no plist loaded, returning false
-       LoudnessManager.mm:1215  IsHardwareSupported: no plist loaded, returning false
-            HALSystem.cpp:2229   AudioObjectPropertiesChanged: no such object
-OTA Parser stopped
 ➡️ State - Prepare and Activate Player Audio Session
 ➡️ State - Playback State Changed: playing
+HTTPRequest signalled err=-12939 at <>:2197
 <<<< ICY PUMP >>>> signalled err=-12640 at <>:1499
 <<<< ICY PUMP >>>> signalled err=-12640 at <>:1499
 <<<< ICY PUMP >>>> signalled err=-12640 at <>:1499
@@ -25,6 +18,7 @@ OTA Parser stopped
        LoudnessManager.mm:1215  IsHardwareSupported: no plist loaded, returning false
        LoudnessManager.mm:1215  IsHardwareSupported: no plist loaded, returning false
 metricevent_subscriber signalled err=-19772 at <>:364
+➡️ State - Player State Changed: readyToPlay
 ➡️ State - Player State Changed: loadingFinished
 TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
 TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
@@ -33,13 +27,29 @@ TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184
 TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
 TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
 TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
-TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
-TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
-TuneURL_DIAG: local v2 similarity=0.0400 score=1073741824 mostSimilarStartTime=-0.400
-TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
+TuneURL_DIAG: local v2 similarity=0.0400 score=1073741824 mostSimilarStartTime=-0.150
 TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
 TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
 TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
+TuneURL_DIAG: local v2 similarity=0.0400 score=1073741824 mostSimilarStartTime=-1.000
+TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
+TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
+TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
+TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
+TuneURL_DIAG: local v2 similarity=0.3103 score=-2147483648 mostSimilarStartTime=0.500
+nw_socket_set_connection_idle [C12.1.1.1:3] setsockopt SO_CONNECTION_IDLE failed [42: Protocol not available]
+CoreData: debug: PostSaveMaintenance: incremental_vacuum with freelist_count - 12 and pages_to_free 2
+nw_socket_set_connection_idle [C12.1.1.1:3] setsockopt SO_CONNECTION_IDLE failed [42: Protocol not available]
+Not found match with sufficient match percentage: 10 (fingerprint: V2).
+TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
+TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
+TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
+TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
+TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
+TuneURL_DIAG: local v2 similarity=0.3200 score=1073741824 mostSimilarStartTime=0.400
+nw_socket_set_connection_idle [C12.1.1.1:3] setsockopt SO_CONNECTION_IDLE failed [42: Protocol not available]
+nw_socket_set_connection_idle [C12.1.1.1:3] setsockopt SO_CONNECTION_IDLE failed [42: Protocol not available]
+Not found match with sufficient match percentage: 10 (fingerprint: V2).
 TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
 TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
 TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
@@ -55,36 +65,16 @@ TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184
 TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
 TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
 TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
-TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
-TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
-TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
-TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
-TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
-TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
-TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
-TuneURL_DIAG: local v2 similarity=0.8000 score=-1610612736 mostSimilarStartTime=-0.100
-nw_socket_set_connection_idle [C24.1.1.1:3] setsockopt SO_CONNECTION_IDLE failed [42: Protocol not available]
-nw_socket_set_connection_idle [C24.1.1.1:3] setsockopt SO_CONNECTION_IDLE failed [42: Protocol not available]
+TuneURL_DIAG: local v2 similarity=0.2222 score=536870912 mostSimilarStartTime=-0.750
+nw_socket_set_connection_idle [C12.1.1.1:3] setsockopt SO_CONNECTION_IDLE failed [42: Protocol not available]
+nw_socket_set_connection_idle [C12.1.1.1:3] setsockopt SO_CONNECTION_IDLE failed [42: Protocol not available]
 Not found match with sufficient match percentage: 10 (fingerprint: V2).
 TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
 TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
 TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
 TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
 TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
-TuneURL_DIAG: local v2 similarity=0.5517 score=1610612736 mostSimilarStartTime=-0.250
-nw_socket_set_connection_idle [C24.1.1.1:3] setsockopt SO_CONNECTION_IDLE failed [42: Protocol not available]
-nw_socket_set_connection_idle [C24.1.1.1:3] setsockopt SO_CONNECTION_IDLE failed [42: Protocol not available]
-Not found match with sufficient match percentage: 10 (fingerprint: V2).
-TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
-TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
-TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
-TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
-TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
-TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
-TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
-TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
-TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
-TuneURL_DIAG: local v2 similarity=0.0323 score=0 mostSimilarStartTime=0.450
+TuneURL_DIAG: local v2 similarity=0.0357 score=-1610612736 mostSimilarStartTime=-1.050
 TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
 TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
 TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
@@ -101,21 +91,24 @@ TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184
 TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
 TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
 TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
-TuneURL_DIAG: local v2 similarity=0.4333 score=-1073741824 mostSimilarStartTime=0.200
-nw_socket_set_connection_idle [C24.1.1.1:3] setsockopt SO_CONNECTION_IDLE failed [42: Protocol not available]
-nw_socket_set_connection_idle [C24.1.1.1:3] setsockopt SO_CONNECTION_IDLE failed [42: Protocol not available]
-Not found match with sufficient match percentage: 10 (fingerprint: V2).
 TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
-TuneURL_DIAG: local v2 similarity=0.0400 score=1073741824 mostSimilarStartTime=0.000
+TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
+TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
+TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
+TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
+TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
+TuneURL_DIAG: local v2 similarity=0.0000 score=0 mostSimilarStartTime=-107374184.000
 ➡️ State - Switch Playback State
 ➡️ State - Stop
 ➡️ State - Playback State Changed: stopped
 ➡️ State - Deactivate Player Audio Session
+<<<< ICY PUMP >>>> signalled err=-12785 at <>:1414
+<<<< ICY PUMP >>>> signalled err=-12785 at <>:1414
 ➡️ State - Start Listening
 OTA Parser started with match percentage threshold: 10
-<<<< ICY PUMP >>>> signalled err=-12785 at <>:1414
-<<<< ICY PUMP >>>> signalled err=-12785 at <>:1414
 <<<< FIM >>>> signalled err=-16042 at <>:2650
+IOSurfaceClientSetSurfaceNotify failed e00002c7
+➡️ State - Player State Changed: loading
             HALSystem.cpp:2229   AudioObjectPropertiesChanged: no such object
            AQMEIO_HAL.cpp:2914  timeout
 AudioHardware-mac-imp.cpp:2987   AudioDeviceStop: no device with given ID
@@ -131,6 +124,5 @@ AudioHardware-mac-imp.cpp:2987   AudioDeviceStop: no device with given ID
        LoudnessManager.mm:1215  IsHardwareSupported: no plist loaded, returning false
        LoudnessManager.mm:1215  IsHardwareSupported: no plist loaded, returning false
        LoudnessManager.mm:1215  IsHardwareSupported: no plist loaded, returning false
-iOSSimulatorAudioDevice-16307-7: Abandoning I/O cycle because reconfig pending
-➡️ State - Player State Changed: loading
+iOSSimulatorAudioDevice-17366-1: Abandoning I/O cycle because reconfig pending
 
