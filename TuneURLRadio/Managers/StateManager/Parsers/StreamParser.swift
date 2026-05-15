@@ -31,69 +31,53 @@ class StreamParser: NSObject {
         }
         currentPlayer.frameFiltering.add(entry: parse)
         
-        
         streamDetector.matchCallback = {[weak self] _ in
             guard let self else { return }
             
-// TEST MODE: Always return a hardcoded coupon Match when local trigger detection fires.
-            // The server response (the `match` parameter) is intentionally ignored.
-            // To restore production behavior: uncomment the block below and delete the test block.
-            let testMatchData: [String: Any] = [
-                "id": 999001,
-                "type": "coupon",
-                "name": "KSAL Pilot Coupon",
-                "description": "Test coupon — local trigger detected",
-                "info": "https://assets.zyrosite.com/Yg2OE4oyabSqG583/ksal_pilot_coupon-5TuQwblD5TseTfb1.png",
-                "matchPercentage": 100
-            ]
-            
-            let jsonData = try JSONSerialization.data(withJSONObject: testMatchData)
-            let testMatch = try JSONDecoder().decode(Match.self, from: jsonData)
-            testMatch.fingerprintVersion = "V2-TEST"
-            
-            DispatchQueue.main.async {
-                // Suppress duplicate test coupons within 10s (same dedup logic as production)
-                if let lastMatch = self.lastMatch,
-                   lastMatch.id == testMatch.id,
-                   let lastMatchTime = self.lastMatchTime,
-                   abs(lastMatchTime.timeIntervalSinceNow) < 10 {
-                    log.write("Duplicate test coupon recognition — suppressed")
-                    return
-                }
+            do {
+                // TEST MODE: Always return a hardcoded coupon Match when local trigger detection fires.
+                // The server response (the `match` parameter) is intentionally ignored.
+                // To restore production behavior: uncomment the block below and delete the test block.
+                let testMatchData: [String: Any] = [
+                    "id": 999001,
+                    "type": "coupon",
+                    "name": "KSAL Pilot Coupon",
+                    "description": "Test coupon — local trigger detected",
+                    "info": "https://assets.zyrosite.com/Yg2OE4oyabSqG583/ksal_pilot_coupon-5TuQwblD5TseTfb1.png",
+                    "matchPercentage": 100
+                ]
                 
-                log.write("Stream Match Detected (TEST COUPON)\n\(testMatch.prettyDescription())")
+                let jsonData = try JSONSerialization.data(withJSONObject: testMatchData)
+                let testMatch = try JSONDecoder().decode(Match.self, from: jsonData)
+                testMatch.fingerprintVersion = "V2-TEST"
                 
-                self.lastMatch = testMatch
-                self.lastMatchTime = Date.now
-                self.onMatchDetected?(testMatch)
-            }
-// end test code
-                                        
-            /* ORIGINAL PRODUCTION CODE — restore by uncommenting this block and deleting the test block above
-            let version = match.fingerprintVersion ?? "unknown"
-            if match.matchPercentage >= self.settings.streamMatchThreshold {
                 DispatchQueue.main.async {
-                    if let lastMatch = self.lastMatch,
-                       lastMatch.id == match.id,
-                       let lastMatchTime = self.lastMatchTime,
-                       abs(lastMatchTime.timeIntervalSinceNow) < 10 {
-                        log.write("Duplicate recognition (fingerprint: \(version)):\n\tPrev Time: \(lastMatchTime)\n\tMatch: \(lastMatch.prettyDescription())\n\tCurrent Time:\(Date.now)\n\tCurrent Match: \(match.prettyDescription())\n\n")
-                        #if DEBUG
-                        fatalError()
-                        #endif
-                    }
-                    
-                    log.write("Stream Match Detected (fingerprint: \(version))\n\(match.prettyDescription())")
-                    
-                    self.lastMatch = match
-                    self.lastMatchTime = Date.now
-                    self.onMatchDetected?(match)
+                    self.processMatch(testMatch, isTestMode: true)
                 }
-            } else {
-                log.write("Not found match with sufficient match percentage: \(self.settings.streamMatchThreshold) (fingerprint: \(version)).")
+            } catch {
+                log.write("Error creating test match: \(error.localizedDescription)")
             }
-            */
         }
+    }
+    
+    // MARK: - Private funcs
+    private func processMatch(_ match: Match, isTestMode: Bool) {
+        // Suppress duplicate matches within 10s (same dedup logic as production)
+        if let lastMatch = self.lastMatch,
+           lastMatch.id == match.id,
+           let lastMatchTime = self.lastMatchTime,
+           abs(lastMatchTime.timeIntervalSinceNow) < 10 {
+            let mode = isTestMode ? "test coupon" : "recognition"
+            log.write("Duplicate \(mode) — suppressed")
+            return
+        }
+        
+        let modeDescription = isTestMode ? "(TEST COUPON)" : "(fingerprint: \(match.fingerprintVersion ?? "unknown"))"
+        log.write("Stream Match Detected \(modeDescription)\n\(match.prettyDescription())")
+        
+        self.lastMatch = match
+        self.lastMatchTime = Date.now
+        self.onMatchDetected?(match)
     }
     
     // MARK: - Public funcs
