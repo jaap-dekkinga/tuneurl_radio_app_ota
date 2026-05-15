@@ -13,25 +13,34 @@ class StreamParser: NSObject {
     private var settings = SettingsStore.shared
     
     private let currentPlayer: AudioPlayer
-    private let streamDetector: StreamDetector
+    private let streamDetector: StreamDetector?
     
     private var lastMatch: Match?
     private var lastMatchTime: Date?
+    
+    // Dedup window for suppressing duplicate matches
+    private static let duplicateSuppressionInterval: TimeInterval = 10
     
     override init() {
         currentPlayer = AudioPlayer()
         currentPlayer.volume = 0.001
         
-        let triggerURL = Bundle.main.url(forResource: "trigger_sound", withExtension: "mp3")!
-        streamDetector = StreamDetector(triggerURL)
+        // Fail soft if the trigger sound is missing from the bundle rather than crashing at launch.
+        if let triggerURL = Bundle.main.url(forResource: "trigger_sound", withExtension: "mp3") {
+            streamDetector = StreamDetector(triggerURL)
+        } else {
+            streamDetector = nil
+            log.write("ERROR: trigger_sound.mp3 missing from bundle — stream detection disabled")
+        }
+        
         super.init()
         
-        let parse = FilterEntry(name: "detector") {[weak self] buffer, _ in
-            self?.streamDetector.append(buffer)
+        let parse = FilterEntry(name: "detector") { [weak self] buffer, _ in
+            self?.streamDetector?.append(buffer)
         }
         currentPlayer.frameFiltering.add(entry: parse)
         
-        streamDetector.matchCallback = {[weak self] _ in
+        streamDetector?.matchCallback = { [weak self] match in
             guard let self else { return }
             
             do {
@@ -48,12 +57,18 @@ class StreamParser: NSObject {
                 ]
                 
                 let jsonData = try JSONSerialization.data(withJSONObject: testMatchData)
-                let testMatch = try JSONDecoder().decode(Match.self, from: jsonData)
+                var testMatch = try JSONDecoder().decode(Match.self, from: jsonData)
                 testMatch.fingerprintVersion = "V2-TEST"
                 
-                DispatchQueue.main.async {
-                    self.processMatch(testMatch, isTestMode: true)
+                Task { @MainActor [weak self] in
+                    self?.processMatch(testMatch, isTestMode: true)
                 }
+                
+                // PRODUCTION BLOCK — restore by uncommenting this and deleting the TEST MODE block above.
+                // <#paste the original production match-handling code here#>
+                // Task { @MainActor [weak self] in
+                //     self?.processMatch(match, isTestMode: false)
+                // }
             } catch {
                 log.write("Error creating test match: \(error.localizedDescription)")
             }
@@ -61,23 +76,26 @@ class StreamParser: NSObject {
     }
     
     // MARK: - Private funcs
+    @MainActor
     private func processMatch(_ match: Match, isTestMode: Bool) {
-        // Suppress duplicate matches within 10s (same dedup logic as production)
-        if let lastMatch = self.lastMatch,
+        // Suppress duplicate matches within the dedup window.
+        if let lastMatch,
            lastMatch.id == match.id,
-           let lastMatchTime = self.lastMatchTime,
-           abs(lastMatchTime.timeIntervalSinceNow) < 10 {
+           let lastMatchTime,
+           abs(lastMatchTime.timeIntervalSinceNow) < Self.duplicateSuppressionInterval {
             let mode = isTestMode ? "test coupon" : "recognition"
             log.write("Duplicate \(mode) — suppressed")
             return
         }
         
-        let modeDescription = isTestMode ? "(TEST COUPON)" : "(fingerprint: \(match.fingerprintVersion ?? "unknown"))"
+        let modeDescription = isTestMode
+            ? "(TEST COUPON)"
+            : "(fingerprint: \(match.fingerprintVersion ?? "unknown"))"
         log.write("Stream Match Detected \(modeDescription)\n\(match.prettyDescription())")
         
-        self.lastMatch = match
-        self.lastMatchTime = Date.now
-        self.onMatchDetected?(match)
+        lastMatch = match
+        lastMatchTime = .now
+        onMatchDetected?(match)
     }
     
     // MARK: - Public funcs
@@ -88,7 +106,7 @@ class StreamParser: NSObject {
     
     func stop() {
         currentPlayer.stop(clearQueue: true)
-        streamDetector.reset()
+        streamDetector?.reset()
         
         lastMatch = nil
         lastMatchTime = nil
