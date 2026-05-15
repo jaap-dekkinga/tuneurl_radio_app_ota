@@ -38,14 +38,17 @@ class StreamParser: NSObject {
 // TEST MODE: Always return a hardcoded coupon Match when local trigger detection fires.
             // The server response (the `match` parameter) is intentionally ignored.
             // To restore production behavior: uncomment the block below and delete the test block.
-            let testMatch = Match(
-                id: 999001,
-                type: "coupon",
-                name: "KSAL Pilot Coupon",
-                description: "Test coupon — local trigger detected",
-                info: "https://assets.zyrosite.com/Yg2OE4oyabSqG583/ksal_pilot_coupon-5TuQwblD5TseTfb1.png",
-                matchPercentage: 100
-            )
+            let testMatchData: [String: Any] = [
+                "id": 999001,
+                "type": "coupon",
+                "name": "KSAL Pilot Coupon",
+                "description": "Test coupon — local trigger detected",
+                "info": "https://assets.zyrosite.com/Yg2OE4oyabSqG583/ksal_pilot_coupon-5TuQwblD5TseTfb1.png",
+                "matchPercentage": 100
+            ]
+            
+            let jsonData = try JSONSerialization.data(withJSONObject: testMatchData)
+            let testMatch = try JSONDecoder().decode(Match.self, from: jsonData)
             testMatch.fingerprintVersion = "V2-TEST"
             
             DispatchQueue.main.async {
