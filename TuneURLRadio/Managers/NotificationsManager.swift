@@ -80,10 +80,17 @@ extension NotificationsManager: UNUserNotificationCenterDelegate {
             let data = response.notification.request.content.userInfo["data"] as? Data,
             let engagement = try? JSONDecoder().decode(Engagement.self, from: data)
         else { return }
+        
+        // Tapping the notification banner is the user's "yes, I'm interested" gesture
+        // for the notification display mode. Report it once, here, and tell the offer
+        // screen not to re-report when Save/Call/Write is tapped inside the modal.
+        ReportAction.interested(engagement).report()
+        
         StateManager.shared.presentEngagement(
             engagement: engagement,
             autodismiss: false,
-            forceCloseCurrent: true
+            forceCloseCurrent: true,
+            interestedAlreadyReported: true
         )
     }
 }
