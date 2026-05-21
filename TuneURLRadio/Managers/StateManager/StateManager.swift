@@ -151,7 +151,8 @@ class StateManager {
     func presentEngagement(
         engagement: Engagement,
         autodismiss: Bool,
-        forceCloseCurrent: Bool = false
+        forceCloseCurrent: Bool = false,
+        interestedAlreadyReported: Bool = false
     ) {
         // Only one engagement can be presented at a time unless forced from notification
         guard forceCloseCurrent || sheet.isEmpty else {
@@ -160,7 +161,8 @@ class StateManager {
         
         sheet.currentEngagementOffer = .init(
             engagement: engagement,
-            autodismiss: autodismiss
+            autodismiss: autodismiss,
+            interestedAlreadyReported: interestedAlreadyReported
         )
     }
     
