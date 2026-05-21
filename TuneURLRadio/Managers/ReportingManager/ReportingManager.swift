@@ -146,6 +146,7 @@ fileprivate extension ReportAction {
         switch self {
             case .heard: "heard"
             case .interested: "interested"
+            case .uninterested: "uninterested"
             case .acted: "acted"
             case .shared: "shared"
         }
@@ -155,6 +156,7 @@ fileprivate extension ReportAction {
         switch self {
             case .heard(let model): model.id
             case .interested(let model): model.id
+            case .uninterested(let model): model.id
             case .acted(let model): model.id
             case .shared(let model): model.id
         }
@@ -164,8 +166,10 @@ fileprivate extension ReportAction {
         switch self {
             case .heard(let model): model.heardAt
             case .interested(let model): model.heardAt
+            case .uninterested(let model): model.heardAt
             case .acted(let model): model.heardAt
             case .shared(let model): model.heardAt
         }
     }
+}
 }
