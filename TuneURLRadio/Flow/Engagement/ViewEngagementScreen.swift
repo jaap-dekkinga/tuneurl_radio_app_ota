@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftData
 import Kingfisher
+import LinkPresentation
 
 private let log = Log(label: "ViewEngagementScreen")
 
