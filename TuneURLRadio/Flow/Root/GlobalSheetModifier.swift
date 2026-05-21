@@ -9,8 +9,9 @@ struct GlobalSheetModifier: ViewModifier {
         content
             .sheet(item: $store.currentEngagementOffer) { value in
                 EngagementOfferScreen(
-                    engagement: value.engagement,
-                    autodismiss: value.autodismiss
+                    engagement: offer.engagement,
+                    autodismiss: offer.autodismiss,
+                    interestedAlreadyReported: offer.interestedAlreadyReported
                 )
                 .withEnv()
                 .presentationDetents([.fraction(0.95), .large], selection: .constant(.large))
