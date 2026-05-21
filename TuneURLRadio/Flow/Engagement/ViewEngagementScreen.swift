@@ -12,15 +12,18 @@ struct ViewEngagementScreen: View {
     
     @State private var savedEngagement: SavedEngagement?
     private let engagement: Engagement
+    private let openedFromSavedList: Bool
     
     init(savedEngagement: SavedEngagement) {
         self.engagement = savedEngagement.engagement
         self.savedEngagement = savedEngagement
+        self.openedFromSavedList = true
     }
     
     init(historyEngagement: HistoryEngagement) {
         self.engagement = historyEngagement.engagement
         self.savedEngagement = nil
+        self.openedFromSavedList = false
     }
     
     var body: some View {
@@ -53,12 +56,33 @@ struct ViewEngagementScreen: View {
                         delete()
                     }
                 }
+                
+                if let shareURL = engagement.handleURL {
+                    ShareLink(item: shareURL) {
+                        Label("Share", systemImage: "square.and.arrow.up")
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 12)
+                            .background {
+                                Capsule().fill(.primary.tertiary)
+                            }
+                    }
+                    .simultaneousGesture(TapGesture().onEnded {
+                        ReportAction.shared(engagement).report()
+                    })
+                }
             }
         }
         .fontDesign(.rounded)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding()
         .background(Color(uiColor: .secondarySystemBackground).ignoresSafeArea())
+        .onAppear {
+            // Report `acted` when the user opens a saved engagement to interact with it.
+            // For history, the row tap in EngagementHistoryScreen already reports `acted`.
+            if openedFromSavedList {
+                ReportAction.acted(engagement).report()
+            }
+        }
     }
     
     private var saveButtonTitle: LocalizedStringKey {
@@ -83,28 +107,5 @@ struct ViewEngagementScreen: View {
         guard let entity = savedEngagement else { return }
         engagementsStore.delete(entity)
         savedEngagement = nil
-    }
-}
-
-#Preview {
-    @Previewable @State var show = true
-    NavigationStack {
-        Button("Show Engagement") {
-            show.toggle()
-        }
-        .sheet(isPresented: $show) {
-            ViewEngagementScreen(
-                savedEngagement: SavedEngagement(engagement: Engagement(
-                    id: 1,
-                    type: "open_page",
-                    name: "Concert Tickets",
-                    description: "Live Nations",
-                    info: "https://www.livenation.com/",//"https://m.media-amazon.com/images/I/61z8UpgGr9L.jpg",
-                    heardAt: Date.now,
-                    sourceStationId: nil
-                ))
-            )
-            .withPreviewEnv()
-        }
     }
 }
