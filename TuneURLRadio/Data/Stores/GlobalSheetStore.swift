@@ -18,6 +18,7 @@ class GlobalSheetStore {
 struct PresentedEngagementOffer: Identifiable {
     let engagement: Engagement
     let autodismiss: Bool
+    let interestedAlreadyReported: Bool
     
     var id: Int { engagement.id }
 }
