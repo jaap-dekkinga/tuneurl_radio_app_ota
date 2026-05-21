@@ -19,10 +19,12 @@ struct EngagementOfferScreen: View {
     @State private var autoDismissTask: Task<Void, Never>? = nil
     
     private let engagement: Engagement
+    private let interestedAlreadyReported: Bool
     
-    init(engagement: Engagement, autodismiss: Bool) {
+    init(engagement: Engagement, autodismiss: Bool, interestedAlreadyReported: Bool = false) {
         self.engagement = engagement
         self.savedEngagement = nil
+        self.interestedAlreadyReported = interestedAlreadyReported
         self._autodismiss = State(wrappedValue: autodismiss)
     }
     
@@ -139,7 +141,7 @@ struct EngagementOfferScreen: View {
             }
             
             EngagementActionButton("👎No", color: Color.red) {
-                dismiss()
+                declineEngagement()
             }
         }
     }
@@ -163,12 +165,24 @@ struct EngagementOfferScreen: View {
                 case .poll, .api, .unknown: dismiss()
             }
         } else if value.localizedCaseInsensitiveContains("no") {
-            dismiss()
+            declineEngagement()
         }
     }
     
-    private func save() {
+    // MARK: - Actions
+
+    private func reportInterestedIfNeeded() {
+        guard !interestedAlreadyReported else { return }
         ReportAction.interested(engagement).report()
+    }
+    
+    private func declineEngagement() {
+        ReportAction.uninterested(engagement).report()
+        dismiss()
+    }
+    
+    private func save() {
+        reportInterestedIfNeeded()
         engagementsStore.saveForLater(engagement)
         dismiss()
     }
@@ -177,7 +191,7 @@ struct EngagementOfferScreen: View {
         if let number = engagement.info,
            let callURL = URL(string: "tel://\(number)"),
            UIApplication.shared.canOpenURL(callURL) {
-            ReportAction.interested(engagement).report()
+            reportInterestedIfNeeded()
             ReportAction.acted(engagement).report()
             UIApplication.shared.open(callURL)
         }
@@ -187,7 +201,7 @@ struct EngagementOfferScreen: View {
     private func write() {
         dismiss()
         if MFMessageComposeViewController.canSendText() {
-            ReportAction.interested(engagement).report()
+            reportInterestedIfNeeded()
             ReportAction.acted(engagement).report()
             sheetStore.currentSMSComposer = engagement
         }
