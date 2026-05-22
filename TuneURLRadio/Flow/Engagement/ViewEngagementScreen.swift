@@ -12,7 +12,6 @@ struct ViewEngagementScreen: View {
     @Environment(EngagementsStore.self) private var engagementsStore
     
     @State private var savedEngagement: SavedEngagement?
-    @State private var presentedWebURL: URL?
     @State private var presentedCouponURL: URL?
     @State private var linkMetadata: LPLinkMetadata?
     @State private var showDeleteConfirmation = false
@@ -56,17 +55,13 @@ struct ViewEngagementScreen: View {
             // Primary action button
             PrimaryActionButton()
             
-            // Secondary actions: Share, Save/Delete
+            // Secondary actions: Share, Delete (if saved), Close
             SecondaryActions()
         }
         .fontDesign(.rounded)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding()
         .background(Color(uiColor: .secondarySystemBackground).ignoresSafeArea())
-        .sheet(item: $presentedWebURL) { url in
-            SafariView(url: url)
-                .ignoresSafeArea()
-        }
         .sheet(item: $presentedCouponURL) { url in
             CouponFullScreenView(url: url) {
                 presentedCouponURL = nil
@@ -182,14 +177,14 @@ struct ViewEngagementScreen: View {
                 })
             }
             
-            if savedEngagement == nil {
-                EngagementActionButton(saveButtonTitle, color: Color.green) {
-                    save()
-                }
-            } else {
-                EngagementActionButton(deleteButtonTitle, color: Color.red) {
+            if savedEngagement != nil {
+                EngagementActionButton("Delete", color: Color.red) {
                     showDeleteConfirmation = true
                 }
+            }
+            
+            EngagementActionButton("Close", color: Color.blue.opacity(0.7)) {
+                dismiss()
             }
         }
         .confirmationDialog(
@@ -201,20 +196,6 @@ struct ViewEngagementScreen: View {
                 delete()
             }
             Button("Cancel", role: .cancel) {}
-        }
-    }
-    
-    private var saveButtonTitle: LocalizedStringKey {
-        switch engagement.type {
-            case .coupon: "Save Coupon"
-            case .openPage, .savePage, .poll, .sms, .phone, .api, .unknown: "Save"
-        }
-    }
-    
-    private var deleteButtonTitle: LocalizedStringKey {
-        switch engagement.type {
-            case .coupon: "Delete Coupon"
-            case .openPage, .savePage, .poll, .sms, .phone, .api, .unknown: "Delete"
         }
     }
     
@@ -251,11 +232,7 @@ struct ViewEngagementScreen: View {
         ReportAction.acted(engagement).report()
         UIApplication.shared.open(smsURL)
     }
-
-    private func save() {
-        savedEngagement = engagementsStore.saveForLater(engagement)
-    }
-
+    
     private func delete() {
         guard let entity = savedEngagement else { return }
         engagementsStore.delete(entity)
