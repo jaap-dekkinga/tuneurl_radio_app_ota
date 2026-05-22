@@ -223,7 +223,7 @@ struct ViewEngagementScreen: View {
     private func openWebsite() {
         guard let url = engagement.handleURL else { return }
         ReportAction.acted(engagement).report()
-        presentedWebURL = url
+        UIApplication.shared.open(url)
     }
     
     private func openCoupon() {
