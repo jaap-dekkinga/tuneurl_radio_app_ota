@@ -15,6 +15,7 @@ struct ViewEngagementScreen: View {
     @State private var presentedWebURL: URL?
     @State private var presentedCouponURL: URL?
     @State private var linkMetadata: LPLinkMetadata?
+    @State private var showDeleteConfirmation = false
     
     private let engagement: Engagement
     
@@ -42,14 +43,11 @@ struct ViewEngagementScreen: View {
                 case .coupon:
                     CouponPreview()
                     
-                case .phone:
-                    PhonePreview()
-                    
-                case .sms:
+                case .phone, .sms:
                     PhonePreview()
                     
                 case .poll, .api, .unknown:
-                    Text("Failder to load content.")
+                    Text("Failed to load content.")
                         .font(.headline)
                         .foregroundStyle(.secondary)
                         .frame(maxHeight: .infinity)
@@ -58,7 +56,7 @@ struct ViewEngagementScreen: View {
             // Primary action button
             PrimaryActionButton()
             
-            // Secondary actions: Save/Delete, Share
+            // Secondary actions: Share, Save/Delete
             SecondaryActions()
         }
         .fontDesign(.rounded)
@@ -76,13 +74,18 @@ struct ViewEngagementScreen: View {
         }
     }
     
-    // MARK: - Subviews
+    // MARK: - Content previews
     
     @ViewBuilder private func PagePreview() -> some View {
         if let handleURL = engagement.handleURL {
-            URLPreview(previewURL: handleURL, linkMetadata: $linkMetadata)
-                .frame(maxHeight: 220)
-                .padding(.vertical, 8)
+            Button {
+                openWebsite()
+            } label: {
+                URLPreview(previewURL: handleURL, linkMetadata: $linkMetadata)
+                    .frame(maxHeight: 220)
+                    .padding(.vertical, 8)
+            }
+            .buttonStyle(.plain)
         } else {
             FailedLoadContentView()
         }
@@ -90,13 +93,15 @@ struct ViewEngagementScreen: View {
     
     @ViewBuilder private func CouponPreview() -> some View {
         if let handleURL = engagement.handleURL {
-            KFImage(handleURL)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-                .onTapGesture {
-                    openCoupon()
-                }
+            Button {
+                openCoupon()
+            } label: {
+                KFImage(handleURL)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+            }
+            .buttonStyle(.plain)
             Spacer(minLength: 0)
         } else {
             FailedLoadContentView()
@@ -104,16 +109,33 @@ struct ViewEngagementScreen: View {
     }
     
     @ViewBuilder private func PhonePreview() -> some View {
-        VStack {
+        VStack(spacing: 8) {
             Text("Phone Number")
-                .font(.headline)
-            Text(engagement.info ?? "")
-                .font(.headline)
+                .font(.subheadline)
                 .foregroundStyle(.secondary)
+            
+            if let number = engagement.info {
+                Button {
+                    switch engagement.type {
+                        case .phone: placeCall()
+                        case .sms: sendMessage()
+                        default: break
+                    }
+                } label: {
+                    Text(number)
+                        .font(.title2.weight(.semibold))
+                        .foregroundStyle(.tint)
+                        .underline()
+                }
+                .buttonStyle(.plain)
+            }
+            
             Spacer(minLength: 0)
         }
         .padding(.top, 16)
     }
+    
+    // MARK: - Action buttons
     
     @ViewBuilder private func PrimaryActionButton() -> some View {
         switch engagement.type {
@@ -134,10 +156,6 @@ struct ViewEngagementScreen: View {
                 
             case .sms:
                 EngagementActionButton("Send Message", color: Color.blue) {
-                    // SMS composing is on EngagementOfferScreen via GlobalSheetStore.
-                    // For a saved SMS engagement, we open the phone dialer's
-                    // message composer via tel: alternative is not available;
-                    // open the system Messages app with the number prefilled.
                     sendMessage()
                 }
                 
@@ -147,30 +165,42 @@ struct ViewEngagementScreen: View {
     }
     
     @ViewBuilder private func SecondaryActions() -> some View {
-        HStack {
+        HStack(spacing: 12) {
+            if let shareURL = engagement.handleURL {
+                ShareLink(item: shareURL) {
+                    Text("Share")
+                        .font(.title3)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.white)
+                        .padding(.vertical, 16)
+                        .frame(maxWidth: .infinity)
+                        .background(Color.gray.gradient)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                }
+                .simultaneousGesture(TapGesture().onEnded {
+                    ReportAction.shared(engagement).report()
+                })
+            }
+            
             if savedEngagement == nil {
                 EngagementActionButton(saveButtonTitle, color: Color.green) {
                     save()
                 }
             } else {
                 EngagementActionButton(deleteButtonTitle, color: Color.red) {
-                    delete()
+                    showDeleteConfirmation = true
                 }
             }
-            
-            if let shareURL = engagement.handleURL {
-                ShareLink(item: shareURL) {
-                    Label("Share", systemImage: "square.and.arrow.up")
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 12)
-                        .background {
-                            Capsule().fill(.primary.tertiary)
-                        }
-                }
-                .simultaneousGesture(TapGesture().onEnded {
-                    ReportAction.shared(engagement).report()
-                })
+        }
+        .confirmationDialog(
+            "Delete this saved item?",
+            isPresented: $showDeleteConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button("Delete", role: .destructive) {
+                delete()
             }
+            Button("Cancel", role: .cancel) {}
         }
     }
     
