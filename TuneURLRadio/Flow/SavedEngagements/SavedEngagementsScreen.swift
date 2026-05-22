@@ -5,7 +5,6 @@ import Kingfisher
 struct SavedEngagementsScreen: View {
     
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-    
     @Environment(\.modelContext) private var context
     @Environment(StationsStore.self) private var stationsStore
     @Environment(EngagementsStore.self) private var engagementsStore
@@ -21,7 +20,6 @@ struct SavedEngagementsScreen: View {
                 Section {
                     Button {
                         selected = item
-                        ReportAction.acted(item.engagement).report()
                     } label: {
                         EngagementListCard(
                             infoURL: item.engagementURL,
@@ -57,12 +55,8 @@ struct SavedEngagementsScreen: View {
         }
         .navigationTitle("Saved Turls")
         .sheet(item: $selected) { item in
-            if item.isWebEngagement, let url = item.engagementURL {
-                SafariView(url: url)
-            } else {
-                ViewEngagementScreen(savedEngagement: item)
-                    .withEnv()
-            }
+            ViewEngagementScreen(savedEngagement: item)
+                .withEnv()
         }
     }
 }
