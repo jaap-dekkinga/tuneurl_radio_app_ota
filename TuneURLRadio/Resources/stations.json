@@ -9,11 +9,11 @@
     },
     {
         "id": 2,
-        "name": "TESTING: RadioJar Station",
-        "streamURL": "https://n10.radiojar.com/vzv0nkgsw7uvv",
+        "name": "TESTING: TTNS Station",
+        "streamURL": "https://listen.thethursdaynightshow.com/live",
         "imageURL": null,
-        "shortDescription": "Radio Jar Station",
-        "socialURL": "https://www.radiojar.com/"
+        "shortDescription": "TTNS Radio Station",
+        "socialURL": "https://www.thethursdaynightshow.com/"
     },
     {
         "id": 3,
