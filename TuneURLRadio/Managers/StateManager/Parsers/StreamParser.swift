@@ -34,8 +34,11 @@ class StreamParser: NSObject {
         currentPlayer.frameFiltering.add(entry: parse)
 
         let record = FilterEntry(name: "recorder") { [weak self] buffer, _ in
-            self?.streamRecorder.append(buffer)
+            guard let self, self.settings.recordStreamAudio else { return }
+            log.write("Recording Started")
+            self.streamRecorder.append(buffer)
         }
+
         currentPlayer.frameFiltering.add(entry: record)
         
         streamDetector.matchCallback = {[weak self] match in
