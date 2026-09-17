@@ -25,6 +25,9 @@ class SettingsStore {
     @Shared(.appStorage("enable_voice_commands"))
     var voiceCommands: Bool = true
     
+    @ObservationIgnored
+    @Shared(.appStorage("record_stream_audio"))
+    var recordStreamAudio: Bool = true
     
     // MARK: - Instance
     static let shared = SettingsStore()
