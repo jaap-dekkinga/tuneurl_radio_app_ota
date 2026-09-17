@@ -35,7 +35,7 @@ class StreamParser: NSObject {
 
         let record = FilterEntry(name: "recorder") { [weak self] buffer, _ in
             guard let self, self.settings.recordStreamAudio else { return }
-            log.write("Recording Started")
+            //log.write("Recording Started")
             self.streamRecorder.append(buffer)
         }
 
