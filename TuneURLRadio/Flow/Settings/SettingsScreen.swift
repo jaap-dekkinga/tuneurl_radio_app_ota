@@ -55,9 +55,16 @@ struct SettingsScreen: View {
                 systemImage: "waveform",
                 isOn: $settings.voiceCommands
             )
+            
+            Toggle(
+                "Record Stream Audio",
+                systemImage: "waveform.badge.mic",
+                isOn: $settings.recordStreamAudio
+            )
         } header: {
             Text("General")
         }
+
     }
     
     @ViewBuilder private func ParsingSection() -> some View {
