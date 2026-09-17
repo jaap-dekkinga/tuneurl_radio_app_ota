@@ -16,8 +16,14 @@ final class StreamRecorder {
 
     init(gainCompensation: Float = 1000.0) {
         inputGainCompensation = gainCompensation
+    
+        #if targetEnvironment(simulator)
+        let documents = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Documents", isDirectory: true)
+        #else
         let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        recordingsFolderURL = documents.appendingPathComponent("StreamRecordings", isDirectory: true)
+        #endif
+    
+        recordingsFolderURL = documents.appendingPathComponent("streaming_recording", isDirectory: true)
         try? FileManager.default.createDirectory(at: recordingsFolderURL, withIntermediateDirectories: true)
     }
 
