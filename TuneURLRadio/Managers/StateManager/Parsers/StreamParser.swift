@@ -4,6 +4,7 @@ import AudioStreaming
 
 fileprivate let log = Log(label: "StreamParser")
 
+
 class StreamParser: NSObject {
     
     // MARK: - Public props
@@ -14,6 +15,7 @@ class StreamParser: NSObject {
     
     private let currentPlayer: AudioPlayer
     private let streamDetector: StreamDetector
+    private let streamRecorder = StreamRecorder()
     
     private var lastMatch: Match?
     private var lastMatchTime: Date?
@@ -30,6 +32,24 @@ class StreamParser: NSObject {
             self?.streamDetector.append(buffer)
         }
         currentPlayer.frameFiltering.add(entry: parse)
+
+        let record = FilterEntry(name: "recorder") { [weak self] buffer, _ in
+            self?.streamRecorder.append(buffer)
+        }
+        currentPlayer.frameFiltering.add(entry: record)
+        ...
+        func start(streamURL: URL, stationName: String) {
+            currentPlayer.stop(clearQueue: true)
+            streamRecorder.startNewSession(stationName: stationName)
+            currentPlayer.play(url: streamURL)
+        }
+        
+        func stop() {
+            currentPlayer.stop(clearQueue: true)
+            streamDetector.reset()
+            streamRecorder.stopSession()
+            ...
+        }
         
         streamDetector.matchCallback = {[weak self] match in
             guard let self else { return }
