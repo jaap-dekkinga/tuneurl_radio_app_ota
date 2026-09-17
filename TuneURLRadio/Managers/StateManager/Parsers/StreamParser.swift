@@ -37,19 +37,6 @@ class StreamParser: NSObject {
             self?.streamRecorder.append(buffer)
         }
         currentPlayer.frameFiltering.add(entry: record)
-        ...
-        func start(streamURL: URL, stationName: String) {
-            currentPlayer.stop(clearQueue: true)
-            streamRecorder.startNewSession(stationName: stationName)
-            currentPlayer.play(url: streamURL)
-        }
-        
-        func stop() {
-            currentPlayer.stop(clearQueue: true)
-            streamDetector.reset()
-            streamRecorder.stopSession()
-            ...
-        }
         
         streamDetector.matchCallback = {[weak self] match in
             guard let self else { return }
@@ -79,14 +66,16 @@ class StreamParser: NSObject {
     }
     
     // MARK: - Public funcs
-    func start(streamURL: URL) {
+    func start(streamURL: URL, stationName: String = "stream") {
         currentPlayer.stop(clearQueue: true)
+        streamRecorder.startNewSession(stationName: stationName)
         currentPlayer.play(url: streamURL)
     }
     
     func stop() {
         currentPlayer.stop(clearQueue: true)
         streamDetector.reset()
+        streamRecorder.stopSession()
         
         lastMatch = nil
         lastMatchTime = nil
