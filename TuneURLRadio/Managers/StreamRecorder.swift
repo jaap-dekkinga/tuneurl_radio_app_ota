@@ -17,10 +17,15 @@ final class StreamRecorder {
     init(gainCompensation: Float = 1000.0) {
         inputGainCompensation = gainCompensation
     
+        let documents: URL
         #if targetEnvironment(simulator)
-        let documents = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Documents", isDirectory: true)
+        if let simulatorHome = ProcessInfo.processInfo.environment["SIMULATOR_HOST_HOME"] {
+            documents = URL(fileURLWithPath: simulatorHome).appendingPathComponent("Documents", isDirectory: true)
+        } else {
+            documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        }
         #else
-        let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         #endif
     
         recordingsFolderURL = documents.appendingPathComponent("streaming_recording", isDirectory: true)
