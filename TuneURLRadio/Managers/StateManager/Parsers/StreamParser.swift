@@ -50,10 +50,8 @@ class StreamParser: NSObject {
                        lastMatch.id == match.id,
                        let lastMatchTime = self.lastMatchTime,
                        abs(lastMatchTime.timeIntervalSinceNow) < 10 {
-                        log.write("Duplicate recognition (fingerprint: \(version)):\n\tPrev Time: \(lastMatchTime)\n\tMatch: \(lastMatch.prettyDescription())\n\tCurrent Time:\(Date.now)\n\tCurrent Match: \(match.prettyDescription())\n\n")
-                        #if DEBUG
-                        fatalError()
-                        #endif
+                        log.write("Duplicate recognition ignored (fingerprint: \(version)):\n\tPrev Time: \(lastMatchTime)\n\tMatch: \(lastMatch.prettyDescription())\n\tCurrent Time:\(Date.now)\n\tCurrent Match: \(match.prettyDescription())\n\n")
+                        return
                     }
                     
                     log.write("Stream Match Detected (fingerprint: \(version))\n\(match.prettyDescription())")
