@@ -62,6 +62,14 @@ extension StateManager {
         guard let url = Bundle.main.url(forResource: "trigger_sound", withExtension: "mp3") else {
             return
         }
+        // SDK diagnostics (microphone trigger scores, server answers) go into the
+        // app log, so testers can read them by shaking the phone. Set before
+        // setTrigger so the "trigger loaded" line is captured too.
+        let sdkLog = Log(label: "TuneURL SDK")
+        Listener.diagnosticHandler = { line in
+            sdkLog.write(line)
+        }
+
         Detector.setTrigger(url)
         Listener.setTrigger(url)
     }
