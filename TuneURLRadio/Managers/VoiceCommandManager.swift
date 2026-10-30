@@ -146,6 +146,12 @@ class VoiceCommandManager {
     }
     
     private func stopRecordingSpeech() {
+        // Only undo what startRecordingSpeech() did. When the app is listening
+        // over the air, speech uses the SDK's microphone buffers and this
+        // manager never changed the session. Switching it to .playback here
+        // would cut off the SDK's microphone after every TuneURL offer.
+        guard recordingAudioEngine != nil else { return }
+
         recordingAudioEngine?.stop()
         recordingAudioEngine?.inputNode.removeTap(onBus: 0)
         recordingAudioEngine = nil
