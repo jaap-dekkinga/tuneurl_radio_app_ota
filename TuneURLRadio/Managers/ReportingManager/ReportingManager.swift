@@ -20,7 +20,8 @@ class ReportingManager {
     private let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         let timeZone = TimeZone(identifier: "UTC")
-        dateFormatter.dateFormat = "YYYY-MM-dd'T'HHmm"
+        // "yyyy" is the calendar year. "YYYY" is the week-based year, which is wrong in the last days of December.
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HHmm"
         dateFormatter.timeZone = timeZone
         return dateFormatter
     }()
@@ -78,6 +79,8 @@ class ReportingManager {
     
     private func sendReportsIfNeeded(skipLimit: Bool = false) {
         guard sendingChunk == nil else { return }
+        // Nothing to send: the server rejects an empty list with HTTP 400.
+        guard !reportingCache.isEmpty else { return }
     
         if reportingCache.count >= 5 || skipLimit {
             log.write("Sending \(reportingCache.count) reports", level: .info)
@@ -172,4 +175,3 @@ fileprivate extension ReportAction {
         }
     }
 }
-
