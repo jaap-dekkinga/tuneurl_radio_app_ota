@@ -61,11 +61,56 @@ class ReportingManager {
             action: action.actionValue
         )
         
-        $reportingCache.withLock {
-            $0.append(model)
-        }
+        // TEMPORARY (2026-11-12): send each event right away instead of batching.
+        // The batched flow below waited for 5 events or for background / terminate,
+        // so reports were often late or lost when the app was killed.
+        // The cache is now only a fallback for sends that fail (flushed by
+        // sendPendingReports() at app start and on background / terminate).
+        //
+        // $reportingCache.withLock {
+        //     $0.append(model)
+        // }
+        //
+        // sendReportsIfNeeded()
+        sendNow(model)
+    }
 
-        sendReportsIfNeeded()
+    /// Sends one event immediately. On failure the event goes into the cache for a later retry.
+    private func sendNow(_ model: ReportModel) {
+        Task {
+            do {
+                try await client.post("/interests", params: makeBody([model]), headers: ["Content-Type": "text/plain"])
+                log.write("Successfully sent report: \(model.action) for matchId: \(model.matchId)", level: .info)
+            } catch {
+                if error.localizedDescription.contains("Duplicate entry") {
+                    log.write("Report already on server, dropped: \(error)", level: .info)
+                } else {
+                    $reportingCache.withLock {
+                        $0.append(model)
+                    }
+                    log.write("Failed to send report, cached for retry: \(error)", level: .error)
+                }
+            }
+        }
+    }
+
+    private func makeBody(_ reports: [ReportModel]) -> String {
+        var data = "[\n"
+        for report in reports {
+            data += """
+{
+"UserID": "\(report.userId.replacingOccurrences(of: "-", with: ""))",
+"Date": "\(dateFormatter.string(from: report.date))",
+"TuneURL_ID": "\(report.matchId)",
+"Interest_action": "\(report.action.lowercased())"
+}
+"""
+            if report.id != reports.last?.id {
+                data += ",\n"
+            }
+        }
+        data += "\n]\n"
+        return data
     }
     
     func sendPendingReports() {
@@ -91,24 +136,7 @@ class ReportingManager {
             
             Task {
                 do {
-                    var data = "[\n"
-                    for report in reportsToSend { 
-                        data += """
-{
-"UserID": "\(report.userId.replacingOccurrences(of: "-", with: ""))",
-"Date": "\(dateFormatter.string(from: report.date))",
-"TuneURL_ID": "\(report.matchId)",
-"Interest_action": "\(report.action.lowercased())"
-}
-"""
-                        
-                        if report.id != reportsToSend.last?.id {
-                            data += ",\n"
-                        }
-                    }
-                    data += "\n]\n"
- 
-                    try await client.post("/interests", params: data, headers: ["Content-Type": "text/plain"])
+                    try await client.post("/interests", params: makeBody(reportsToSend), headers: ["Content-Type": "text/plain"])
                     let idsToRemove = Set(reportsToSend.map { $0.id })
                     $reportingCache.withLock {
                         $0.removeAll { idsToRemove.contains($0.id) }
