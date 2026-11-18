@@ -9,7 +9,7 @@ struct TabBarView: View {
     @Environment(StateManager.self) private var stateManager
     
     @SceneStorage("selectedTab")
-    private var selectedTab: AppTab = .news
+    private var selectedTab: AppTab = .home
     
     let animationID: Namespace.ID
     
@@ -30,6 +30,8 @@ struct TabBarView: View {
                         ListeningControl()
                     }
                     .offset(y: Self.kMiniPlayerOffet)
+                    .opacity(showsMiniPlayer ? 1 : 0)
+                    .allowsHitTesting(showsMiniPlayer)
                     .padding(.horizontal)
                 }
                 .ignoresSafeArea(.keyboard, edges: .all)
@@ -47,6 +49,8 @@ struct TabBarView: View {
                         ListeningControl()
                     }
                     .offset(y: Self.kMiniPlayerOffet)
+                    .opacity(showsMiniPlayer ? 1 : 0)
+                    .allowsHitTesting(showsMiniPlayer)
                     .padding(.horizontal, 12)
                 }
                 .ignoresSafeArea(.keyboard, edges: .all)
@@ -70,10 +74,17 @@ struct TabBarView: View {
                     ListeningControl()
                 }
                 .offset(y: Self.kMiniPlayerOffet)
+                .opacity(showsMiniPlayer ? 1 : 0)
+                .allowsHitTesting(showsMiniPlayer)
                 .padding(.horizontal, 12)
             }
             .ignoresSafeArea(.keyboard, edges: .all)
         }
+    }
+
+    /// The Listen tab shows its own now-playing card.
+    private var showsMiniPlayer: Bool {
+        selectedTab != .listen
     }
     
     @available(iOS 18.0, *)
@@ -96,16 +107,16 @@ struct TabBarView: View {
         NavigationStack {
             Group {
                 switch tab {
-                    case .news:
-                        NewsTabView()
-                    case .stations:
-                        StationsScreen()
-                    case .saved:
-                        SavedEngagementsScreen()
+                    case .home:
+                        HomeScreen(openLocal: { selectedTab = .local })
+                    case .sports:
+                        SportsScreen()
+                    case .local:
+                        LocalScreen()
+                    case .listen:
+                        ListenScreen()
                     case .turls:
-                        EngagementHistoryScreen()
-                    case .settings:
-                        SettingsScreen()
+                        TurlsScreen()
                 }
             }
             .safeAreaPadding(.bottom, safeAreaBottomPadding)
