@@ -33,6 +33,8 @@ struct SportsScreen: View {
 
                 MyTeams()
 
+                AdSlot(placement: .sports)
+
                 switch section {
                 case .news:
                     NewsSection()

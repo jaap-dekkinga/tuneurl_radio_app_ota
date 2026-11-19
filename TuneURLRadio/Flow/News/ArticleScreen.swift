@@ -63,6 +63,10 @@ struct ArticleScreen: View {
                     .padding(.horizontal, 20)
                     .readableWidth(Self.textWidth)
 
+                AdSlot(placement: .article)
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 4)
+
                 if let station = newsStation {
                     ListenCard(station: station)
                         .padding(.horizontal, 20)

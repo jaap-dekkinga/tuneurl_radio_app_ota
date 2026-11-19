@@ -14,6 +14,8 @@ struct LocalScreen: View {
             VStack(alignment: .leading, spacing: 16) {
                 WeatherCard()
 
+                AdSlot(placement: .local)
+
                 SmallCapsHeader(title: "Community")
                 LazyVGrid(columns: columns, spacing: 8) {
                     ForEach(KSAL.communityLinks) { link in

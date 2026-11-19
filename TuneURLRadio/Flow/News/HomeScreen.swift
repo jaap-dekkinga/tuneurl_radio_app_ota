@@ -107,15 +107,33 @@ struct HomeScreen: View {
                 .padding(.horizontal)
             }
 
+            AdSlot(placement: .homeTop)
+                .padding(.horizontal)
+
             if feed.articles.count > 1 {
+                let rest = Array(feed.articles.dropFirst())
+                let firstChunk = Array(rest.prefix(5))
+                let remaining = Array(rest.dropFirst(5))
+
                 SectionHeader(title: "Latest")
                     .padding(.horizontal)
                     .padding(.top, 4)
 
-                ArticleList(articles: Array(feed.articles.dropFirst())) {
-                    Task { await feed.loadMore() }
+                ArticleList(articles: firstChunk) {
+                    if remaining.isEmpty { Task { await feed.loadMore() } }
                 }
                 .padding(.horizontal)
+
+                // In-feed sponsor after the first five stories.
+                AdSlot(placement: .homeFeed)
+                    .padding(.horizontal)
+
+                if !remaining.isEmpty {
+                    ArticleList(articles: remaining) {
+                        Task { await feed.loadMore() }
+                    }
+                    .padding(.horizontal)
+                }
             }
 
             FeedFooter(feed: feed)
