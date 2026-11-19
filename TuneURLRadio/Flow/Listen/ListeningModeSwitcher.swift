@@ -15,6 +15,9 @@ struct ListeningModeSwitcher: View {
 
     @Namespace private var thumb
 
+    /// Pill colour for Listen along while the microphone is off. White text on it passes 4.5:1.
+    private static let pausedGrey = Color(white: 0.32)
+
     enum Mode { case stream, listenAlong }
 
     private var mode: Mode {
@@ -24,8 +27,13 @@ struct ListeningModeSwitcher: View {
     var body: some View {
         VStack(spacing: 14) {
             HStack(spacing: 0) {
-                Segment(.stream, title: "Stream in app", systemImage: "play.fill")
-                Segment(.listenAlong, title: "Listen along", systemImage: "waveform.badge.magnifyingglass")
+                Segment(.stream, title: "Stream in app", systemImage: "play.fill",
+                        pill: Color.accentColor)
+                // Red with the magnifying glass while the microphone listens.
+                // Dark grey with the sleeping speaker while it does not.
+                Segment(.listenAlong, title: "Listen along",
+                        systemImage: stateManager.isListening ? "waveform.badge.magnifyingglass" : "speaker.zzz.fill",
+                        pill: stateManager.isListening ? Color.accentColor : Self.pausedGrey)
             }
             .padding(4)
             .background(Color(uiColor: .tertiarySystemFill), in: Capsule())
@@ -41,20 +49,22 @@ struct ListeningModeSwitcher: View {
         .background(Color(uiColor: .secondarySystemGroupedBackground),
                     in: RoundedRectangle(cornerRadius: 20, style: .continuous))
         .animation(.snappy(duration: 0.3), value: mode)
+        .animation(.snappy(duration: 0.3), value: stateManager.isListening)
         .sensoryFeedback(.selection, trigger: mode)
     }
 
     // MARK: - Switch
 
     @ViewBuilder
-    private func Segment(_ target: Mode, title: String, systemImage: String) -> some View {
+    private func Segment(_ target: Mode, title: String, systemImage: String, pill: Color) -> some View {
         let isActive = mode == target
         Button {
             select(target)
         } label: {
             HStack(spacing: 8) {
-                Image(systemName: systemImage)
+                    Image(systemName: systemImage)
                     .imageScale(.medium)
+                    .contentTransition(.symbolEffect(.replace))
                 Text(title)
                     .lineLimit(1)
                     .minimumScaleFactor(0.75)
@@ -65,7 +75,7 @@ struct ListeningModeSwitcher: View {
             .background {
                 if isActive {
                     Capsule()
-                        .fill(Color.accentColor)
+                        .fill(pill)
                         .shadow(color: .black.opacity(0.18), radius: 4, y: 2)
                         .matchedGeometryEffect(id: "thumb", in: thumb)
                 }
@@ -77,6 +87,11 @@ struct ListeningModeSwitcher: View {
     }
 
     private func select(_ target: Mode) {
+        // Tapping Listen along while it is paused starts the microphone again.
+        if target == .listenAlong, mode == .listenAlong {
+            if !stateManager.isListening { stateManager.startListening() }
+            return
+        }
         guard target != mode else { return }
         switch target {
         case .stream:
@@ -149,7 +164,8 @@ struct ListeningModeSwitcher: View {
                 .symbolEffect(.pulse, isActive: listening)
                 .foregroundStyle(listening ? Color.accentColor : Color.secondary)
                 .frame(width: 48, height: 48)
-                .background(Color.accentColor.opacity(0.12),
+                .contentTransition(.symbolEffect(.replace))
+                .background((listening ? Color.accentColor : Color.secondary).opacity(0.12),
                             in: RoundedRectangle(cornerRadius: 10, style: .continuous))
                 .accessibilityHidden(true)
 
