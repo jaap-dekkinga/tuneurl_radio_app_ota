@@ -6,7 +6,8 @@ struct LocalScreen: View {
     @State private var weather = WeatherStore.shared
     @State private var webPage: InAppWebPage?
 
-    private let columns = Array(repeating: GridItem(.flexible(), spacing: 8), count: 4)
+    /// Four tiles across on iPhone, more on iPad.
+    private let columns = [GridItem(.adaptive(minimum: 78), spacing: 8)]
 
     var body: some View {
         ScrollView {
@@ -41,6 +42,7 @@ struct LocalScreen: View {
             }
             .padding()
             .padding(.bottom, 12)
+            .readableWidth()
         }
         .background(Color(uiColor: .systemGroupedBackground).ignoresSafeArea())
         .refreshable { await weather.refresh() }

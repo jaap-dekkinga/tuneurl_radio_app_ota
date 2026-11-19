@@ -47,6 +47,7 @@ struct SportsScreen: View {
             }
             .padding()
             .padding(.bottom, 12)
+            .readableWidth()
         }
         .background(Color(uiColor: .systemGroupedBackground).ignoresSafeArea())
         .refreshable { await feed.reload() }

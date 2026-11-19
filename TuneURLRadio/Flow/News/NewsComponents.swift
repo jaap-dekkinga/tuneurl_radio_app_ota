@@ -7,10 +7,12 @@ import Kingfisher
 struct HeroArticleCard: View {
     let article: NewsArticle
 
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+
     var body: some View {
         ZStack(alignment: .bottomLeading) {
             ArticleImage(url: article.imageURL)
-                .frame(height: 230)
+                .frame(height: horizontalSizeClass == .regular ? 380 : 230)
                 .frame(maxWidth: .infinity)
                 .clipped()
 
@@ -115,28 +117,47 @@ struct ArticleImage: View {
     }
 }
 
-/// Rows in a white rounded card, with a separator between them.
+/// Story rows. iPhone: one rounded card with separators. iPad (regular width): a two-column grid of cards.
 struct ArticleList: View {
     let articles: [NewsArticle]
     var onLastAppear: (() -> Void)?
 
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+
+    private let cardBackground = Color(uiColor: .secondarySystemGroupedBackground)
+
     var body: some View {
-        LazyVStack(spacing: 0) {
-            ForEach(articles) { article in
-                NavigationLink(value: article) {
-                    ArticleRow(article: article)
-                }
-                .buttonStyle(.plain)
-                .onAppear {
-                    if article.id == articles.last?.id { onLastAppear?() }
-                }
-                if article.id != articles.last?.id {
-                    Divider().padding(.leading, 96)
+        if horizontalSizeClass == .regular {
+            LazyVGrid(columns: [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)], spacing: 12) {
+                ForEach(articles) { article in
+                    NavigationLink(value: article) {
+                        ArticleRow(article: article)
+                            .frame(maxHeight: .infinity, alignment: .top)
+                            .background(cardBackground, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                    }
+                    .buttonStyle(.plain)
+                    .onAppear { reportIfLast(article) }
                 }
             }
+        } else {
+            LazyVStack(spacing: 0) {
+                ForEach(articles) { article in
+                    NavigationLink(value: article) {
+                        ArticleRow(article: article)
+                    }
+                    .buttonStyle(.plain)
+                    .onAppear { reportIfLast(article) }
+                    if article.id != articles.last?.id {
+                        Divider().padding(.leading, 96)
+                    }
+                }
+            }
+            .background(cardBackground, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
         }
-        .background(Color(uiColor: .secondarySystemGroupedBackground),
-                    in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+    }
+
+    private func reportIfLast(_ article: NewsArticle) {
+        if article.id == articles.last?.id { onLastAppear?() }
     }
 }
 
@@ -260,6 +281,16 @@ struct WeatherStrip: View {
         }
         .buttonStyle(.plain)
         .task { await weather.refreshIfNeeded() }
+    }
+}
+
+// MARK: - Layout
+
+extension View {
+    /// Keeps content at a comfortable reading width on iPad; no effect on iPhone.
+    func readableWidth(_ maxWidth: CGFloat = 860) -> some View {
+        frame(maxWidth: maxWidth, alignment: .leading)
+            .frame(maxWidth: .infinity)
     }
 }
 

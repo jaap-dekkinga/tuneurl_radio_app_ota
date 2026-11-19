@@ -43,6 +43,14 @@ struct HomeScreen: View {
                 Wordmark()
             }
             ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink {
+                    SavedStoriesScreen()
+                } label: {
+                    Image(systemName: "bookmark")
+                }
+                .accessibilityLabel("Saved stories")
+            }
+            ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     showSettings = true
                 } label: {
@@ -114,6 +122,7 @@ struct HomeScreen: View {
         }
         .padding(.top, 8)
         .padding(.bottom, 24)
+        .readableWidth()
     }
 
     @ViewBuilder
@@ -130,22 +139,27 @@ struct HomeScreen: View {
             FeedFooter(feed: feed)
         }
         .padding(.vertical, 8)
+        .readableWidth()
     }
 }
 
-/// Text stand-in for the KSAL logo. Swap for the real logo asset when the station supplies it.
+/// The KSAL app icon plus "KSAL News", centred in the Home navigation bar.
 struct Wordmark: View {
     var body: some View {
-        HStack(alignment: .firstTextBaseline, spacing: 1) {
-            Text("KSAL")
-                .font(.system(size: 26, weight: .heavy).italic())
-                .foregroundStyle(Color.accentColor)
-            Text(".com")
-                .font(.system(size: 15, weight: .bold))
+        HStack(spacing: 8) {
+            Image("ksal-logo")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 30, height: 30)
+                .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
+            Text("KSAL News")
+                .font(.headline.weight(.heavy))
                 .foregroundStyle(.primary)
         }
         .fixedSize()
-        .accessibilityLabel("KSAL")
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("KSAL News")
+        .accessibilityAddTraits(.isHeader)
     }
 }
 

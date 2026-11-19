@@ -4,6 +4,10 @@ struct TabBarView: View {
     
     static let kMiniPlayerOffet = -54.0
     static let kTabContentBottomOffset = 60.0
+    /// On iPad the mini player is a centred bar instead of spanning the screen.
+    static let kMiniPlayerMaxWidth = 640.0
+
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     
     @Environment(SettingsStore.self) private var settingsStore
     @Environment(StateManager.self) private var stateManager
@@ -29,7 +33,8 @@ struct TabBarView: View {
                         
                         ListeningControl()
                     }
-                    .offset(y: Self.kMiniPlayerOffet)
+                    .frame(maxWidth: Self.kMiniPlayerMaxWidth)
+                    .offset(y: miniPlayerOffset)
                     .opacity(showsMiniPlayer ? 1 : 0)
                     .allowsHitTesting(showsMiniPlayer)
                     .padding(.horizontal)
@@ -48,7 +53,8 @@ struct TabBarView: View {
                         
                         ListeningControl()
                     }
-                    .offset(y: Self.kMiniPlayerOffet)
+                    .frame(maxWidth: Self.kMiniPlayerMaxWidth)
+                    .offset(y: miniPlayerOffset)
                     .opacity(showsMiniPlayer ? 1 : 0)
                     .allowsHitTesting(showsMiniPlayer)
                     .padding(.horizontal, 12)
@@ -73,13 +79,20 @@ struct TabBarView: View {
                     
                     ListeningControl()
                 }
-                .offset(y: Self.kMiniPlayerOffet)
+                .frame(maxWidth: Self.kMiniPlayerMaxWidth)
+                .offset(y: miniPlayerOffset)
                 .opacity(showsMiniPlayer ? 1 : 0)
                 .allowsHitTesting(showsMiniPlayer)
                 .padding(.horizontal, 12)
             }
             .ignoresSafeArea(.keyboard, edges: .all)
         }
+    }
+
+    /// iPhone (and iPad in compact split view): above the bottom tab bar.
+    /// iPad full width: the tab bar is at the top, so sit just above the home indicator.
+    private var miniPlayerOffset: Double {
+        horizontalSizeClass == .regular ? -12 : Self.kMiniPlayerOffet
     }
 
     /// The Listen tab shows its own now-playing card.

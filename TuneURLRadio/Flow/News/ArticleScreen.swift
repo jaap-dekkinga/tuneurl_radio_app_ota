@@ -10,8 +10,13 @@ struct ArticleScreen: View {
     @Environment(StationsStore.self) private var stationsStore
 
     @AppStorage("article_text_scale") private var textScale: Double = 1.0
+    @State private var savedStories = SavedStoriesStore.shared
 
     private static let scales: [Double] = [0.9, 1.0, 1.15, 1.3]
+    /// Body text column on iPad; iPhone is narrower than this anyway.
+    private static let textWidth: CGFloat = 720
+
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     private var newsStation: Station? {
         stationsStore.stations.first { $0.id == KSAL.newsStationID }
@@ -43,20 +48,25 @@ struct ArticleScreen: View {
                     }
                 }
                 .padding(.horizontal, 20)
+                .readableWidth(Self.textWidth)
 
                 if article.imageURL != nil {
                     ArticleImage(url: article.imageURL)
-                        .frame(height: 230)
-                        .frame(maxWidth: .infinity)
+                        .frame(height: horizontalSizeClass == .regular ? 420 : 230)
+                        .frame(maxWidth: 860)
                         .clipped()
+                        .clipShape(RoundedRectangle(cornerRadius: horizontalSizeClass == .regular ? 16 : 0, style: .continuous))
+                        .frame(maxWidth: .infinity)
                 }
 
                 ArticleBodyText(html: article.contentHTML, scale: textScale)
                     .padding(.horizontal, 20)
+                    .readableWidth(Self.textWidth)
 
                 if let station = newsStation {
                     ListenCard(station: station)
                         .padding(.horizontal, 20)
+                        .readableWidth(Self.textWidth)
                 }
 
                 if let link = article.link {
@@ -65,6 +75,8 @@ struct ArticleScreen: View {
                             .font(.subheadline.weight(.semibold))
                     }
                     .padding(.horizontal, 20)
+                    .frame(maxWidth: Self.textWidth, alignment: .leading)
+                    .frame(maxWidth: .infinity)
                 }
             }
             .padding(.vertical, 12)
@@ -72,6 +84,14 @@ struct ArticleScreen: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
+                let isSaved = savedStories.isSaved(article)
+                Button {
+                    savedStories.toggle(article)
+                } label: {
+                    Image(systemName: isSaved ? "bookmark.fill" : "bookmark")
+                }
+                .accessibilityLabel(isSaved ? "Remove from saved stories" : "Save story")
+
                 Button {
                     cycleTextSize()
                 } label: {

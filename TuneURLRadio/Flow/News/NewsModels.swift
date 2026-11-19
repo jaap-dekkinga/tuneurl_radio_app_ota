@@ -1,7 +1,7 @@
 import Foundation
 
 /// One ksal.com story, built from the WordPress REST API.
-struct NewsArticle: Identifiable, Hashable {
+struct NewsArticle: Identifiable, Hashable, Codable {
     let id: Int
     let title: String
     let excerpt: String

@@ -10,7 +10,8 @@ struct ListenScreen: View {
 
     @State private var webPage: InAppWebPage?
 
-    private let columns = Array(repeating: GridItem(.flexible(), spacing: 10), count: 2)
+    /// Two tiles across on iPhone, three to five on iPad.
+    private let columns = [GridItem(.adaptive(minimum: 150, maximum: 260), spacing: 10)]
 
     var body: some View {
         ScrollView {
@@ -56,6 +57,7 @@ struct ListenScreen: View {
             }
             .padding()
             .padding(.bottom, 12)
+            .readableWidth()
         }
         .background(Color(uiColor: .systemGroupedBackground).ignoresSafeArea())
         .navigationTitle("Listen")
@@ -136,32 +138,52 @@ struct ListenScreen: View {
         Button {
             stateManager.switchStation(to: station)
         } label: {
-            HStack(spacing: 10) {
-                StationArtwork(station, size: 44)
-                VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: 8) {
+                StationLogo(station)
+                    .frame(height: 72)
+                    .frame(maxWidth: .infinity)
+                VStack(alignment: .leading, spacing: 1) {
                     Text(station.name)
                         .font(.subheadline.weight(.bold))
                         .foregroundStyle(.primary)
-                        .lineLimit(2)
+                        .lineLimit(1)
                     Text(isCurrent && stateManager.isPlaying ? "Playing" : station.shortDescription)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
                 }
-                Spacer(minLength: 0)
             }
             .padding(10)
-            .frame(maxWidth: .infinity, minHeight: 76, alignment: .leading)
             .background(Color(uiColor: .secondarySystemGroupedBackground),
-                        in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                        in: RoundedRectangle(cornerRadius: 16, style: .continuous))
             .overlay {
-                if isCurrent {
-                    RoundedRectangle(cornerRadius: 14, style: .continuous)
-                        .strokeBorder(Color.accentColor, lineWidth: 2)
-                }
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .strokeBorder(isCurrent ? Color.accentColor : .clear, lineWidth: 2)
             }
         }
         .buttonStyle(.plain)
+        .accessibilityLabel(station.name)
+        .accessibilityAddTraits(isCurrent ? .isSelected : [])
+    }
+
+    /// A station's logo on white, fitted (logos are wide, the KSAL 1150 art is square).
+    @ViewBuilder
+    private func StationLogo(_ station: Station) -> some View {
+        ZStack {
+            Color.white
+            if let url = station.imageURL {
+                KFImage(url)
+                    .resizable()
+                    .scaledToFit()
+                    .padding(4)
+            } else {
+                Image("station-logo")
+                    .resizable()
+                    .scaledToFit()
+                    .padding(4)
+            }
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
     }
 
     @ViewBuilder
