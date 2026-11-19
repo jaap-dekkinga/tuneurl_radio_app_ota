@@ -97,6 +97,10 @@ struct HomeScreen: View {
             WeatherStrip(action: openLocal)
                 .padding(.horizontal)
 
+            // Top banner, the same zone as the top of ksal.com.
+            AdSlot(placement: .homeTop)
+                .padding(.horizontal)
+
             CategoryChips(categories: KSAL.homeCategories, selection: $category)
 
             if let lead = feed.articles.first {
@@ -106,9 +110,6 @@ struct HomeScreen: View {
                 .buttonStyle(.plain)
                 .padding(.horizontal)
             }
-
-            AdSlot(placement: .homeTop)
-                .padding(.horizontal)
 
             if feed.articles.count > 1 {
                 let rest = Array(feed.articles.dropFirst())

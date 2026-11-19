@@ -1,7 +1,7 @@
 import SwiftUI
 import Kingfisher
 
-/// Listen tab: the stream / radio-nearby switcher, the stations, a sponsor and on-demand audio.
+/// Listen tab: the Stream in app / Listen along switch, the stations, a sponsor and on-demand audio.
 /// Replaces the old Stations tab.
 struct ListenScreen: View {
 
@@ -16,13 +16,6 @@ struct ListenScreen: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                VStack(alignment: .leading, spacing: 4) {
-                    SectionHeader(title: "How are you listening?")
-                    Text("Stream KSAL here, or let the app hear a radio near you. Turls arrive either way.")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                }
-
                 ListeningModeSwitcher()
 
                 SmallCapsHeader(title: "Pick a station")

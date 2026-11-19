@@ -5,31 +5,40 @@ import Kingfisher
 // the same server and zones that ksal.com uses. Impressions and clicks are counted by Revive,
 // so app traffic shows up in the station's existing reports (look for `loc` = ksal.com/app/ios/…).
 //
-// Zones on ksal.com (read 2026-11-18): 17 = 728×90, 5 = 288×100, 20 = 300×250, 2 = 234×60,
-// 16 = 1110×180. Ask the station to create app-only zones if they want to sell app inventory
-// separately, then change the ids below.
+// Zones on ksal.com at phone size (read 2026-11-19). Home page: 17 top banner, 2 in Farming
+// News, 20 and 5 near Latest Auctions, 16 before Sports News (4 and 27 were empty).
+// Story pages: 17 top banner, 6 and 24 after the story (25 was empty).
+// Ask the station to create app-only zones if they want to sell app ads separately, then
+// change the ids below.
 
 enum AdZone {
-    static let leaderboard = 17      // 728×90, iPad top banners
-    static let mobileBanner = 5      // 288×100, iPhone banners
-    static let rectangle = 20        // 300×250, in-feed and in-article
+    static let topBanner = 17        // 728×90, top of every ksal.com page
+    static let homeBox = 20          // 300×250, home page
+    static let mobileBanner = 5      // 288×100, home page
+    static let sportsBanner = 16     // 1110×180, before Sports News on the home page
+    static let storyBanner = 6       // 728×90, after the story on story pages
+    static let storyBox = 24         // 300×250, after the story on story pages
 }
 
-/// Where an ad appears. The zone depends on the screen width.
+/// Where an ad appears in the app. Each placement uses the zone of the matching spot on
+/// ksal.com, so an advertiser who bought a spot on the website also appears in the app.
 enum AdPlacement: String {
-    case homeTop = "home-top"
-    case homeFeed = "home-feed"
-    case article = "article"
-    case sports = "sports"
-    case local = "local"
-    case listen = "listen"
+    case homeTop = "home-top"            // under the weather strip
+    case homeFeed = "home-feed"          // after the first five stories
+    case articleBanner = "article-banner" // after the story text
+    case articleBox = "article-box"      // under the story banner
+    case sports = "sports"               // under My teams
+    case local = "local"                 // under the weather card
+    case listen = "listen"               // under the stations
 
     func zone(regularWidth: Bool) -> Int {
         switch self {
-        case .homeFeed, .article:
-            return AdZone.rectangle
-        case .homeTop, .sports, .local, .listen:
-            return regularWidth ? AdZone.leaderboard : AdZone.mobileBanner
+        case .homeTop: return AdZone.topBanner
+        case .homeFeed: return AdZone.homeBox
+        case .articleBanner: return AdZone.storyBanner
+        case .articleBox: return AdZone.storyBox
+        case .sports: return AdZone.sportsBanner
+        case .local, .listen: return regularWidth ? AdZone.topBanner : AdZone.mobileBanner
         }
     }
 }
