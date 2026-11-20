@@ -11,7 +11,7 @@ class SettingsStore {
     
     @ObservationIgnored
     @Shared(.appStorage("stream_match_threshold"))
-    var streamMatchThreshold: Int = 10
+    var streamMatchThreshold: Int = 30
     
     @ObservationIgnored
     @Shared(.appStorage("engagement_display_mode"))
