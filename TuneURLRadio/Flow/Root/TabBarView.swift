@@ -12,8 +12,8 @@ struct TabBarView: View {
     @Environment(SettingsStore.self) private var settingsStore
     @Environment(StateManager.self) private var stateManager
     
-    @SceneStorage("selectedTab")
-    private var selectedTab: AppTab = .home
+    /// Not restored between launches: the app always opens on Home.
+    @State private var selectedTab: AppTab = .home
     
     let animationID: Namespace.ID
     

@@ -29,5 +29,6 @@ struct TurlsScreen: View {
             .padding(.vertical, 8)
             .background(.bar)
         }
+        .settingsButton()
     }
 }

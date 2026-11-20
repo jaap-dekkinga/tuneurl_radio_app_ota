@@ -10,7 +10,6 @@ struct ArticleScreen: View {
     @Environment(StationsStore.self) private var stationsStore
 
     @AppStorage("article_text_scale") private var textScale: Double = 1.0
-    @State private var savedStories = SavedStoriesStore.shared
 
     private static let scales: [Double] = [0.9, 1.0, 1.15, 1.3]
     /// Body text column on iPad; iPhone is narrower than this anyway.
@@ -92,14 +91,6 @@ struct ArticleScreen: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
-                let isSaved = savedStories.isSaved(article)
-                Button {
-                    savedStories.toggle(article)
-                } label: {
-                    Image(systemName: isSaved ? "bookmark.fill" : "bookmark")
-                }
-                .accessibilityLabel(isSaved ? "Remove from saved stories" : "Save story")
-
                 Button {
                     cycleTextSize()
                 } label: {
