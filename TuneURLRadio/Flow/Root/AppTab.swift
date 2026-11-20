@@ -1,32 +1,31 @@
 import SwiftUI
 
 enum AppTab: String, Hashable, CaseIterable, Identifiable {
-    case news
-    case stations
-    case saved
+    case home
+    case sports
+    case local
+    case listen
     case turls
-    case settings
-    
+
     var id: Self { self }
-    
+
     var title: LocalizedStringKey {
-      switch self {
-        case .news: return "News"
-        case .stations: return "Stations"
-        case .saved: return "Saved Turls"
+        switch self {
+        case .home: return "Home"
+        case .sports: return "Sports"
+        case .local: return "Local"
+        case .listen: return "Listen"
         case .turls: return "Turls"
-        case .settings: return "Settings"
         }
     }
-    
+
     var icon: String {
         switch self {
-            case .news: return "newspaper"
-            case .stations: return "radio"
-            case .saved: return "bookmark"
-            case .turls: return "calendar.day.timeline.left"
-            case .settings: return "gear"
+        case .home: return "house"
+        case .sports: return "sportscourt"
+        case .local: return "mappin.and.ellipse"
+        case .listen: return "radio"
+        case .turls: return "bookmark"
         }
     }
 }
-

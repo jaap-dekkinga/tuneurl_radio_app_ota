@@ -4,12 +4,16 @@ struct TabBarView: View {
     
     static let kMiniPlayerOffet = -54.0
     static let kTabContentBottomOffset = 60.0
+    /// On iPad the mini player is a centred bar instead of spanning the screen.
+    static let kMiniPlayerMaxWidth = 640.0
+
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     
     @Environment(SettingsStore.self) private var settingsStore
     @Environment(StateManager.self) private var stateManager
     
     @SceneStorage("selectedTab")
-    private var selectedTab: AppTab = .news
+    private var selectedTab: AppTab = .home
     
     let animationID: Namespace.ID
     
@@ -29,7 +33,10 @@ struct TabBarView: View {
                         
                         ListeningControl()
                     }
-                    .offset(y: Self.kMiniPlayerOffet)
+                    .frame(maxWidth: Self.kMiniPlayerMaxWidth)
+                    .offset(y: miniPlayerOffset)
+                    .opacity(showsMiniPlayer ? 1 : 0)
+                    .allowsHitTesting(showsMiniPlayer)
                     .padding(.horizontal)
                 }
                 .ignoresSafeArea(.keyboard, edges: .all)
@@ -46,7 +53,10 @@ struct TabBarView: View {
                         
                         ListeningControl()
                     }
-                    .offset(y: Self.kMiniPlayerOffet)
+                    .frame(maxWidth: Self.kMiniPlayerMaxWidth)
+                    .offset(y: miniPlayerOffset)
+                    .opacity(showsMiniPlayer ? 1 : 0)
+                    .allowsHitTesting(showsMiniPlayer)
                     .padding(.horizontal, 12)
                 }
                 .ignoresSafeArea(.keyboard, edges: .all)
@@ -69,11 +79,25 @@ struct TabBarView: View {
                     
                     ListeningControl()
                 }
-                .offset(y: Self.kMiniPlayerOffet)
+                .frame(maxWidth: Self.kMiniPlayerMaxWidth)
+                .offset(y: miniPlayerOffset)
+                .opacity(showsMiniPlayer ? 1 : 0)
+                .allowsHitTesting(showsMiniPlayer)
                 .padding(.horizontal, 12)
             }
             .ignoresSafeArea(.keyboard, edges: .all)
         }
+    }
+
+    /// iPhone (and iPad in compact split view): above the bottom tab bar.
+    /// iPad full width: the tab bar is at the top, so sit just above the home indicator.
+    private var miniPlayerOffset: Double {
+        horizontalSizeClass == .regular ? -12 : Self.kMiniPlayerOffet
+    }
+
+    /// The Listen tab shows its own now-playing card.
+    private var showsMiniPlayer: Bool {
+        selectedTab != .listen
     }
     
     @available(iOS 18.0, *)
@@ -96,16 +120,16 @@ struct TabBarView: View {
         NavigationStack {
             Group {
                 switch tab {
-                    case .news:
-                        NewsTabView()
-                    case .stations:
-                        StationsScreen()
-                    case .saved:
-                        SavedEngagementsScreen()
+                    case .home:
+                        HomeScreen(openLocal: { selectedTab = .local })
+                    case .sports:
+                        SportsScreen()
+                    case .local:
+                        LocalScreen()
+                    case .listen:
+                        ListenScreen()
                     case .turls:
-                        EngagementHistoryScreen()
-                    case .settings:
-                        SettingsScreen()
+                        TurlsScreen()
                 }
             }
             .safeAreaPadding(.bottom, safeAreaBottomPadding)
