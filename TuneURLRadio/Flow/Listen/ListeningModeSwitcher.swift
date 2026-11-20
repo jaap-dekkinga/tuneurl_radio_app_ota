@@ -84,12 +84,20 @@ struct ListeningModeSwitcher: View {
         }
         .buttonStyle(.plain)
         .accessibilityAddTraits(isActive ? .isSelected : [])
+        .accessibilityHint(target == .listenAlong && isActive
+                           ? (stateManager.isListening ? "Double-tap to pause listening" : "Double-tap to start listening")
+                           : "")
     }
 
     private func select(_ target: Mode) {
-        // Tapping Listen along while it is paused starts the microphone again.
+        // Listen along is a toggle: tapping it while it is red pauses the microphone
+        // (dark grey, sleeping speaker), tapping it again starts listening.
         if target == .listenAlong, mode == .listenAlong {
-            if !stateManager.isListening { stateManager.startListening() }
+            if stateManager.isListening {
+                stateManager.stopListening()
+            } else {
+                stateManager.startListening()
+            }
             return
         }
         guard target != mode else { return }
