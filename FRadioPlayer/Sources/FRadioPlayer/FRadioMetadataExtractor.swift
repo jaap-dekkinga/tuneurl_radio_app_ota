@@ -9,15 +9,20 @@
 import AVFoundation
 
 public protocol FRadioMetadataExtractor {
-    func extract(from groups: [AVTimedMetadataGroup]) -> FRadioPlayer.Metadata?
+    /// Async because `AVMetadataItem` values are loaded with `load(.value)` since iOS 16.
+    /// An existing synchronous implementation still conforms.
+    func extract(from groups: [AVTimedMetadataGroup]) async -> FRadioPlayer.Metadata?
 }
 
 // Default implementation
 struct DefaultMetadataExtractor: FRadioMetadataExtractor {
-    func extract(from groups: [AVTimedMetadataGroup]) -> FRadioPlayer.Metadata? {
+    func extract(from groups: [AVTimedMetadataGroup]) async -> FRadioPlayer.Metadata? {
         guard !groups.isEmpty else { return nil }
         
-        let rawValue = groups.first?.items.first?.value as? String
+        var rawValue: String?
+        if let item = groups.first?.items.first {
+            rawValue = (try? await item.load(.value)) as? String
+        }
         let rawValueCleaned = cleanRawMetadataIfNeeded(rawValue)
         let parts = rawValueCleaned?.components(separatedBy: " - ")
         
