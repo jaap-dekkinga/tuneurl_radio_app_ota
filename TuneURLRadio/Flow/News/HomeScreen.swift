@@ -11,8 +11,6 @@ struct HomeScreen: View {
     @State private var searchText = ""
     @State private var searchFeed: NewsFeed?
 
-    @State private var showSettings = false
-
     private var feed: NewsFeed {
         if let existing = feeds[category.id] { return existing }
         return NewsFeed(category: category)
@@ -42,22 +40,6 @@ struct HomeScreen: View {
             ToolbarItem(placement: .principal) {
                 Wordmark()
             }
-            ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink {
-                    SavedStoriesScreen()
-                } label: {
-                    Image(systemName: "bookmark")
-                }
-                .accessibilityLabel("Saved stories")
-            }
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    showSettings = true
-                } label: {
-                    Image(systemName: "person.crop.circle")
-                }
-                .accessibilityLabel("Profile and settings")
-            }
         }
         .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic), prompt: "Search KSAL news")
         .onSubmit(of: .search) {
@@ -78,17 +60,7 @@ struct HomeScreen: View {
         .navigationDestination(for: NewsArticle.self) { article in
             ArticleScreen(article: article)
         }
-        .sheet(isPresented: $showSettings) {
-            NavigationStack {
-                SettingsScreen()
-                    .toolbar {
-                        ToolbarItem(placement: .confirmationAction) {
-                            Button("Done") { showSettings = false }
-                        }
-                    }
-            }
-            .withEnv()
-        }
+        .settingsButton()
     }
 
     @ViewBuilder
