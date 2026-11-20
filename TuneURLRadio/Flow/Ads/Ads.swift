@@ -1,6 +1,8 @@
 import SwiftUI
 import Kingfisher
 
+private let log = Log(label: "Ads")
+
 // Sponsor ads from the station's own ad server (Revive Adserver at adserver.radiosalina.com),
 // the same server and zones that ksal.com uses. Impressions and clicks are counted by Revive,
 // so app traffic shows up in the station's existing reports (look for `loc` = ksal.com/app/ios/…).
@@ -66,23 +68,37 @@ enum AdService {
             URLQueryItem(name: "loc", value: "https://www.ksal.com/app/ios/\(placement.rawValue)"),
             URLQueryItem(name: "id", value: reviveID),
         ]
-        guard let url = components.url,
-              let response = try? await URLSession.shared.data(from: url),
-              let json = try? JSONSerialization.jsonObject(with: response.0) as? [String: Any],
+        guard let url = components.url else { return nil }
+
+        let data: Data
+        do {
+            data = try await URLSession.shared.data(from: url).0
+        } catch {
+            log.write("Ad \(placement.rawValue) (zone \(zone)): request failed: \(error.localizedDescription)", level: .error)
+            return nil
+        }
+        guard let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
               let entry = json.values.first as? [String: Any],
               let html = entry["html"] as? String
-        else { return nil }
+        else {
+            log.write("Ad \(placement.rawValue) (zone \(zone)): no ad from the server")
+            return nil
+        }
 
         let width = number(entry["width"])
         let height = number(entry["height"])
         guard width > 0, height > 0,
               let click = firstMatch(#"<a[^>]+href='([^']+)'"#, in: html).flatMap(makeURL),
               let image = firstMatch(#"<img[^>]+src='([^']+)'"#, in: html).flatMap(makeURL)
-        else { return nil }
+        else {
+            log.write("Ad \(placement.rawValue) (zone \(zone)): could not read the ad (size \(width)x\(height))", level: .error)
+            return nil
+        }
 
         let beacon = firstMatch(#"src='([^']*lg\.php[^']*)'"#, in: html).flatMap(makeURL)
         let alt = firstMatch(#"alt='([^']*)'"#, in: html)?.htmlEntitiesDecoded ?? ""
 
+        log.write("Ad \(placement.rawValue) (zone \(zone)): showing \"\(alt)\" \(Int(width))x\(Int(height))")
         return AdCreative(imageURL: image, clickURL: click, beaconURL: beacon, altText: alt, width: width, height: height)
     }
 
@@ -128,7 +144,10 @@ struct AdSlot: View {
     }
 
     var body: some View {
-        Group {
+        // A ZStack with a zero-height spacer, not a Group: a Group with nothing in it has no
+        // view to attach .task to, so the ad was never requested and the slot stayed empty.
+        ZStack {
+            Color.clear.frame(height: 0)
             if let creative {
                 VStack(spacing: 4) {
                     Text("Advertisement")
