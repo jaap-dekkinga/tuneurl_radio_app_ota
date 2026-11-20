@@ -251,7 +251,7 @@ open class FRadioPlayer: NSObject {
         } else {
             player.replaceCurrentItem(with: nil)
             metadataUpdateID += 1  // drop metadata still loading for the old item
-        currentMetadata = nil
+            currentMetadata = nil
             currentArtworkURL = nil
         }
         
