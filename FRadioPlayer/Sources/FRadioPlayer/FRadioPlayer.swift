@@ -165,6 +165,9 @@ open class FRadioPlayer: NSObject {
     
     /// Item played to the end
     private var hasPlayedToEndTime = false
+
+    /// Counts metadata updates so a slow `load(.value)` can't overwrite newer metadata.
+    private var metadataUpdateID = 0
     
     // MARK: - Initialization
     
@@ -247,6 +250,7 @@ open class FRadioPlayer: NSObject {
             player.seek(to: .zero)
         } else {
             player.replaceCurrentItem(with: nil)
+            metadataUpdateID += 1  // drop metadata still loading for the old item
             currentMetadata = nil
             currentArtworkURL = nil
         }
@@ -326,6 +330,7 @@ open class FRadioPlayer: NSObject {
         }
         
         lastPlayerItem = playerItem
+        metadataUpdateID += 1  // drop metadata still loading for the old item
         currentMetadata = nil
         currentArtworkURL = nil
         
@@ -529,7 +534,14 @@ extension FRadioPlayer: AVPlayerItemMetadataOutputPushDelegate {
     
     public func metadataOutput(_ output: AVPlayerItemMetadataOutput, didOutputTimedMetadataGroups groups: [AVTimedMetadataGroup], from track: AVPlayerItemTrack?) {
         
-        currentMetadata = metadataExtractor.extract(from: groups)
+        metadataUpdateID += 1
+        let updateID = metadataUpdateID
+        let extractor = metadataExtractor
+        Task { @MainActor [weak self] in
+            let metadata = await extractor.extract(from: groups)
+            guard let self, updateID == self.metadataUpdateID else { return }
+            self.currentMetadata = metadata
+        }
     }
 }
 
