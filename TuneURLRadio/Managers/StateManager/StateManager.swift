@@ -207,6 +207,8 @@ class StateManager {
     
     private func handleAPIEngagement(_ engagement: Engagement) {
         Task {
+            // handleURL is https-only (SafeLinks), so a server answer
+            // cannot make the app call an http or non-web address.
             guard let requestURL = engagement.handleURL else { return }
             let request = URLRequest(url: requestURL)
             _ = try? await URLSession.shared.data(for: request)

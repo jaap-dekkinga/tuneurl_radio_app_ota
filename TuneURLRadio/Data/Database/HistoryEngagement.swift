@@ -24,8 +24,7 @@ extension HistoryEngagement {
 extension HistoryEngagement {
     
     var engagementURL: URL? {
-        guard let info = engagementInfo else { return nil }
-        return URL(string: info, encodingInvalidCharacters: false)
+        SafeLinks.webURL(engagementInfo)
     }
     
     var engagement: Engagement {

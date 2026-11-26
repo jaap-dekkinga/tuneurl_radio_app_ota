@@ -11,8 +11,8 @@ struct SMSComposerView: UIViewControllerRepresentable {
         let controller = MFMessageComposeViewController()
         controller.messageComposeDelegate = context.coordinator
 
-        if let info = engagement.info, !info.isEmpty {
-            controller.recipients = [info]
+        if let number = SafeLinks.dialString(engagement.info) {
+            controller.recipients = [number]
         }
         if MFMessageComposeViewController.canSendText() {
             controller.body = engagement.description

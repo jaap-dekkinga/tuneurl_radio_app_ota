@@ -62,7 +62,7 @@ struct EngagementOfferScreen: View {
                     case .sms, .phone:
                         VStack {
                             Text("Phone Number")
-                            Text(engagement.info ?? "")
+                            Text(engagement.phoneNumber ?? "")
                             Spacer()
                         }
                         .font(.headline)
@@ -188,8 +188,7 @@ struct EngagementOfferScreen: View {
     }
     
     private func call() {
-        if let number = engagement.info,
-           let callURL = URL(string: "tel://\(number)"),
+        if let callURL = SafeLinks.telURL(engagement.info),
            UIApplication.shared.canOpenURL(callURL) {
             reportInterestedIfNeeded()
             ReportAction.acted(engagement).report()
@@ -200,7 +199,8 @@ struct EngagementOfferScreen: View {
     
     private func write() {
         dismiss()
-        if MFMessageComposeViewController.canSendText() {
+        if MFMessageComposeViewController.canSendText(),
+           SafeLinks.dialString(engagement.info) != nil {
             reportInterestedIfNeeded()
             ReportAction.acted(engagement).report()
             sheetStore.currentSMSComposer = engagement

@@ -23,8 +23,7 @@ extension SavedEngagement {
 extension SavedEngagement {
     
     var engagementURL: URL? {
-        guard let info = engagementInfo else { return nil }
-        return URL(string: info, encodingInvalidCharacters: false)
+        SafeLinks.webURL(engagementInfo)
     }
     
     var isWebEngagement: Bool {
