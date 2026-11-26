@@ -54,8 +54,13 @@ struct Engagement: Codable, Identifiable {
         isPage || type == .coupon
     }
     
+    /// The server's link, only if it is a safe https URL (see SafeLinks).
     var handleURL: URL? {
-        guard let info else { return nil }
-        return URL(string: info, encodingInvalidCharacters: false)
+        SafeLinks.webURL(info)
+    }
+
+    /// The server's phone number, only if it looks like a phone number.
+    var phoneNumber: String? {
+        SafeLinks.phoneNumber(info)
     }
 }

@@ -109,7 +109,7 @@ struct ViewEngagementScreen: View {
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
             
-            if let number = engagement.info {
+            if let number = engagement.phoneNumber {
                 Button {
                     switch engagement.type {
                         case .phone: placeCall()
@@ -215,8 +215,7 @@ struct ViewEngagementScreen: View {
     
     private func placeCall() {
         guard
-            let number = engagement.info,
-            let callURL = URL(string: "tel://\(number)"),
+            let callURL = SafeLinks.telURL(engagement.info),
             UIApplication.shared.canOpenURL(callURL)
         else { return }
         ReportAction.acted(engagement).report()
@@ -225,8 +224,7 @@ struct ViewEngagementScreen: View {
     
     private func sendMessage() {
         guard
-            let number = engagement.info,
-            let smsURL = URL(string: "sms:\(number)"),
+            let smsURL = SafeLinks.smsURL(engagement.info),
             UIApplication.shared.canOpenURL(smsURL)
         else { return }
         ReportAction.acted(engagement).report()

@@ -115,7 +115,9 @@ enum AdService {
     }
 
     private static func makeURL(_ raw: String) -> URL? {
-        URL(string: raw.replacingOccurrences(of: "\\/", with: "/").replacingOccurrences(of: "&amp;", with: "&"))
+        // https only: the click link opens in SFSafariViewController, which
+        // crashes on other schemes, and ATS blocks http images and beacons.
+        SafeLinks.webURL(raw.replacingOccurrences(of: "\\/", with: "/").replacingOccurrences(of: "&amp;", with: "&"))
     }
 
     private static func firstMatch(_ pattern: String, in text: String) -> String? {
